@@ -15,10 +15,10 @@
 </div>
 
 <p align="center">
-  <a href="https://pypi.org/project/graphifyy/"><img src="https://img.shields.io/pypi/v/graphifyy" alt="PyPI"/></a>
+  <a href="https://pypi.org/project/graphify/"><img src="https://img.shields.io/pypi/v/graphify" alt="PyPI"/></a>
   <a href="https://github.com/Graphify-Labs/graphify/actions/workflows/ci.yml"><img src="https://github.com/Graphify-Labs/graphify/actions/workflows/ci.yml/badge.svg?branch=v8" alt="CI"/></a>
   <a href="../../LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue" alt="License: Apache-2.0"/></a>
-  <a href="https://pepy.tech/project/graphifyy"><img src="https://img.shields.io/pepy/dt/graphifyy?color=blue&label=downloads" alt="Downloads"/></a>
+  <a href="https://pepy.tech/project/graphify"><img src="https://img.shields.io/pepy/dt/graphify?color=blue&label=downloads" alt="Downloads"/></a>
   <a href="https://docs.graphify.com"><img src="https://img.shields.io/badge/Docs-docs.graphify.com-0b7285?style=flat&logo=readthedocs&logoColor=white" alt="Docs"/></a>
   <a href="https://app.graphify.com/login"><img src="https://img.shields.io/badge/Graphify%20Cloud-app.graphify.com-118d4f?style=flat&logoColor=white" alt="Graphify Cloud"/></a>
   <a href="https://discord.gg/graphify"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord"/></a>
@@ -50,7 +50,7 @@
 **Kezdés** (30 másodperc). Python 3.10+ és uv (vagy pipx) szükséges:
 
 ```bash
-uv tool install graphifyy      # install the CLI (or: pipx install graphifyy)
+uv tool install graphify      # install the CLI (or: pipx install graphify)
 graphify install               # detects your assistant and registers the skill
 ```
 
@@ -185,7 +185,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ## Install
 
 > [!IMPORTANT]
-> **Hivatalos csomag:** A PyPI-csomag a `graphifyy` (dupla y). A PyPI egyéb `graphify*` csomagjai nem kapcsolódnak hozzá. A CLI-parancs továbbra is `graphify`.
+> **Hivatalos csomag:** A PyPI-csomag a `graphify` (dupla y). A PyPI egyéb `graphify*` csomagjai nem kapcsolódnak hozzá. A CLI-parancs továbbra is `graphify`.
 
 A hivatalos forrás-repository a [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify).
 
@@ -194,9 +194,9 @@ A kétparancsos gyorsindító e README tetején található. Ez a szakasz a tele
 **Telepítési módszerek** (válasszon egyet):
 
 ```bash
-uv tool install graphifyy   # recommended, isolated env (if 'graphify' isn't found after, run: uv tool update-shell)
-pipx install graphifyy      # alternative
-pip install graphifyy       # may need PATH setup, see Troubleshooting below
+uv tool install graphify   # recommended, isolated env (if 'graphify' isn't found after, run: uv tool update-shell)
+pipx install graphify      # alternative
+pip install graphify       # may need PATH setup, see Troubleshooting below
 ```
 
 Majd futtassa egyszer a `graphify install` parancsot. Felismeri, melyik asszisztenst használja, és regisztrálja a skillt, így nincs asszisztensenkénti beállítás. Nyissa meg az AI-asszisztensét, és írja be: `/graphify .`
@@ -252,7 +252,7 @@ A Codex-felhasználóknak a párhuzamos kinyeréshez `multi_agent = true` is sz�
 
 A `--platform agents` (alias `--platform skills`) az általános, keretrendszer-független [Agent-Skills](https://github.com/anthropics/skills) helyeket célozza: a specifikáció felhasználó-globális `~/.agents/skills/` helyét (amelyet az `npx skills` és a specifikációnak megfelelő keretrendszerek olvasnak) a globális telepítéshez, és a `./.agents/skills/` helyet a projekt- (`--project`) telepítéshez. A puszta `graphify install` szándékosan egyplatformos marad (Claude Code): használja a megnevezett `agents` platformot, ha azt szeretné, hogy a skillt bármely keretrendszer felfedezze, amely a `.agents/skills` helyet olvassa.
 
-Pinek nincs `PreToolUse` hookja, ezért a `graphify pi guard install` egy natív Pi-bővítményt regisztrál (a Pi saját `pi install <package directory>` parancsán keresztül), amely a telepített `graphify hook-guard`-ot futtatja a Pi `read`, `grep`, `find` és keresés jellegű `bash` hívásai előtt. A friss/elavult gráfdöntések és a `GRAPHIFY_HOOK_STRICT=1` munkamenetenként egyszeri indexelt-olvasás elutasítása ugyanabból a házirendből származik, így a Pi megfelel a Claude Code hook-viselkedésének; az útmutatás egy `<system-reminder source="graphify">` irányító üzenetként érkezik. Pi 0.58.4 vagy újabb szükséges hozzá: a korábbi verziók megengedték, hogy egy irányító üzenet kihagyja egy párhuzamos eszközhívás-köteg hátralévő részét. A csomag a Graphify-telepítésen belül érkezik, ezért telepítse a Graphify-t tartósan (`uv tool install graphifyy` vagy `pipx install graphifyy`, nem `uvx`), indítsa újra a Pit telepítés vagy frissítés után, és távolítsa el a `graphify pi guard uninstall` paranccsal. Csak a lokális fájlcélokat vizsgálja; a hooknak a `graphify`-ra van szüksége egy abszolút, projekten kívüli `PATH`-bejegyzésben, két másodpercre és 256 KiB bemenetre/64 KiB kimenetre korlátozott hívás, és hiba esetén nyitva marad (fail open). Ugyanez a csomag betöltődik az [Oh My Pi](https://github.com/can1357/oh-my-pi) rendszerben is: `omp plugin install "$(graphify pi guard path)"`. A regisztrált útvonal tartalmazza a Python verzióját és a venv-et, ezért futtassa újra a `graphify pi guard install` parancsot bármelyik megváltoztatása után, és távolítsa el a régi bejegyzést a `pi remove <old path>` paranccsal.
+Pinek nincs `PreToolUse` hookja, ezért a `graphify pi guard install` egy natív Pi-bővítményt regisztrál (a Pi saját `pi install <package directory>` parancsán keresztül), amely a telepített `graphify hook-guard`-ot futtatja a Pi `read`, `grep`, `find` és keresés jellegű `bash` hívásai előtt. A friss/elavult gráfdöntések és a `GRAPHIFY_HOOK_STRICT=1` munkamenetenként egyszeri indexelt-olvasás elutasítása ugyanabból a házirendből származik, így a Pi megfelel a Claude Code hook-viselkedésének; az útmutatás egy `<system-reminder source="graphify">` irányító üzenetként érkezik. Pi 0.58.4 vagy újabb szükséges hozzá: a korábbi verziók megengedték, hogy egy irányító üzenet kihagyja egy párhuzamos eszközhívás-köteg hátralévő részét. A csomag a Graphify-telepítésen belül érkezik, ezért telepítse a Graphify-t tartósan (`uv tool install graphify` vagy `pipx install graphify`, nem `uvx`), indítsa újra a Pit telepítés vagy frissítés után, és távolítsa el a `graphify pi guard uninstall` paranccsal. Csak a lokális fájlcélokat vizsgálja; a hooknak a `graphify`-ra van szüksége egy abszolút, projekten kívüli `PATH`-bejegyzésben, két másodpercre és 256 KiB bemenetre/64 KiB kimenetre korlátozott hívás, és hiba esetén nyitva marad (fail open). Ugyanez a csomag betöltődik az [Oh My Pi](https://github.com/can1357/oh-my-pi) rendszerben is: `omp plugin install "$(graphify pi guard path)"`. A regisztrált útvonal tartalmazza a Python verzióját és a venv-et, ezért futtassa újra a `graphify pi guard install` parancsot bármelyik megváltoztatása után, és távolítsa el a régi bejegyzést a `pi remove <old path>` paranccsal.
 
 > A Codex a `$graphify` parancsot használja a `/graphify` helyett.
 
@@ -263,31 +263,31 @@ Pinek nincs `PreToolUse` hookja, ezért a `graphify pi guard install` egy natív
 
 | Extra | Mit ad hozzá | Telepítés |
 |---|---|---|
-| `pdf` | PDF-kinyerés | `uv tool install "graphifyy[pdf]"` |
-| `office` | `.docx` és `.xlsx` támogatás | `uv tool install "graphifyy[office]"` |
-| `google` | Google Sheets megjelenítés | `uv tool install "graphifyy[google]"` |
-| `video` | Videó-/hangátirat (faster-whisper + yt-dlp) | `uv tool install "graphifyy[video]"` |
-| `mcp` | MCP stdio-kiszolgáló | `uv tool install "graphifyy[mcp]"` |
-| `neo4j` | Neo4j push-támogatás | `uv tool install "graphifyy[neo4j]"` |
-| `falkordb` | FalkorDB push-támogatás | `uv tool install "graphifyy[falkordb]"` |
-| `svg` | SVG-gráfexport | `uv tool install "graphifyy[svg]"` |
-| `leiden` | Leiden közösségészlelés (graspologic Python < 3.13 esetén; natív backend 3.13+ esetén) | `uv tool install "graphifyy[leiden]"` |
-| `ollama` | Ollama helyi inferencia | `uv tool install "graphifyy[ollama]"` |
-| `openai` | OpenAI / OpenAI-kompatibilis API-k | `uv tool install "graphifyy[openai]"` |
-| `gemini` | Google Gemini API | `uv tool install "graphifyy[gemini]"` |
-| `anthropic` | Anthropic Claude API (`--backend claude`, az `ANTHROPIC_API_KEY`-t használja) | `uv tool install "graphifyy[anthropic]"` |
-| `bedrock` | AWS Bedrock (IAM-et használ, nincs API-kulcs) | `uv tool install "graphifyy[bedrock]"` |
-| `azure` | Azure OpenAI Service (`--backend azure`, az `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT` értékeket használja) | `uv tool install "graphifyy[openai]"` |
-| `sql` | SQL-sémakinyerés | `uv tool install "graphifyy[sql]"` |
-| `postgres` | Élő PostgreSQL-introspekció (`--postgres DSN`) | `uv tool install "graphifyy[postgres]"` |
-| `dm` | BYOND DreamMaker `.dm`/`.dme` AST-kinyerés (szükség lehet C-fordítóra + `python3-dev`-re, ha egyetlen wheel sem illik a platformjához) | `uv tool install "graphifyy[dm]"` |
-| `terraform` | Terraform / HCL `.tf`/`.tfvars`/`.hcl` AST-kinyerés | `uv tool install "graphifyy[terraform]"` |
-| `pascal` | Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` AST-kinyerés (pontosabb `calls`/`inherits` élek; hiányában egy regex-alapú kinyerőre vált) | `uv tool install "graphifyy[pascal]"` |
-| `ocaml` | OCaml `.ml`/`.mli` AST-kinyerés | `uv tool install "graphifyy[ocaml]"` |
-| `commonlisp` | Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` AST-kinyerés | `uv tool install "graphifyy[commonlisp]"` |
-| `robot` | Robot Framework `.robot`/`.resource` kinyerés (suite-ok, tesztesetek, kulcsszavak, kulcsszóhívási és resource-/library-import élek) | `uv tool install "graphifyy[robot]"` |
-| `chinese` | Kínai lekérdezés-szegmentálás (jieba) | `uv tool install "graphifyy[chinese]"` |
-| `all` | Mindent a fentiekből | `uv tool install "graphifyy[all]"` |
+| `pdf` | PDF-kinyerés | `uv tool install "graphify[pdf]"` |
+| `office` | `.docx` és `.xlsx` támogatás | `uv tool install "graphify[office]"` |
+| `google` | Google Sheets megjelenítés | `uv tool install "graphify[google]"` |
+| `video` | Videó-/hangátirat (faster-whisper + yt-dlp) | `uv tool install "graphify[video]"` |
+| `mcp` | MCP stdio-kiszolgáló | `uv tool install "graphify[mcp]"` |
+| `neo4j` | Neo4j push-támogatás | `uv tool install "graphify[neo4j]"` |
+| `falkordb` | FalkorDB push-támogatás | `uv tool install "graphify[falkordb]"` |
+| `svg` | SVG-gráfexport | `uv tool install "graphify[svg]"` |
+| `leiden` | Leiden közösségészlelés (graspologic Python < 3.13 esetén; natív backend 3.13+ esetén) | `uv tool install "graphify[leiden]"` |
+| `ollama` | Ollama helyi inferencia | `uv tool install "graphify[ollama]"` |
+| `openai` | OpenAI / OpenAI-kompatibilis API-k | `uv tool install "graphify[openai]"` |
+| `gemini` | Google Gemini API | `uv tool install "graphify[gemini]"` |
+| `anthropic` | Anthropic Claude API (`--backend claude`, az `ANTHROPIC_API_KEY`-t használja) | `uv tool install "graphify[anthropic]"` |
+| `bedrock` | AWS Bedrock (IAM-et használ, nincs API-kulcs) | `uv tool install "graphify[bedrock]"` |
+| `azure` | Azure OpenAI Service (`--backend azure`, az `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT` értékeket használja) | `uv tool install "graphify[openai]"` |
+| `sql` | SQL-sémakinyerés | `uv tool install "graphify[sql]"` |
+| `postgres` | Élő PostgreSQL-introspekció (`--postgres DSN`) | `uv tool install "graphify[postgres]"` |
+| `dm` | BYOND DreamMaker `.dm`/`.dme` AST-kinyerés (szükség lehet C-fordítóra + `python3-dev`-re, ha egyetlen wheel sem illik a platformjához) | `uv tool install "graphify[dm]"` |
+| `terraform` | Terraform / HCL `.tf`/`.tfvars`/`.hcl` AST-kinyerés | `uv tool install "graphify[terraform]"` |
+| `pascal` | Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` AST-kinyerés (pontosabb `calls`/`inherits` élek; hiányában egy regex-alapú kinyerőre vált) | `uv tool install "graphify[pascal]"` |
+| `ocaml` | OCaml `.ml`/`.mli` AST-kinyerés | `uv tool install "graphify[ocaml]"` |
+| `commonlisp` | Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` AST-kinyerés | `uv tool install "graphify[commonlisp]"` |
+| `robot` | Robot Framework `.robot`/`.resource` kinyerés (suite-ok, tesztesetek, kulcsszavak, kulcsszóhívási és resource-/library-import élek) | `uv tool install "graphify[robot]"` |
+| `chinese` | Kínai lekérdezés-szegmentálás (jieba) | `uv tool install "graphify[chinese]"` |
+| `all` | Mindent a fentiekből | `uv tool install "graphify[all]"` |
 
 </details>
 

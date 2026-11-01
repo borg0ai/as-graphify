@@ -15,10 +15,10 @@
 </div>
 
 <p align="center">
-  <a href="https://pypi.org/project/graphifyy/"><img src="https://img.shields.io/pypi/v/graphifyy" alt="PyPI"/></a>
+  <a href="https://pypi.org/project/graphify/"><img src="https://img.shields.io/pypi/v/graphify" alt="PyPI"/></a>
   <a href="https://github.com/Graphify-Labs/graphify/actions/workflows/ci.yml"><img src="https://github.com/Graphify-Labs/graphify/actions/workflows/ci.yml/badge.svg?branch=v8" alt="CI"/></a>
   <a href="../../LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue" alt="License: Apache-2.0"/></a>
-  <a href="https://pepy.tech/project/graphifyy"><img src="https://img.shields.io/pepy/dt/graphifyy?color=blue&label=downloads" alt="Downloads"/></a>
+  <a href="https://pepy.tech/project/graphify"><img src="https://img.shields.io/pepy/dt/graphify?color=blue&label=downloads" alt="Downloads"/></a>
   <a href="https://docs.graphify.com"><img src="https://img.shields.io/badge/Docs-docs.graphify.com-0b7285?style=flat&logo=readthedocs&logoColor=white" alt="Docs"/></a>
   <a href="https://app.graphify.com/login"><img src="https://img.shields.io/badge/Graphify%20Cloud-app.graphify.com-118d4f?style=flat&logoColor=white" alt="Graphify Cloud"/></a>
   <a href="https://discord.gg/graphify"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord"/></a>
@@ -50,7 +50,7 @@ Tapez `/graphify` dans votre assistant de codage IA, et il cartographie l'ensemb
 **Pour démarrer** (30 secondes). Nécessite Python 3.10+ et uv (ou pipx) :
 
 ```bash
-uv tool install graphifyy      # install the CLI (or: pipx install graphifyy)
+uv tool install graphify      # install the CLI (or: pipx install graphify)
 graphify install               # detects your assistant and registers the skill
 ```
 
@@ -185,7 +185,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ## Install
 
 > [!IMPORTANT]
-> **Paquet officiel :** le paquet PyPI est `graphifyy` (double y). Les autres paquets `graphify*` sur PyPI ne sont pas affiliés. La commande CLI reste `graphify`.
+> **Paquet officiel :** le paquet PyPI est `graphify` (double y). Les autres paquets `graphify*` sur PyPI ne sont pas affiliés. La commande CLI reste `graphify`.
 
 Le dépôt source officiel est [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify).
 
@@ -194,9 +194,9 @@ Le quickstart en deux commandes se trouve en haut de ce README. Cette section co
 **Méthodes d'installation** (choisissez-en une) :
 
 ```bash
-uv tool install graphifyy   # recommended, isolated env (if 'graphify' isn't found after, run: uv tool update-shell)
-pipx install graphifyy      # alternative
-pip install graphifyy       # may need PATH setup, see Troubleshooting below
+uv tool install graphify   # recommended, isolated env (if 'graphify' isn't found after, run: uv tool update-shell)
+pipx install graphify      # alternative
+pip install graphify       # may need PATH setup, see Troubleshooting below
 ```
 
 Ensuite, exécutez `graphify install` une fois. Il détecte quel assistant vous utilisez et enregistre la skill, il n'y a donc aucune configuration par assistant. Ouvrez votre assistant IA et tapez `/graphify .`
@@ -252,7 +252,7 @@ Les utilisateurs de Codex ont aussi besoin de `multi_agent = true` sous `[featur
 
 `--platform agents` (alias `--platform skills`) cible les emplacements génériques et multi-frameworks d'[Agent-Skills](https://github.com/anthropics/skills) : le `~/.agents/skills/` global de l'utilisateur défini par la spécification (lu par `npx skills` et les frameworks conformes à la spécification) pour une installation globale, et `./.agents/skills/` pour une installation projet (`--project`). Le `graphify install` nu reste mono-plateforme (Claude Code) par conception : utilisez la plateforme nommée `agents` lorsque vous voulez que la skill soit découvrable par n'importe quel framework qui lit `.agents/skills`.
 
-Pi n'a pas de hook `PreToolUse`, donc `graphify pi guard install` enregistre une extension Pi native (via le propre `pi install <package directory>` de Pi) qui exécute le `graphify hook-guard` installé avant les appels `read`, `grep`, `find` et les appels `bash` de type recherche de Pi. Les décisions de graphe frais/périmé et le refus de lecture indexée une fois par session via `GRAPHIFY_HOOK_STRICT=1` proviennent de cette même politique, de sorte que Pi reproduit le comportement de hook de Claude Code ; les consignes arrivent sous forme de message d'orientation `<system-reminder source="graphify">`. Il nécessite Pi 0.58.4 ou plus récent : les versions antérieures laissent un message d'orientation sauter le reste d'un lot d'appels d'outils parallèles. Le paquet est livré à l'intérieur de l'installation de Graphify, installez donc Graphify de façon persistante (`uv tool install graphifyy` ou `pipx install graphifyy`, pas `uvx`), redémarrez Pi après l'installation ou la mise à niveau, et retirez-le avec `graphify pi guard uninstall`. Seules les cibles de fichiers locaux sont inspectées ; le hook a besoin de `graphify` sur une entrée `PATH` absolue en dehors du projet, est borné à un appel de deux secondes, 256 KiB-in/64 KiB-out, et échoue en mode ouvert. Le même paquet se charge aussi dans [Oh My Pi](https://github.com/can1357/oh-my-pi) : `omp plugin install "$(graphify pi guard path)"`. Le chemin enregistré contient la version de Python et le venv, donc réexécutez `graphify pi guard install` après avoir changé l'un ou l'autre, et retirez l'ancienne entrée avec `pi remove <old path>`.
+Pi n'a pas de hook `PreToolUse`, donc `graphify pi guard install` enregistre une extension Pi native (via le propre `pi install <package directory>` de Pi) qui exécute le `graphify hook-guard` installé avant les appels `read`, `grep`, `find` et les appels `bash` de type recherche de Pi. Les décisions de graphe frais/périmé et le refus de lecture indexée une fois par session via `GRAPHIFY_HOOK_STRICT=1` proviennent de cette même politique, de sorte que Pi reproduit le comportement de hook de Claude Code ; les consignes arrivent sous forme de message d'orientation `<system-reminder source="graphify">`. Il nécessite Pi 0.58.4 ou plus récent : les versions antérieures laissent un message d'orientation sauter le reste d'un lot d'appels d'outils parallèles. Le paquet est livré à l'intérieur de l'installation de Graphify, installez donc Graphify de façon persistante (`uv tool install graphify` ou `pipx install graphify`, pas `uvx`), redémarrez Pi après l'installation ou la mise à niveau, et retirez-le avec `graphify pi guard uninstall`. Seules les cibles de fichiers locaux sont inspectées ; le hook a besoin de `graphify` sur une entrée `PATH` absolue en dehors du projet, est borné à un appel de deux secondes, 256 KiB-in/64 KiB-out, et échoue en mode ouvert. Le même paquet se charge aussi dans [Oh My Pi](https://github.com/can1357/oh-my-pi) : `omp plugin install "$(graphify pi guard path)"`. Le chemin enregistré contient la version de Python et le venv, donc réexécutez `graphify pi guard install` après avoir changé l'un ou l'autre, et retirez l'ancienne entrée avec `pi remove <old path>`.
 
 > Codex utilise `$graphify` au lieu de `/graphify`.
 
@@ -263,31 +263,31 @@ Pi n'a pas de hook `PreToolUse`, donc `graphify pi guard install` enregistre une
 
 | Extra | Ce qu'il ajoute | Installer |
 |---|---|---|
-| `pdf` | Extraction de PDF | `uv tool install "graphifyy[pdf]"` |
-| `office` | Prise en charge de `.docx` et `.xlsx` | `uv tool install "graphifyy[office]"` |
-| `google` | Rendu de Google Sheets | `uv tool install "graphifyy[google]"` |
-| `video` | Transcription vidéo/audio (faster-whisper + yt-dlp) | `uv tool install "graphifyy[video]"` |
-| `mcp` | Serveur MCP stdio | `uv tool install "graphifyy[mcp]"` |
-| `neo4j` | Prise en charge du push Neo4j | `uv tool install "graphifyy[neo4j]"` |
-| `falkordb` | Prise en charge du push FalkorDB | `uv tool install "graphifyy[falkordb]"` |
-| `svg` | Export du graphe en SVG | `uv tool install "graphifyy[svg]"` |
-| `leiden` | Détection de communautés Leiden (graspologic sur Python < 3.13 ; backend natif sur 3.13+) | `uv tool install "graphifyy[leiden]"` |
-| `ollama` | Inférence locale Ollama | `uv tool install "graphifyy[ollama]"` |
-| `openai` | API OpenAI / compatibles OpenAI | `uv tool install "graphifyy[openai]"` |
-| `gemini` | API Google Gemini | `uv tool install "graphifyy[gemini]"` |
-| `anthropic` | API Anthropic Claude (`--backend claude`, utilise `ANTHROPIC_API_KEY`) | `uv tool install "graphifyy[anthropic]"` |
-| `bedrock` | AWS Bedrock (utilise IAM, pas de clé d'API) | `uv tool install "graphifyy[bedrock]"` |
-| `azure` | Azure OpenAI Service (`--backend azure`, utilise `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT`) | `uv tool install "graphifyy[openai]"` |
-| `sql` | Extraction de schémas SQL | `uv tool install "graphifyy[sql]"` |
-| `postgres` | Introspection PostgreSQL en direct (`--postgres DSN`) | `uv tool install "graphifyy[postgres]"` |
-| `dm` | Extraction AST BYOND DreamMaker `.dm`/`.dme` (peut nécessiter un compilateur C + `python3-dev` si aucun wheel ne correspond à votre plateforme) | `uv tool install "graphifyy[dm]"` |
-| `terraform` | Extraction AST Terraform / HCL `.tf`/`.tfvars`/`.hcl` | `uv tool install "graphifyy[terraform]"` |
-| `pascal` | Extraction AST Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` (arêtes `calls`/`inherits` plus précises ; se rabat sur un extracteur regex en son absence) | `uv tool install "graphifyy[pascal]"` |
-| `ocaml` | Extraction AST OCaml `.ml`/`.mli` | `uv tool install "graphifyy[ocaml]"` |
-| `commonlisp` | Extraction AST Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` | `uv tool install "graphifyy[commonlisp]"` |
-| `robot` | Extraction Robot Framework `.robot`/`.resource` (suites, cas de test, keywords, arêtes d'appel de keyword et d'import de ressource/bibliothèque) | `uv tool install "graphifyy[robot]"` |
-| `chinese` | Segmentation des requêtes en chinois (jieba) | `uv tool install "graphifyy[chinese]"` |
-| `all` | Tout ce qui précède | `uv tool install "graphifyy[all]"` |
+| `pdf` | Extraction de PDF | `uv tool install "graphify[pdf]"` |
+| `office` | Prise en charge de `.docx` et `.xlsx` | `uv tool install "graphify[office]"` |
+| `google` | Rendu de Google Sheets | `uv tool install "graphify[google]"` |
+| `video` | Transcription vidéo/audio (faster-whisper + yt-dlp) | `uv tool install "graphify[video]"` |
+| `mcp` | Serveur MCP stdio | `uv tool install "graphify[mcp]"` |
+| `neo4j` | Prise en charge du push Neo4j | `uv tool install "graphify[neo4j]"` |
+| `falkordb` | Prise en charge du push FalkorDB | `uv tool install "graphify[falkordb]"` |
+| `svg` | Export du graphe en SVG | `uv tool install "graphify[svg]"` |
+| `leiden` | Détection de communautés Leiden (graspologic sur Python < 3.13 ; backend natif sur 3.13+) | `uv tool install "graphify[leiden]"` |
+| `ollama` | Inférence locale Ollama | `uv tool install "graphify[ollama]"` |
+| `openai` | API OpenAI / compatibles OpenAI | `uv tool install "graphify[openai]"` |
+| `gemini` | API Google Gemini | `uv tool install "graphify[gemini]"` |
+| `anthropic` | API Anthropic Claude (`--backend claude`, utilise `ANTHROPIC_API_KEY`) | `uv tool install "graphify[anthropic]"` |
+| `bedrock` | AWS Bedrock (utilise IAM, pas de clé d'API) | `uv tool install "graphify[bedrock]"` |
+| `azure` | Azure OpenAI Service (`--backend azure`, utilise `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT`) | `uv tool install "graphify[openai]"` |
+| `sql` | Extraction de schémas SQL | `uv tool install "graphify[sql]"` |
+| `postgres` | Introspection PostgreSQL en direct (`--postgres DSN`) | `uv tool install "graphify[postgres]"` |
+| `dm` | Extraction AST BYOND DreamMaker `.dm`/`.dme` (peut nécessiter un compilateur C + `python3-dev` si aucun wheel ne correspond à votre plateforme) | `uv tool install "graphify[dm]"` |
+| `terraform` | Extraction AST Terraform / HCL `.tf`/`.tfvars`/`.hcl` | `uv tool install "graphify[terraform]"` |
+| `pascal` | Extraction AST Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` (arêtes `calls`/`inherits` plus précises ; se rabat sur un extracteur regex en son absence) | `uv tool install "graphify[pascal]"` |
+| `ocaml` | Extraction AST OCaml `.ml`/`.mli` | `uv tool install "graphify[ocaml]"` |
+| `commonlisp` | Extraction AST Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` | `uv tool install "graphify[commonlisp]"` |
+| `robot` | Extraction Robot Framework `.robot`/`.resource` (suites, cas de test, keywords, arêtes d'appel de keyword et d'import de ressource/bibliothèque) | `uv tool install "graphify[robot]"` |
+| `chinese` | Segmentation des requêtes en chinois (jieba) | `uv tool install "graphify[chinese]"` |
+| `all` | Tout ce qui précède | `uv tool install "graphify[all]"` |
 
 </details>
 

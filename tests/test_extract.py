@@ -5559,7 +5559,7 @@ def test_extract_warns_when_sql_extra_missing(tmp_path, capsys, monkeypatch):
 
     assert "2 .sql file(s)" in err
     assert "tree_sitter_sql not installed" in err
-    assert 'graphifyy[sql]' in err
+    assert 'graphify[sql]' in err
     assert "#1745" in err
     # the Python file still extracts normally
     labels = [n.get("label") for n in result["nodes"]]
@@ -5636,7 +5636,7 @@ def test_extract_warns_sql_grammar_failed_to_load(tmp_path, capsys, monkeypatch)
     assert "failed to load" in err
     assert "#1745" in err
     # the no-op fix must NOT be suggested for a present-but-broken grammar
-    assert "graphifyy[sql]" not in err
+    assert "graphify[sql]" not in err
     assert "pip install" not in err
     # #2543: still surfaced as failed so the incremental manifest retries them
     failed = {Path(p).name for p in result.get("failed_sources", [])}

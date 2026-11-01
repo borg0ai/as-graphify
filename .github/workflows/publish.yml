@@ -1,6 +1,6 @@
 name: Publish to PyPI
 
-# Publishes graphifyy to PyPI via OpenID Connect (trusted publishing) — no API
+# Publishes graphify to PyPI via OpenID Connect (trusted publishing) — no API
 # token or password. Fires when a GitHub Release is published (i.e. after
 # `gh release create ... --latest`), builds the sdist + wheel, guards that the
 # package version matches the release tag, then uploads with an OIDC token.
@@ -21,11 +21,11 @@ permissions:
 
 jobs:
   publish:
-    name: Build and publish graphifyy
+    name: Build and publish graphify
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/project/graphifyy/
+      url: https://pypi.org/project/graphify/
     permissions:
       id-token: write   # REQUIRED: mint the OIDC token PyPI verifies. Nothing else.
     steps:

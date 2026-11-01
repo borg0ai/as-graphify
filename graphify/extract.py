@@ -9868,7 +9868,7 @@ def extract(
         if _extra and _DEP_MISSING_MARKER in _err_text:
             # Genuinely absent optional extra — point the user at the install.
             _reason = _err_text.split(". ")[0]
-            _hint = f' Install it with: pip install "graphifyy[{_extra}]"'
+            _hint = f' Install it with: pip install "graphify[{_extra}]"'
             _cause = "a dependency is missing"
         else:
             # Either no known extra, or the grammar is present but failed to

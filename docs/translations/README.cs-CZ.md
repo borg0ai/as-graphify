@@ -15,10 +15,10 @@
 </div>
 
 <p align="center">
-  <a href="https://pypi.org/project/graphifyy/"><img src="https://img.shields.io/pypi/v/graphifyy" alt="PyPI"/></a>
+  <a href="https://pypi.org/project/graphify/"><img src="https://img.shields.io/pypi/v/graphify" alt="PyPI"/></a>
   <a href="https://github.com/Graphify-Labs/graphify/actions/workflows/ci.yml"><img src="https://github.com/Graphify-Labs/graphify/actions/workflows/ci.yml/badge.svg?branch=v8" alt="CI"/></a>
   <a href="../../LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue" alt="License: Apache-2.0"/></a>
-  <a href="https://pepy.tech/project/graphifyy"><img src="https://img.shields.io/pepy/dt/graphifyy?color=blue&label=downloads" alt="Downloads"/></a>
+  <a href="https://pepy.tech/project/graphify"><img src="https://img.shields.io/pepy/dt/graphify?color=blue&label=downloads" alt="Downloads"/></a>
   <a href="https://docs.graphify.com"><img src="https://img.shields.io/badge/Docs-docs.graphify.com-0b7285?style=flat&logo=readthedocs&logoColor=white" alt="Docs"/></a>
   <a href="https://app.graphify.com/login"><img src="https://img.shields.io/badge/Graphify%20Cloud-app.graphify.com-118d4f?style=flat&logoColor=white" alt="Graphify Cloud"/></a>
   <a href="https://discord.gg/graphify"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord"/></a>
@@ -50,7 +50,7 @@ Napište `/graphify` ve svém AI programovacím asistentovi a ten zmapuje celý 
 **Začínáme** (30 sekund). Vyžaduje Python 3.10+ a uv (nebo pipx):
 
 ```bash
-uv tool install graphifyy      # install the CLI (or: pipx install graphifyy)
+uv tool install graphify      # install the CLI (or: pipx install graphify)
 graphify install               # detects your assistant and registers the skill
 ```
 
@@ -185,7 +185,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ## Install
 
 > [!IMPORTANT]
-> **Oficiální balíček:** Balíček na PyPI je `graphifyy` (dvě y). Ostatní balíčky `graphify*` na PyPI nejsou nijak spojené. Příkaz CLI je stále `graphify`.
+> **Oficiální balíček:** Balíček na PyPI je `graphify` (dvě y). Ostatní balíčky `graphify*` na PyPI nejsou nijak spojené. Příkaz CLI je stále `graphify`.
 
 Oficiální zdrojový repozitář je [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify).
 
@@ -194,9 +194,9 @@ Dvoupříkazový quickstart je na začátku tohoto README. Tato sekce pokrývá 
 **Metody instalace** (vyberte jednu):
 
 ```bash
-uv tool install graphifyy   # recommended, isolated env (if 'graphify' isn't found after, run: uv tool update-shell)
-pipx install graphifyy      # alternative
-pip install graphifyy       # may need PATH setup, see Troubleshooting below
+uv tool install graphify   # recommended, isolated env (if 'graphify' isn't found after, run: uv tool update-shell)
+pipx install graphify      # alternative
+pip install graphify       # may need PATH setup, see Troubleshooting below
 ```
 
 Poté jednou spusťte `graphify install`. Detekuje, kterého asistenta používáte, a zaregistruje skill, takže není nutná žádná konfigurace pro jednotlivé asistenty. Otevřete svého AI asistenta a napište `/graphify .`
@@ -252,7 +252,7 @@ Uživatelé Codexu také potřebují `multi_agent = true` pod `[features]` v `~/
 
 `--platform agents` (alias `--platform skills`) cílí na generické umístění [Agent-Skills](https://github.com/anthropics/skills) napříč frameworky: specifikací definované uživatelsky globální `~/.agents/skills/` (čtené pomocí `npx skills` a frameworky kompatibilními se specifikací) pro globální instalaci a `./.agents/skills/` pro projektovou (`--project`) instalaci. Holé `graphify install` zůstává záměrně pro jedinou platformu (Claude Code): pojmenovanou platformu `agents` použijte tehdy, když chcete, aby byl skill zjistitelný jakýmkoli frameworkem, který čte `.agents/skills`.
 
-Pi nemá hook `PreToolUse`, takže `graphify pi guard install` registruje nativní rozšíření Pi (prostřednictvím vlastního `pi install <package directory>` od Pi), které spouští nainstalovaný `graphify hook-guard` před voláními `read`, `grep`, `find` a vyhledávacími `bash` voláními Pi. Rozhodnutí o čerstvém/zastaralém grafu a jednou-za-relaci odepření indexovaného čtení pomocí `GRAPHIFY_HOOK_STRICT=1` pocházejí ze stejné politiky, takže Pi odpovídá chování hooku Claude Code; navádění přichází jako steering zpráva `<system-reminder source="graphify">`. Vyžaduje Pi 0.58.4 nebo novější: starší verze nechaly steering zprávu přeskočit zbytek dávky paralelních volání nástrojů. Balíček se dodává uvnitř instalace Graphify, takže nainstalujte Graphify trvale (`uv tool install graphifyy` nebo `pipx install graphifyy`, nikoli `uvx`), po instalaci nebo upgradu restartujte Pi a odeberte jej pomocí `graphify pi guard uninstall`. Kontrolují se pouze lokální souborové cíle; hook potřebuje `graphify` na absolutní položce `PATH` mimo projekt, je omezen na dvousekundové volání s 256 KiB vstupu / 64 KiB výstupu a selhává bezpečně (fail open). Stejný balíček se také načítá v [Oh My Pi](https://github.com/can1357/oh-my-pi): `omp plugin install "$(graphify pi guard path)"`. Registrovaná cesta obsahuje verzi Pythonu a venv, takže po změně kterékoli z nich znovu spusťte `graphify pi guard install` a starou položku odeberte pomocí `pi remove <old path>`.
+Pi nemá hook `PreToolUse`, takže `graphify pi guard install` registruje nativní rozšíření Pi (prostřednictvím vlastního `pi install <package directory>` od Pi), které spouští nainstalovaný `graphify hook-guard` před voláními `read`, `grep`, `find` a vyhledávacími `bash` voláními Pi. Rozhodnutí o čerstvém/zastaralém grafu a jednou-za-relaci odepření indexovaného čtení pomocí `GRAPHIFY_HOOK_STRICT=1` pocházejí ze stejné politiky, takže Pi odpovídá chování hooku Claude Code; navádění přichází jako steering zpráva `<system-reminder source="graphify">`. Vyžaduje Pi 0.58.4 nebo novější: starší verze nechaly steering zprávu přeskočit zbytek dávky paralelních volání nástrojů. Balíček se dodává uvnitř instalace Graphify, takže nainstalujte Graphify trvale (`uv tool install graphify` nebo `pipx install graphify`, nikoli `uvx`), po instalaci nebo upgradu restartujte Pi a odeberte jej pomocí `graphify pi guard uninstall`. Kontrolují se pouze lokální souborové cíle; hook potřebuje `graphify` na absolutní položce `PATH` mimo projekt, je omezen na dvousekundové volání s 256 KiB vstupu / 64 KiB výstupu a selhává bezpečně (fail open). Stejný balíček se také načítá v [Oh My Pi](https://github.com/can1357/oh-my-pi): `omp plugin install "$(graphify pi guard path)"`. Registrovaná cesta obsahuje verzi Pythonu a venv, takže po změně kterékoli z nich znovu spusťte `graphify pi guard install` a starou položku odeberte pomocí `pi remove <old path>`.
 
 > Codex používá `$graphify` namísto `/graphify`.
 
@@ -263,31 +263,31 @@ Pi nemá hook `PreToolUse`, takže `graphify pi guard install` registruje nativn
 
 | Rozšíření | Co přidává | Instalace |
 |---|---|---|
-| `pdf` | Extrakce PDF | `uv tool install "graphifyy[pdf]"` |
-| `office` | Podpora `.docx` a `.xlsx` | `uv tool install "graphifyy[office]"` |
-| `google` | Vykreslování Google Sheets | `uv tool install "graphifyy[google]"` |
-| `video` | Transkripce videa/audia (faster-whisper + yt-dlp) | `uv tool install "graphifyy[video]"` |
-| `mcp` | MCP stdio server | `uv tool install "graphifyy[mcp]"` |
-| `neo4j` | Podpora pushe do Neo4j | `uv tool install "graphifyy[neo4j]"` |
-| `falkordb` | Podpora pushe do FalkorDB | `uv tool install "graphifyy[falkordb]"` |
-| `svg` | Export grafu do SVG | `uv tool install "graphifyy[svg]"` |
-| `leiden` | Detekce komunit Leiden (graspologic na Pythonu < 3.13; nativní backend na 3.13+) | `uv tool install "graphifyy[leiden]"` |
-| `ollama` | Lokální inference Ollama | `uv tool install "graphifyy[ollama]"` |
-| `openai` | OpenAI / API kompatibilní s OpenAI | `uv tool install "graphifyy[openai]"` |
-| `gemini` | Google Gemini API | `uv tool install "graphifyy[gemini]"` |
-| `anthropic` | Anthropic Claude API (`--backend claude`, používá `ANTHROPIC_API_KEY`) | `uv tool install "graphifyy[anthropic]"` |
-| `bedrock` | AWS Bedrock (používá IAM, bez API klíče) | `uv tool install "graphifyy[bedrock]"` |
-| `azure` | Azure OpenAI Service (`--backend azure`, používá `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT`) | `uv tool install "graphifyy[openai]"` |
-| `sql` | Extrakce SQL schématu | `uv tool install "graphifyy[sql]"` |
-| `postgres` | Živá introspekce PostgreSQL (`--postgres DSN`) | `uv tool install "graphifyy[postgres]"` |
-| `dm` | Extrakce AST pro BYOND DreamMaker `.dm`/`.dme` (může vyžadovat C kompilátor + `python3-dev`, pokud žádný wheel neodpovídá vaší platformě) | `uv tool install "graphifyy[dm]"` |
-| `terraform` | Extrakce AST pro Terraform / HCL `.tf`/`.tfvars`/`.hcl` | `uv tool install "graphifyy[terraform]"` |
-| `pascal` | Extrakce AST pro Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` (přesnější hrany `calls`/`inherits`; při nepřítomnosti se vrací k regexovému extraktoru) | `uv tool install "graphifyy[pascal]"` |
-| `ocaml` | Extrakce AST pro OCaml `.ml`/`.mli` | `uv tool install "graphifyy[ocaml]"` |
-| `commonlisp` | Extrakce AST pro Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` | `uv tool install "graphifyy[commonlisp]"` |
-| `robot` | Extrakce Robot Framework `.robot`/`.resource` (suity, testovací případy, klíčová slova, hrany volání klíčových slov a importů resource/library) | `uv tool install "graphifyy[robot]"` |
-| `chinese` | Segmentace čínských dotazů (jieba) | `uv tool install "graphifyy[chinese]"` |
-| `all` | Vše výše uvedené | `uv tool install "graphifyy[all]"` |
+| `pdf` | Extrakce PDF | `uv tool install "graphify[pdf]"` |
+| `office` | Podpora `.docx` a `.xlsx` | `uv tool install "graphify[office]"` |
+| `google` | Vykreslování Google Sheets | `uv tool install "graphify[google]"` |
+| `video` | Transkripce videa/audia (faster-whisper + yt-dlp) | `uv tool install "graphify[video]"` |
+| `mcp` | MCP stdio server | `uv tool install "graphify[mcp]"` |
+| `neo4j` | Podpora pushe do Neo4j | `uv tool install "graphify[neo4j]"` |
+| `falkordb` | Podpora pushe do FalkorDB | `uv tool install "graphify[falkordb]"` |
+| `svg` | Export grafu do SVG | `uv tool install "graphify[svg]"` |
+| `leiden` | Detekce komunit Leiden (graspologic na Pythonu < 3.13; nativní backend na 3.13+) | `uv tool install "graphify[leiden]"` |
+| `ollama` | Lokální inference Ollama | `uv tool install "graphify[ollama]"` |
+| `openai` | OpenAI / API kompatibilní s OpenAI | `uv tool install "graphify[openai]"` |
+| `gemini` | Google Gemini API | `uv tool install "graphify[gemini]"` |
+| `anthropic` | Anthropic Claude API (`--backend claude`, používá `ANTHROPIC_API_KEY`) | `uv tool install "graphify[anthropic]"` |
+| `bedrock` | AWS Bedrock (používá IAM, bez API klíče) | `uv tool install "graphify[bedrock]"` |
+| `azure` | Azure OpenAI Service (`--backend azure`, používá `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT`) | `uv tool install "graphify[openai]"` |
+| `sql` | Extrakce SQL schématu | `uv tool install "graphify[sql]"` |
+| `postgres` | Živá introspekce PostgreSQL (`--postgres DSN`) | `uv tool install "graphify[postgres]"` |
+| `dm` | Extrakce AST pro BYOND DreamMaker `.dm`/`.dme` (může vyžadovat C kompilátor + `python3-dev`, pokud žádný wheel neodpovídá vaší platformě) | `uv tool install "graphify[dm]"` |
+| `terraform` | Extrakce AST pro Terraform / HCL `.tf`/`.tfvars`/`.hcl` | `uv tool install "graphify[terraform]"` |
+| `pascal` | Extrakce AST pro Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` (přesnější hrany `calls`/`inherits`; při nepřítomnosti se vrací k regexovému extraktoru) | `uv tool install "graphify[pascal]"` |
+| `ocaml` | Extrakce AST pro OCaml `.ml`/`.mli` | `uv tool install "graphify[ocaml]"` |
+| `commonlisp` | Extrakce AST pro Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` | `uv tool install "graphify[commonlisp]"` |
+| `robot` | Extrakce Robot Framework `.robot`/`.resource` (suity, testovací případy, klíčová slova, hrany volání klíčových slov a importů resource/library) | `uv tool install "graphify[robot]"` |
+| `chinese` | Segmentace čínských dotazů (jieba) | `uv tool install "graphify[chinese]"` |
+| `all` | Vše výše uvedené | `uv tool install "graphify[all]"` |
 
 </details>
 

@@ -17,7 +17,7 @@ Note: the original benchmark included `attention_arabic.png` (an Arabic-language
 ## How to run
 
 ```bash
-pip install graphifyy
+pip install graphify
 
 graphify install                        # Claude Code
 graphify install --platform codex       # Codex

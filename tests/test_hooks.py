@@ -264,8 +264,8 @@ def test_install_embeds_pinned_interpreter(tmp_path):
     """Hook scripts must embed sys.executable so the hook works without the
     graphify launcher on PATH (uv tool / pipx isolation, #1127).
 
-    When graphify is installed via `uv tool install graphifyy` or `pipx install
-    graphifyy`, the interpreter lives in an isolated venv and the launcher is in
+    When graphify is installed via `uv tool install graphify` or `pipx install
+    graphify`, the interpreter lives in an isolated venv and the launcher is in
     ~/.local/bin.  GUI git clients and CI runners often run with a minimal PATH
     that omits that directory, so `command -v graphify` fails, the python3/python
     fallbacks cannot import graphify (wrong venv), and the hook silently exits 0.
@@ -898,7 +898,7 @@ def test_uv_tool_env_rescues_hook_when_pin_and_launcher_fail(tmp_path):
     sibling tool envs that do not (glob order puts aaa-tool first)."""
     home, stub_bin = _broken_uv_machine(tmp_path)
     other = _tool_venv(home, "aaa-plain-tool", "bin/python", ok=False)
-    mine = _tool_venv(home, "graphifyy", "bin/python", ok=True)
+    mine = _tool_venv(home, "graphify", "bin/python", ok=True)
     res = _detect_run(tmp_path, home, stub_bin)
     assert res.returncode == 0, res.stderr
     # sh may print an MSYS-style path on Windows, so compare the home-relative tail
@@ -916,7 +916,7 @@ def test_uv_tool_env_honors_uv_tool_dir_and_windows_layout(tmp_path):
     machine (#2852)."""
     home, stub_bin = _broken_uv_machine(tmp_path)
     tools = tmp_path / "custom-tools"
-    py = tools / "graphifyy" / "Scripts" / "python.exe"
+    py = tools / "graphify" / "Scripts" / "python.exe"
     py.parent.mkdir(parents=True)
     py.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8", newline="\n")
     py.chmod(0o755)
@@ -945,7 +945,7 @@ def test_shebang_parse_requires_leading_hash_bang(tmp_path):
     interpreter. Pre-gate code parsed any first line, so trampoline bytes
     (and here, a decoy path) reached the shebang parse (#2852)."""
     home, stub_bin = _broken_uv_machine(tmp_path)
-    mine = _tool_venv(home, "graphifyy", "bin/python", ok=True)
+    mine = _tool_venv(home, "graphify", "bin/python", ok=True)
     decoy = stub_bin / "fakepy"
     decoy.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8", newline="\n")
     decoy.chmod(0o755)
@@ -1383,9 +1383,9 @@ def test_uninstall_removes_merge_driver_keeps_other_attrs(tmp_path):
 
 
 @pytest.mark.parametrize("exe", [
-    r"C:\Users\First Last\AppData\Roaming\uv\tools\graphifyy\Scripts\python.exe",
+    r"C:\Users\First Last\AppData\Roaming\uv\tools\graphify\Scripts\python.exe",
     r"C:\Program Files\Python312\python.exe",
-    "/home/first last/.local/share/uv/tools/graphifyy/bin/python",
+    "/home/first last/.local/share/uv/tools/graphify/bin/python",
 ])
 def test_pinned_python_accepts_paths_containing_spaces(exe, monkeypatch):
     """#2166: a space must not empty the pin.
@@ -1431,7 +1431,7 @@ def test_merge_driver_quotes_interpreter_with_spaces(tmp_path, monkeypatch):
 
     from graphify.hooks import install
 
-    exe = r"C:\Users\First Last\AppData\Roaming\uv\tools\graphifyy\Scripts\python.exe"
+    exe = r"C:\Users\First Last\AppData\Roaming\uv\tools\graphify\Scripts\python.exe"
     repo = _make_git_repo(tmp_path)
     monkeypatch.setattr(_sys, "executable", exe)
     install(repo)
@@ -1450,7 +1450,7 @@ def test_install_pins_interpreter_path_with_spaces(tmp_path, monkeypatch):
 
     from graphify.hooks import install
 
-    exe = r"C:\Users\First Last\AppData\Roaming\uv\tools\graphifyy\Scripts\python.exe"
+    exe = r"C:\Users\First Last\AppData\Roaming\uv\tools\graphify\Scripts\python.exe"
     repo = _make_git_repo(tmp_path)
     monkeypatch.setattr(_sys, "executable", exe)
     install(repo)
@@ -1620,9 +1620,9 @@ def test_rebuild_bodies_tolerate_a_bom_in_graphify_root(name, body):
 
 
 @pytest.mark.parametrize("exe", [
-    "/home/dev/snap/code/259/.local/share/uv/tools/graphifyy/bin/python",
-    "/home/dev/snap/code/current/.local/share/uv/tools/graphifyy/bin/python",
-    "/root/snap/pycharm-community/42/.local/share/uv/tools/graphifyy/bin/python",
+    "/home/dev/snap/code/259/.local/share/uv/tools/graphify/bin/python",
+    "/home/dev/snap/code/current/.local/share/uv/tools/graphify/bin/python",
+    "/root/snap/pycharm-community/42/.local/share/uv/tools/graphify/bin/python",
 ])
 def test_pinned_python_refuses_a_rotating_snap_revision(exe, monkeypatch):
     """A pin is only worth writing if it still resolves tomorrow.
@@ -1656,7 +1656,7 @@ def test_pinned_python_still_pins_a_stable_path(monkeypatch):
     from graphify.hooks import _pinned_python
 
     for exe in (
-        "/home/dev/.local/share/uv/tools/graphifyy/bin/python",
+        "/home/dev/.local/share/uv/tools/graphify/bin/python",
         "/usr/bin/python3",
         "/home/snap/projects/venv/bin/python",
     ):

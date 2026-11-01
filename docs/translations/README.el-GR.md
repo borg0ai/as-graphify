@@ -15,10 +15,10 @@
 </div>
 
 <p align="center">
-  <a href="https://pypi.org/project/graphifyy/"><img src="https://img.shields.io/pypi/v/graphifyy" alt="PyPI"/></a>
+  <a href="https://pypi.org/project/graphify/"><img src="https://img.shields.io/pypi/v/graphify" alt="PyPI"/></a>
   <a href="https://github.com/Graphify-Labs/graphify/actions/workflows/ci.yml"><img src="https://github.com/Graphify-Labs/graphify/actions/workflows/ci.yml/badge.svg?branch=v8" alt="CI"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue" alt="License: Apache-2.0"/></a>
-  <a href="https://pepy.tech/project/graphifyy"><img src="https://img.shields.io/pepy/dt/graphifyy?color=blue&label=downloads" alt="Downloads"/></a>
+  <a href="https://pepy.tech/project/graphify"><img src="https://img.shields.io/pepy/dt/graphify?color=blue&label=downloads" alt="Downloads"/></a>
   <a href="https://docs.graphify.com"><img src="https://img.shields.io/badge/Docs-docs.graphify.com-0b7285?style=flat&logo=readthedocs&logoColor=white" alt="Docs"/></a>
   <a href="https://app.graphify.com/login"><img src="https://img.shields.io/badge/Graphify%20Cloud-app.graphify.com-118d4f?style=flat&logoColor=white" alt="Graphify Cloud"/></a>
   <a href="https://discord.gg/graphify"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord"/></a>
@@ -50,7 +50,7 @@
 **Ξεκινήστε** (30 δευτερόλεπτα). Χρειάζεται Python 3.10+ και uv (ή pipx):
 
 ```bash
-uv tool install graphifyy      # install the CLI (or: pipx install graphifyy)
+uv tool install graphify      # install the CLI (or: pipx install graphify)
 graphify install               # detects your assistant and registers the skill
 ```
 
@@ -183,7 +183,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ## Install
 
 > [!IMPORTANT]
-> **Επίσημο πακέτο:** Το πακέτο PyPI είναι `graphifyy` (με διπλό y). Άλλα πακέτα `graphify*` στο PyPI δεν σχετίζονται. Η εντολή CLI παραμένει `graphify`.
+> **Επίσημο πακέτο:** Το πακέτο PyPI είναι `graphify` (με διπλό y). Άλλα πακέτα `graphify*` στο PyPI δεν σχετίζονται. Η εντολή CLI παραμένει `graphify`.
 
 Το επίσημο αποθετήριο πηγαίου κώδικα είναι το [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify).
 
@@ -192,9 +192,9 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 **Μέθοδοι εγκατάστασης** (επιλέξτε μία):
 
 ```bash
-uv tool install graphifyy   # recommended, isolated env (if 'graphify' isn't found after, run: uv tool update-shell)
-pipx install graphifyy      # alternative
-pip install graphifyy       # may need PATH setup, see Troubleshooting below
+uv tool install graphify   # recommended, isolated env (if 'graphify' isn't found after, run: uv tool update-shell)
+pipx install graphify      # alternative
+pip install graphify       # may need PATH setup, see Troubleshooting below
 ```
 
 Στη συνέχεια εκτελέστε `graphify install` μία φορά. Εντοπίζει ποιον βοηθό εκτελείτε και καταχωρεί το skill, οπότε δεν υπάρχει ρύθμιση ανά βοηθό. Ανοίξτε τον βοηθό AI σας και πληκτρολογήστε `/graphify .`
@@ -244,7 +244,7 @@ graphify install --project --platform codex
 
 Το `--platform agents` (ψευδώνυμο `--platform skills`) στοχεύει τις γενικές τοποθεσίες [Agent-Skills](https://github.com/anthropics/skills) πολλαπλών framework: το user-global `~/.agents/skills/` της προδιαγραφής (διαβάζεται από `npx skills` και framework συμβατά με την προδιαγραφή) για μια καθολική εγκατάσταση, και το `./.agents/skills/` για μια εγκατάσταση έργου (`--project`). Το σκέτο `graphify install` παραμένει μίας πλατφόρμας (Claude Code) εκ σχεδιασμού: χρησιμοποιήστε την ονομασμένη πλατφόρμα `agents` όταν θέλετε το skill να είναι ανιχνεύσιμο από οποιοδήποτε framework διαβάζει `.agents/skills`.
 
-Το Pi δεν έχει `PreToolUse` hook, οπότε το `graphify pi guard install` καταχωρεί μια εγγενή επέκταση Pi (μέσω του ίδιου του `pi install <package directory>` του Pi) που εκτελεί το εγκατεστημένο `graphify hook-guard` πριν από τις κλήσεις `read`, `grep`, `find` και τύπου αναζήτησης `bash` του Pi. Οι αποφάσεις φρέσκου/παλαιού γράφου και η άρνηση indexed-read μία φορά ανά συνεδρία με `GRAPHIFY_HOOK_STRICT=1` προέρχονται από την ίδια πολιτική, οπότε το Pi ταιριάζει με τη συμπεριφορά hook του Claude Code· η καθοδήγηση φτάνει ως μήνυμα κατεύθυνσης `<system-reminder source="graphify">`. Χρειάζεται Pi 0.58.4 ή νεότερο: παλαιότερες εκδόσεις επέτρεπαν σε ένα μήνυμα κατεύθυνσης να παρακάμπτει το υπόλοιπο μιας παράλληλης παρτίδας κλήσεων εργαλείων. Το πακέτο παρέχεται μέσα στην εγκατάσταση Graphify, οπότε εγκαταστήστε το Graphify μόνιμα (`uv tool install graphifyy` ή `pipx install graphifyy`, όχι `uvx`), επανεκκινήστε το Pi μετά την εγκατάσταση ή την αναβάθμιση, και αφαιρέστε το με `graphify pi guard uninstall`. Επιθεωρούνται μόνο τοπικοί στόχοι αρχείων· το hook χρειάζεται το `graphify` σε μια απόλυτη καταχώρηση `PATH` εκτός του έργου, περιορίζεται σε κλήση δύο δευτερολέπτων, 256 KiB-in/64 KiB-out, και αποτυγχάνει ανοιχτά (fails open). Το ίδιο πακέτο φορτώνεται επίσης στο [Oh My Pi](https://github.com/can1357/oh-my-pi): `omp plugin install "$(graphify pi guard path)"`. Η καταχωρημένη διαδρομή περιέχει την έκδοση Python και το venv, οπότε εκτελέστε ξανά το `graphify pi guard install` μετά την αλλαγή οποιουδήποτε από τα δύο, και αφαιρέστε την παλιά καταχώρηση με `pi remove <old path>`.
+Το Pi δεν έχει `PreToolUse` hook, οπότε το `graphify pi guard install` καταχωρεί μια εγγενή επέκταση Pi (μέσω του ίδιου του `pi install <package directory>` του Pi) που εκτελεί το εγκατεστημένο `graphify hook-guard` πριν από τις κλήσεις `read`, `grep`, `find` και τύπου αναζήτησης `bash` του Pi. Οι αποφάσεις φρέσκου/παλαιού γράφου και η άρνηση indexed-read μία φορά ανά συνεδρία με `GRAPHIFY_HOOK_STRICT=1` προέρχονται από την ίδια πολιτική, οπότε το Pi ταιριάζει με τη συμπεριφορά hook του Claude Code· η καθοδήγηση φτάνει ως μήνυμα κατεύθυνσης `<system-reminder source="graphify">`. Χρειάζεται Pi 0.58.4 ή νεότερο: παλαιότερες εκδόσεις επέτρεπαν σε ένα μήνυμα κατεύθυνσης να παρακάμπτει το υπόλοιπο μιας παράλληλης παρτίδας κλήσεων εργαλείων. Το πακέτο παρέχεται μέσα στην εγκατάσταση Graphify, οπότε εγκαταστήστε το Graphify μόνιμα (`uv tool install graphify` ή `pipx install graphify`, όχι `uvx`), επανεκκινήστε το Pi μετά την εγκατάσταση ή την αναβάθμιση, και αφαιρέστε το με `graphify pi guard uninstall`. Επιθεωρούνται μόνο τοπικοί στόχοι αρχείων· το hook χρειάζεται το `graphify` σε μια απόλυτη καταχώρηση `PATH` εκτός του έργου, περιορίζεται σε κλήση δύο δευτερολέπτων, 256 KiB-in/64 KiB-out, και αποτυγχάνει ανοιχτά (fails open). Το ίδιο πακέτο φορτώνεται επίσης στο [Oh My Pi](https://github.com/can1357/oh-my-pi): `omp plugin install "$(graphify pi guard path)"`. Η καταχωρημένη διαδρομή περιέχει την έκδοση Python και το venv, οπότε εκτελέστε ξανά το `graphify pi guard install` μετά την αλλαγή οποιουδήποτε από τα δύο, και αφαιρέστε την παλιά καταχώρηση με `pi remove <old path>`.
 
 > Το Codex χρησιμοποιεί `$graphify` αντί για `/graphify`.
 
@@ -255,31 +255,31 @@ graphify install --project --platform codex
 
 | Extra | Τι προσθέτει | Εγκατάσταση |
 |---|---|---|
-| `pdf` | εξαγωγή PDF | `uv tool install "graphifyy[pdf]"` |
-| `office` | υποστήριξη `.docx` και `.xlsx` | `uv tool install "graphifyy[office]"` |
-| `google` | απόδοση Google Sheets | `uv tool install "graphifyy[google]"` |
-| `video` | μεταγραφή βίντεο/ήχου (faster-whisper + yt-dlp) | `uv tool install "graphifyy[video]"` |
-| `mcp` | διακομιστής MCP stdio | `uv tool install "graphifyy[mcp]"` |
-| `neo4j` | υποστήριξη push Neo4j | `uv tool install "graphifyy[neo4j]"` |
-| `falkordb` | υποστήριξη push FalkorDB | `uv tool install "graphifyy[falkordb]"` |
-| `svg` | εξαγωγή γράφου SVG | `uv tool install "graphifyy[svg]"` |
-| `leiden` | εντοπισμός κοινοτήτων Leiden (graspologic σε Python < 3.13· εγγενές backend σε 3.13+) | `uv tool install "graphifyy[leiden]"` |
-| `ollama` | τοπική εξαγωγή συμπερασμάτων Ollama | `uv tool install "graphifyy[ollama]"` |
-| `openai` | OpenAI / APIs συμβατά με OpenAI | `uv tool install "graphifyy[openai]"` |
-| `gemini` | API Google Gemini | `uv tool install "graphifyy[gemini]"` |
-| `anthropic` | API Anthropic Claude (`--backend claude`, χρησιμοποιεί `ANTHROPIC_API_KEY`) | `uv tool install "graphifyy[anthropic]"` |
-| `bedrock` | AWS Bedrock (χρησιμοποιεί IAM, χωρίς κλειδί API) | `uv tool install "graphifyy[bedrock]"` |
-| `azure` | Azure OpenAI Service (`--backend azure`, χρησιμοποιεί `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT`) | `uv tool install "graphifyy[openai]"` |
-| `sql` | εξαγωγή σχήματος SQL | `uv tool install "graphifyy[sql]"` |
-| `postgres` | ζωντανή ενδοσκόπηση PostgreSQL (`--postgres DSN`) | `uv tool install "graphifyy[postgres]"` |
-| `dm` | εξαγωγή AST BYOND DreamMaker `.dm`/`.dme` (μπορεί να χρειαστεί μεταγλωττιστής C + `python3-dev` αν δεν ταιριάζει wheel με την πλατφόρμα σας) | `uv tool install "graphifyy[dm]"` |
-| `terraform` | εξαγωγή AST Terraform / HCL `.tf`/`.tfvars`/`.hcl` | `uv tool install "graphifyy[terraform]"` |
-| `pascal` | εξαγωγή AST Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` (πιο ακριβείς ακμές `calls`/`inherits`· επιστρέφει σε έναν εξαγωγέα regex όταν απουσιάζει) | `uv tool install "graphifyy[pascal]"` |
-| `ocaml` | εξαγωγή AST OCaml `.ml`/`.mli` | `uv tool install "graphifyy[ocaml]"` |
-| `commonlisp` | εξαγωγή AST Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` | `uv tool install "graphifyy[commonlisp]"` |
-| `robot` | εξαγωγή Robot Framework `.robot`/`.resource` (σουίτες, test cases, keywords, ακμές keyword-call και resource/library import) | `uv tool install "graphifyy[robot]"` |
-| `chinese` | κατάτμηση ερωτημάτων κινεζικών (jieba) | `uv tool install "graphifyy[chinese]"` |
-| `all` | Όλα τα παραπάνω | `uv tool install "graphifyy[all]"` |
+| `pdf` | εξαγωγή PDF | `uv tool install "graphify[pdf]"` |
+| `office` | υποστήριξη `.docx` και `.xlsx` | `uv tool install "graphify[office]"` |
+| `google` | απόδοση Google Sheets | `uv tool install "graphify[google]"` |
+| `video` | μεταγραφή βίντεο/ήχου (faster-whisper + yt-dlp) | `uv tool install "graphify[video]"` |
+| `mcp` | διακομιστής MCP stdio | `uv tool install "graphify[mcp]"` |
+| `neo4j` | υποστήριξη push Neo4j | `uv tool install "graphify[neo4j]"` |
+| `falkordb` | υποστήριξη push FalkorDB | `uv tool install "graphify[falkordb]"` |
+| `svg` | εξαγωγή γράφου SVG | `uv tool install "graphify[svg]"` |
+| `leiden` | εντοπισμός κοινοτήτων Leiden (graspologic σε Python < 3.13· εγγενές backend σε 3.13+) | `uv tool install "graphify[leiden]"` |
+| `ollama` | τοπική εξαγωγή συμπερασμάτων Ollama | `uv tool install "graphify[ollama]"` |
+| `openai` | OpenAI / APIs συμβατά με OpenAI | `uv tool install "graphify[openai]"` |
+| `gemini` | API Google Gemini | `uv tool install "graphify[gemini]"` |
+| `anthropic` | API Anthropic Claude (`--backend claude`, χρησιμοποιεί `ANTHROPIC_API_KEY`) | `uv tool install "graphify[anthropic]"` |
+| `bedrock` | AWS Bedrock (χρησιμοποιεί IAM, χωρίς κλειδί API) | `uv tool install "graphify[bedrock]"` |
+| `azure` | Azure OpenAI Service (`--backend azure`, χρησιμοποιεί `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT`) | `uv tool install "graphify[openai]"` |
+| `sql` | εξαγωγή σχήματος SQL | `uv tool install "graphify[sql]"` |
+| `postgres` | ζωντανή ενδοσκόπηση PostgreSQL (`--postgres DSN`) | `uv tool install "graphify[postgres]"` |
+| `dm` | εξαγωγή AST BYOND DreamMaker `.dm`/`.dme` (μπορεί να χρειαστεί μεταγλωττιστής C + `python3-dev` αν δεν ταιριάζει wheel με την πλατφόρμα σας) | `uv tool install "graphify[dm]"` |
+| `terraform` | εξαγωγή AST Terraform / HCL `.tf`/`.tfvars`/`.hcl` | `uv tool install "graphify[terraform]"` |
+| `pascal` | εξαγωγή AST Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` (πιο ακριβείς ακμές `calls`/`inherits`· επιστρέφει σε έναν εξαγωγέα regex όταν απουσιάζει) | `uv tool install "graphify[pascal]"` |
+| `ocaml` | εξαγωγή AST OCaml `.ml`/`.mli` | `uv tool install "graphify[ocaml]"` |
+| `commonlisp` | εξαγωγή AST Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` | `uv tool install "graphify[commonlisp]"` |
+| `robot` | εξαγωγή Robot Framework `.robot`/`.resource` (σουίτες, test cases, keywords, ακμές keyword-call και resource/library import) | `uv tool install "graphify[robot]"` |
+| `chinese` | κατάτμηση ερωτημάτων κινεζικών (jieba) | `uv tool install "graphify[chinese]"` |
+| `all` | Όλα τα παραπάνω | `uv tool install "graphify[all]"` |
 
 </details>
 

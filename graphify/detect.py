@@ -599,7 +599,7 @@ def extract_pdf_text(path: Path) -> str:
             _pypdf_missing_warned = True
             print(
                 "[graphify] WARNING: PDF text extraction skipped: 'pypdf' is not "
-                "installed. Install the pdf extra: uv tool install 'graphifyy[pdf]'",
+                "installed. Install the pdf extra: uv tool install 'graphify[pdf]'",
                 file=sys.stderr,
             )
         return ""
@@ -2377,7 +2377,7 @@ def detect(root: Path, *, follow_symlinks: bool | None = None, google_workspace:
                     total_words += _wc(md_path)
                 else:
                     # Conversion failed (library not installed) - skip with note
-                    skipped_sensitive.append(str(p) + " [office conversion failed - pip install graphifyy[office]]")
+                    skipped_sensitive.append(str(p) + " [office conversion failed - pip install graphify[office]]")
                 continue
             files[ftype].append(str(p))
             # Bypass legacy cached counts derived from binary media bytes.

@@ -181,7 +181,7 @@ def _graphify_version() -> str | None:
     try:
         from importlib.metadata import version
 
-        return version("graphifyy")
+        return version("graphify")
     except Exception:
         return None
 

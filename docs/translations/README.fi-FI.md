@@ -15,10 +15,10 @@
 </div>
 
 <p align="center">
-  <a href="https://pypi.org/project/graphifyy/"><img src="https://img.shields.io/pypi/v/graphifyy" alt="PyPI"/></a>
+  <a href="https://pypi.org/project/graphify/"><img src="https://img.shields.io/pypi/v/graphify" alt="PyPI"/></a>
   <a href="https://github.com/Graphify-Labs/graphify/actions/workflows/ci.yml"><img src="https://github.com/Graphify-Labs/graphify/actions/workflows/ci.yml/badge.svg?branch=v8" alt="CI"/></a>
   <a href="../../LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue" alt="License: Apache-2.0"/></a>
-  <a href="https://pepy.tech/project/graphifyy"><img src="https://img.shields.io/pepy/dt/graphifyy?color=blue&label=downloads" alt="Downloads"/></a>
+  <a href="https://pepy.tech/project/graphify"><img src="https://img.shields.io/pepy/dt/graphify?color=blue&label=downloads" alt="Downloads"/></a>
   <a href="https://docs.graphify.com"><img src="https://img.shields.io/badge/Docs-docs.graphify.com-0b7285?style=flat&logo=readthedocs&logoColor=white" alt="Docs"/></a>
   <a href="https://app.graphify.com/login"><img src="https://img.shields.io/badge/Graphify%20Cloud-app.graphify.com-118d4f?style=flat&logoColor=white" alt="Graphify Cloud"/></a>
   <a href="https://discord.gg/graphify"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord"/></a>
@@ -50,7 +50,7 @@ Kirjoita `/graphify` AI-koodausavustajaasi, niin se kartoittaa koko projektisi (
 **Pääse alkuun** (30 sekuntia). Tarvitsee Python 3.10+ ja uv:n (tai pipx:n):
 
 ```bash
-uv tool install graphifyy      # install the CLI (or: pipx install graphifyy)
+uv tool install graphify      # install the CLI (or: pipx install graphify)
 graphify install               # detects your assistant and registers the skill
 ```
 
@@ -185,7 +185,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ## Install
 
 > [!IMPORTANT]
-> **Virallinen paketti:** PyPI-paketti on `graphifyy` (kaksois-y). Muut `graphify*`-paketit PyPI:ssä eivät ole sidoksissa. CLI-komento on edelleen `graphify`.
+> **Virallinen paketti:** PyPI-paketti on `graphify` (kaksois-y). Muut `graphify*`-paketit PyPI:ssä eivät ole sidoksissa. CLI-komento on edelleen `graphify`.
 
 Virallinen lähdekoodirepositorio on [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify).
 
@@ -194,9 +194,9 @@ Kahden komennon pikaopas on tämän READMEn yläreunassa. Tämä osio kattaa ase
 **Asennusmenetelmät** (valitse yksi):
 
 ```bash
-uv tool install graphifyy   # recommended, isolated env (if 'graphify' isn't found after, run: uv tool update-shell)
-pipx install graphifyy      # alternative
-pip install graphifyy       # may need PATH setup, see Troubleshooting below
+uv tool install graphify   # recommended, isolated env (if 'graphify' isn't found after, run: uv tool update-shell)
+pipx install graphify      # alternative
+pip install graphify       # may need PATH setup, see Troubleshooting below
 ```
 
 Aja sitten `graphify install` kerran. Se tunnistaa, mitä avustajaa ajat, ja rekisteröi taidon, joten avustajakohtaista asetusta ei tarvita. Avaa AI-avustajasi ja kirjoita `/graphify .`
@@ -252,7 +252,7 @@ Codex-käyttäjät tarvitsevat myös `multi_agent = true` kohdan `[features]` al
 
 `--platform agents` (alias `--platform skills`) kohdistuu geneerisiin kehysten välisiin [Agent-Skills](https://github.com/anthropics/skills)-sijainteihin: spesifikaation käyttäjäglobaali `~/.agents/skills/` (jonka lukevat `npx skills` ja spesifikaation mukaiset kehykset) globaaliin asennukseen, ja `./.agents/skills/` projektiasennukseen (`--project`). Pelkkä `graphify install` pysyy yksialustaisena (Claude Code) tarkoituksella: käytä nimettyä `agents`-alustaa, kun haluat taidon olevan minkä tahansa `.agents/skills`-polun lukevan kehyksen löydettävissä.
 
-Pillä ei ole `PreToolUse`-hookia, joten `graphify pi guard install` rekisteröi natiivin Pi-laajennuksen (Pin oman `pi install <package directory>` -komennon kautta), joka ajaa asennetun `graphify hook-guard` -komennon ennen Pin `read`-, `grep`-, `find`- ja hakutyylisiä `bash`-kutsuja. Tuore/vanhentunut graafipäätös ja `GRAPHIFY_HOOK_STRICT=1`-asetuksen kerran per istunto tapahtuva indeksoidun luvun esto tulevat samasta käytännöstä, joten Pi vastaa Claude Coden hook-käyttäytymistä; ohjaus saapuu `<system-reminder source="graphify">`-ohjausviestinä. Se tarvitsee Pi 0.58.4:n tai uudemman: aiemmat versiot antavat ohjausviestin ohittaa loput rinnakkaisesta työkalukutsuerästä. Paketti toimitetaan Graphify-asennuksen sisällä, joten asenna Graphify pysyvästi (`uv tool install graphifyy` tai `pipx install graphifyy`, ei `uvx`), käynnistä Pi uudelleen asennuksen tai päivityksen jälkeen, ja poista se komennolla `graphify pi guard uninstall`. Vain paikalliset tiedostokohteet tarkastetaan; hook tarvitsee `graphify`-komennon absoluuttisessa `PATH`-merkinnässä projektin ulkopuolella, on rajattu kahden sekunnin, 256 KiB sisään / 64 KiB ulos -kutsuun, ja epäonnistuu avoimesti. Sama paketti latautuu myös [Oh My Pi](https://github.com/can1357/oh-my-pi)-ympäristössä: `omp plugin install "$(graphify pi guard path)"`. Rekisteröity polku sisältää Python-version ja venvin, joten aja `graphify pi guard install` uudelleen jommankumman muuttamisen jälkeen, ja poista vanha merkintä komennolla `pi remove <old path>`.
+Pillä ei ole `PreToolUse`-hookia, joten `graphify pi guard install` rekisteröi natiivin Pi-laajennuksen (Pin oman `pi install <package directory>` -komennon kautta), joka ajaa asennetun `graphify hook-guard` -komennon ennen Pin `read`-, `grep`-, `find`- ja hakutyylisiä `bash`-kutsuja. Tuore/vanhentunut graafipäätös ja `GRAPHIFY_HOOK_STRICT=1`-asetuksen kerran per istunto tapahtuva indeksoidun luvun esto tulevat samasta käytännöstä, joten Pi vastaa Claude Coden hook-käyttäytymistä; ohjaus saapuu `<system-reminder source="graphify">`-ohjausviestinä. Se tarvitsee Pi 0.58.4:n tai uudemman: aiemmat versiot antavat ohjausviestin ohittaa loput rinnakkaisesta työkalukutsuerästä. Paketti toimitetaan Graphify-asennuksen sisällä, joten asenna Graphify pysyvästi (`uv tool install graphify` tai `pipx install graphify`, ei `uvx`), käynnistä Pi uudelleen asennuksen tai päivityksen jälkeen, ja poista se komennolla `graphify pi guard uninstall`. Vain paikalliset tiedostokohteet tarkastetaan; hook tarvitsee `graphify`-komennon absoluuttisessa `PATH`-merkinnässä projektin ulkopuolella, on rajattu kahden sekunnin, 256 KiB sisään / 64 KiB ulos -kutsuun, ja epäonnistuu avoimesti. Sama paketti latautuu myös [Oh My Pi](https://github.com/can1357/oh-my-pi)-ympäristössä: `omp plugin install "$(graphify pi guard path)"`. Rekisteröity polku sisältää Python-version ja venvin, joten aja `graphify pi guard install` uudelleen jommankumman muuttamisen jälkeen, ja poista vanha merkintä komennolla `pi remove <old path>`.
 
 > Codex käyttää `$graphify` komennon `/graphify` sijaan.
 
@@ -263,31 +263,31 @@ Pillä ei ole `PreToolUse`-hookia, joten `graphify pi guard install` rekisteröi
 
 | Lisäosa | Mitä se lisää | Asenna |
 |---|---|---|
-| `pdf` | PDF-ekstraktio | `uv tool install "graphifyy[pdf]"` |
-| `office` | `.docx`- ja `.xlsx`-tuki | `uv tool install "graphifyy[office]"` |
-| `google` | Google Sheetsin renderöinti | `uv tool install "graphifyy[google]"` |
-| `video` | Videon/äänen litterointi (faster-whisper + yt-dlp) | `uv tool install "graphifyy[video]"` |
-| `mcp` | MCP stdio-palvelin | `uv tool install "graphifyy[mcp]"` |
-| `neo4j` | Neo4j-push-tuki | `uv tool install "graphifyy[neo4j]"` |
-| `falkordb` | FalkorDB-push-tuki | `uv tool install "graphifyy[falkordb]"` |
-| `svg` | SVG-graafin vienti | `uv tool install "graphifyy[svg]"` |
-| `leiden` | Leiden-yhteisöjen havaitseminen (graspologic Pythonilla < 3.13; natiivi taustajärjestelmä versiossa 3.13+) | `uv tool install "graphifyy[leiden]"` |
-| `ollama` | Ollama-paikallinen päättely | `uv tool install "graphifyy[ollama]"` |
-| `openai` | OpenAI / OpenAI-yhteensopivat API:t | `uv tool install "graphifyy[openai]"` |
-| `gemini` | Google Gemini API | `uv tool install "graphifyy[gemini]"` |
-| `anthropic` | Anthropic Claude API (`--backend claude`, käyttää `ANTHROPIC_API_KEY`) | `uv tool install "graphifyy[anthropic]"` |
-| `bedrock` | AWS Bedrock (käyttää IAM:ia, ei API-avainta) | `uv tool install "graphifyy[bedrock]"` |
-| `azure` | Azure OpenAI Service (`--backend azure`, käyttää `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT`) | `uv tool install "graphifyy[openai]"` |
-| `sql` | SQL-skeeman ekstraktio | `uv tool install "graphifyy[sql]"` |
-| `postgres` | Live-PostgreSQL-introspektio (`--postgres DSN`) | `uv tool install "graphifyy[postgres]"` |
-| `dm` | BYOND DreamMaker `.dm`/`.dme` AST-ekstraktio (voi tarvita C-kääntäjän + `python3-dev`, jos mikään wheel ei vastaa alustaasi) | `uv tool install "graphifyy[dm]"` |
-| `terraform` | Terraform / HCL `.tf`/`.tfvars`/`.hcl` AST-ekstraktio | `uv tool install "graphifyy[terraform]"` |
-| `pascal` | Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` AST-ekstraktio (tarkempia `calls`/`inherits`-kaaria; palaa regex-ekstraktoriin, kun puuttuu) | `uv tool install "graphifyy[pascal]"` |
-| `ocaml` | OCaml `.ml`/`.mli` AST-ekstraktio | `uv tool install "graphifyy[ocaml]"` |
-| `commonlisp` | Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` AST-ekstraktio | `uv tool install "graphifyy[commonlisp]"` |
-| `robot` | Robot Framework `.robot`/`.resource`-ekstraktio (sarjat, testitapaukset, avainsanat, avainsanakutsut sekä resurssi-/kirjastotuontien kaaret) | `uv tool install "graphifyy[robot]"` |
-| `chinese` | Kiinalaisen kyselyn segmentointi (jieba) | `uv tool install "graphifyy[chinese]"` |
-| `all` | Kaikki yllä oleva | `uv tool install "graphifyy[all]"` |
+| `pdf` | PDF-ekstraktio | `uv tool install "graphify[pdf]"` |
+| `office` | `.docx`- ja `.xlsx`-tuki | `uv tool install "graphify[office]"` |
+| `google` | Google Sheetsin renderöinti | `uv tool install "graphify[google]"` |
+| `video` | Videon/äänen litterointi (faster-whisper + yt-dlp) | `uv tool install "graphify[video]"` |
+| `mcp` | MCP stdio-palvelin | `uv tool install "graphify[mcp]"` |
+| `neo4j` | Neo4j-push-tuki | `uv tool install "graphify[neo4j]"` |
+| `falkordb` | FalkorDB-push-tuki | `uv tool install "graphify[falkordb]"` |
+| `svg` | SVG-graafin vienti | `uv tool install "graphify[svg]"` |
+| `leiden` | Leiden-yhteisöjen havaitseminen (graspologic Pythonilla < 3.13; natiivi taustajärjestelmä versiossa 3.13+) | `uv tool install "graphify[leiden]"` |
+| `ollama` | Ollama-paikallinen päättely | `uv tool install "graphify[ollama]"` |
+| `openai` | OpenAI / OpenAI-yhteensopivat API:t | `uv tool install "graphify[openai]"` |
+| `gemini` | Google Gemini API | `uv tool install "graphify[gemini]"` |
+| `anthropic` | Anthropic Claude API (`--backend claude`, käyttää `ANTHROPIC_API_KEY`) | `uv tool install "graphify[anthropic]"` |
+| `bedrock` | AWS Bedrock (käyttää IAM:ia, ei API-avainta) | `uv tool install "graphify[bedrock]"` |
+| `azure` | Azure OpenAI Service (`--backend azure`, käyttää `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT`) | `uv tool install "graphify[openai]"` |
+| `sql` | SQL-skeeman ekstraktio | `uv tool install "graphify[sql]"` |
+| `postgres` | Live-PostgreSQL-introspektio (`--postgres DSN`) | `uv tool install "graphify[postgres]"` |
+| `dm` | BYOND DreamMaker `.dm`/`.dme` AST-ekstraktio (voi tarvita C-kääntäjän + `python3-dev`, jos mikään wheel ei vastaa alustaasi) | `uv tool install "graphify[dm]"` |
+| `terraform` | Terraform / HCL `.tf`/`.tfvars`/`.hcl` AST-ekstraktio | `uv tool install "graphify[terraform]"` |
+| `pascal` | Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` AST-ekstraktio (tarkempia `calls`/`inherits`-kaaria; palaa regex-ekstraktoriin, kun puuttuu) | `uv tool install "graphify[pascal]"` |
+| `ocaml` | OCaml `.ml`/`.mli` AST-ekstraktio | `uv tool install "graphify[ocaml]"` |
+| `commonlisp` | Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` AST-ekstraktio | `uv tool install "graphify[commonlisp]"` |
+| `robot` | Robot Framework `.robot`/`.resource`-ekstraktio (sarjat, testitapaukset, avainsanat, avainsanakutsut sekä resurssi-/kirjastotuontien kaaret) | `uv tool install "graphify[robot]"` |
+| `chinese` | Kiinalaisen kyselyn segmentointi (jieba) | `uv tool install "graphify[chinese]"` |
+| `all` | Kaikki yllä oleva | `uv tool install "graphify[all]"` |
 
 </details>
 

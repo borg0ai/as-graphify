@@ -4,6 +4,8 @@ Full release notes with details on each version: [GitHub Releases](https://githu
 
 ## 0.10.0 (2026-11-01)
 
+- Breaking: **package** the distribution is now named `graphify` instead of `graphifyy` (`uv tool install graphify`); install commands, extras (`graphify[mcp]`), docs and generated skills use the new name.
+
 - Breaking: **output** the default output directory is now `.graphify/` instead of `graphify-out/`, across the CLI, the generated skills, hooks and docs. There is no fallback to the old name; set `GRAPHIFY_OUT=graphify-out` to keep using it.
 
 ## 0.9.99 (2026-10-30)

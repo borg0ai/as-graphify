@@ -211,4 +211,4 @@ def test_erlang_missing_parser_reports_install_hint(tmp_path, monkeypatch, capsy
     result = extract([source], cache_root=tmp_path)
 
     assert result["nodes"] == []
-    assert 'pip install "graphifyy[erlang]"' in capsys.readouterr().err
+    assert 'pip install "graphify[erlang]"' in capsys.readouterr().err

@@ -292,7 +292,7 @@ def test_vbnet_missing_parser_reports_install_hint(tmp_path, monkeypatch, capsys
     result = extract([source], cache_root=tmp_path)
 
     assert result["nodes"] == []
-    assert 'pip install "graphifyy[vbnet]"' in capsys.readouterr().err
+    assert 'pip install "graphify[vbnet]"' in capsys.readouterr().err
 
 
 @_needs_vbnet

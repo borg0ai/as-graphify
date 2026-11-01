@@ -15,10 +15,10 @@
 </div>
 
 <p align="center">
-  <a href="https://pypi.org/project/graphifyy/"><img src="https://img.shields.io/pypi/v/graphifyy" alt="PyPI"/></a>
+  <a href="https://pypi.org/project/graphify/"><img src="https://img.shields.io/pypi/v/graphify" alt="PyPI"/></a>
   <a href="https://github.com/Graphify-Labs/graphify/actions/workflows/ci.yml"><img src="https://github.com/Graphify-Labs/graphify/actions/workflows/ci.yml/badge.svg?branch=v8" alt="CI"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue" alt="License: Apache-2.0"/></a>
-  <a href="https://pepy.tech/project/graphifyy"><img src="https://img.shields.io/pepy/dt/graphifyy?color=blue&label=downloads" alt="Downloads"/></a>
+  <a href="https://pepy.tech/project/graphify"><img src="https://img.shields.io/pepy/dt/graphify?color=blue&label=downloads" alt="Downloads"/></a>
   <a href="https://docs.graphify.com"><img src="https://img.shields.io/badge/Docs-docs.graphify.com-0b7285?style=flat&logo=readthedocs&logoColor=white" alt="Docs"/></a>
   <a href="https://app.graphify.com/login"><img src="https://img.shields.io/badge/Graphify%20Cloud-app.graphify.com-118d4f?style=flat&logoColor=white" alt="Graphify Cloud"/></a>
   <a href="https://discord.gg/graphify"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord"/></a>
@@ -50,7 +50,7 @@ AI kod yordamchingizda `/graphify` deb yozing va u butun loyihangizni (kod, hujj
 **Ishni boshlang** (30 soniya). Python 3.10+ va uv (yoki pipx) talab qilinadi:
 
 ```bash
-uv tool install graphifyy      # install the CLI (or: pipx install graphifyy)
+uv tool install graphify      # install the CLI (or: pipx install graphify)
 graphify install               # detects your assistant and registers the skill
 ```
 
@@ -185,7 +185,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ## Install
 
 > [!IMPORTANT]
-> **Rasmiy paket:** PyPI paketi `graphifyy` (ikki-y). PyPI dagi boshqa `graphify*` paketlari aloqador emas. CLI buyrug'i hamon `graphify`.
+> **Rasmiy paket:** PyPI paketi `graphify` (ikki-y). PyPI dagi boshqa `graphify*` paketlari aloqador emas. CLI buyrug'i hamon `graphify`.
 
 Rasmiy manba repozitoriysi: [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify).
 
@@ -194,9 +194,9 @@ Ikki buyruqli tez boshlash ushbu README ning yuqori qismida. Ushbu bo'lim o'rnat
 **O'rnatish usullari** (birini tanlang):
 
 ```bash
-uv tool install graphifyy   # recommended, isolated env (if 'graphify' isn't found after, run: uv tool update-shell)
-pipx install graphifyy      # alternative
-pip install graphifyy       # may need PATH setup, see Troubleshooting below
+uv tool install graphify   # recommended, isolated env (if 'graphify' isn't found after, run: uv tool update-shell)
+pipx install graphify      # alternative
+pip install graphify       # may need PATH setup, see Troubleshooting below
 ```
 
 Keyin `graphify install` ni bir marta ishga tushiring. U qaysi yordamchini ishlatishingizni aniqlaydi va mahoratni ro'yxatdan o'tkazadi, shunday qilib har bir yordamchi uchun alohida sozlash kerak emas. AI yordamchingizni oching va `/graphify .` deb yozing.
@@ -252,7 +252,7 @@ Codex foydalanuvchilariga parallel ekstraktsiya uchun `~/.codex/config.toml` dag
 
 `--platform agents` (taxallus `--platform skills`) umumiy freymvorklararo [Agent-Skills](https://github.com/anthropics/skills) joylashuvlariga mo'ljallangan: global o'rnatish uchun spetsifikatsiyaning foydalanuvchi-global `~/.agents/skills/` (uni `npx skills` va spetsifikatsiyaga mos freymvorklar o'qiydi), va loyiha (`--project`) o'rnatishi uchun `./.agents/skills/`. Yalang'och `graphify install` dizayn bo'yicha bitta platformali (Claude Code) bo'lib qoladi: mahoratning `.agents/skills` ni o'qiydigan istalgan freymvork tomonidan topilishini xohlasangiz, nomlangan `agents` platformasidan foydalaning.
 
-Pi da `PreToolUse` hook yo'q, shuning uchun `graphify pi guard install` mahalliy Pi kengaytmasini ro'yxatdan o'tkazadi (Pi ning o'z `pi install <package directory>` orqali), u Pi ning `read`, `grep`, `find` va qidiruv uslubidagi `bash` chaqiruvlaridan oldin o'rnatilgan `graphify hook-guard` ni ishga tushiradi. Yangi/eskirgan graf qarorlari va `GRAPHIFY_HOOK_STRICT=1` ning har sessiyada bir marta indekslangan-o'qishni rad etishi xuddi shu siyosatdan kelib chiqadi, shuning uchun Pi Claude Code ning hook xatti-harakatiga mos keladi; ko'rsatma `<system-reminder source="graphify">` boshqaruvchi xabari sifatida keladi. Unga Pi 0.58.4 yoki undan yangiroq kerak: oldingi versiyalar boshqaruvchi xabarga parallel vosita-chaqiruv to'plamining qolgan qismini o'tkazib yuborishga ruxsat beradi. Paket Graphify o'rnatmasi ichida yetkaziladi, shuning uchun Graphify ni doimiy o'rnating (`uv tool install graphifyy` yoki `pipx install graphifyy`, `uvx` emas), o'rnatgandan yoki yangilagandan keyin Pi ni qayta ishga tushiring va uni `graphify pi guard uninstall` bilan olib tashlang. Faqat mahalliy fayl maqsadlari tekshiriladi; hookga loyihadan tashqaridagi mutlaq `PATH` yozuvida `graphify` kerak, u ikki soniyalik, 256 KiB-kirish/64 KiB-chiqish chaqiruvi bilan chegaralangan va ochiq holda ishdan chiqadi. Xuddi shu paket [Oh My Pi](https://github.com/can1357/oh-my-pi) da ham yuklanadi: `omp plugin install "$(graphify pi guard path)"`. Ro'yxatdan o'tgan yo'l Python versiyasi va venv ni o'z ichiga oladi, shuning uchun ularning birortasini o'zgartirgandan keyin `graphify pi guard install` ni qayta ishga tushiring va eski yozuvni `pi remove <old path>` bilan olib tashlang.
+Pi da `PreToolUse` hook yo'q, shuning uchun `graphify pi guard install` mahalliy Pi kengaytmasini ro'yxatdan o'tkazadi (Pi ning o'z `pi install <package directory>` orqali), u Pi ning `read`, `grep`, `find` va qidiruv uslubidagi `bash` chaqiruvlaridan oldin o'rnatilgan `graphify hook-guard` ni ishga tushiradi. Yangi/eskirgan graf qarorlari va `GRAPHIFY_HOOK_STRICT=1` ning har sessiyada bir marta indekslangan-o'qishni rad etishi xuddi shu siyosatdan kelib chiqadi, shuning uchun Pi Claude Code ning hook xatti-harakatiga mos keladi; ko'rsatma `<system-reminder source="graphify">` boshqaruvchi xabari sifatida keladi. Unga Pi 0.58.4 yoki undan yangiroq kerak: oldingi versiyalar boshqaruvchi xabarga parallel vosita-chaqiruv to'plamining qolgan qismini o'tkazib yuborishga ruxsat beradi. Paket Graphify o'rnatmasi ichida yetkaziladi, shuning uchun Graphify ni doimiy o'rnating (`uv tool install graphify` yoki `pipx install graphify`, `uvx` emas), o'rnatgandan yoki yangilagandan keyin Pi ni qayta ishga tushiring va uni `graphify pi guard uninstall` bilan olib tashlang. Faqat mahalliy fayl maqsadlari tekshiriladi; hookga loyihadan tashqaridagi mutlaq `PATH` yozuvida `graphify` kerak, u ikki soniyalik, 256 KiB-kirish/64 KiB-chiqish chaqiruvi bilan chegaralangan va ochiq holda ishdan chiqadi. Xuddi shu paket [Oh My Pi](https://github.com/can1357/oh-my-pi) da ham yuklanadi: `omp plugin install "$(graphify pi guard path)"`. Ro'yxatdan o'tgan yo'l Python versiyasi va venv ni o'z ichiga oladi, shuning uchun ularning birortasini o'zgartirgandan keyin `graphify pi guard install` ni qayta ishga tushiring va eski yozuvni `pi remove <old path>` bilan olib tashlang.
 
 > Codex `/graphify` o'rniga `$graphify` dan foydalanadi.
 
@@ -263,31 +263,31 @@ Pi da `PreToolUse` hook yo'q, shuning uchun `graphify pi guard install` mahalliy
 
 | Qo'shimcha | Nima qo'shadi | O'rnatish |
 |---|---|---|
-| `pdf` | PDF ekstraktsiyasi | `uv tool install "graphifyy[pdf]"` |
-| `office` | `.docx` va `.xlsx` qo'llab-quvvatlash | `uv tool install "graphifyy[office]"` |
-| `google` | Google Sheets renderlash | `uv tool install "graphifyy[google]"` |
-| `video` | Video/audio transkripsiyasi (faster-whisper + yt-dlp) | `uv tool install "graphifyy[video]"` |
-| `mcp` | MCP stdio serveri | `uv tool install "graphifyy[mcp]"` |
-| `neo4j` | Neo4j push qo'llab-quvvatlash | `uv tool install "graphifyy[neo4j]"` |
-| `falkordb` | FalkorDB push qo'llab-quvvatlash | `uv tool install "graphifyy[falkordb]"` |
-| `svg` | SVG graf eksporti | `uv tool install "graphifyy[svg]"` |
-| `leiden` | Leiden jamoa aniqlash (Python < 3.13 da graspologic; 3.13+ da mahalliy backend) | `uv tool install "graphifyy[leiden]"` |
-| `ollama` | Ollama mahalliy inferens | `uv tool install "graphifyy[ollama]"` |
-| `openai` | OpenAI / OpenAI-mos API-lar | `uv tool install "graphifyy[openai]"` |
-| `gemini` | Google Gemini API | `uv tool install "graphifyy[gemini]"` |
-| `anthropic` | Anthropic Claude API (`--backend claude`, `ANTHROPIC_API_KEY` dan foydalanadi) | `uv tool install "graphifyy[anthropic]"` |
-| `bedrock` | AWS Bedrock (IAM dan foydalanadi, API kaliti yo'q) | `uv tool install "graphifyy[bedrock]"` |
-| `azure` | Azure OpenAI Service (`--backend azure`, `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT` dan foydalanadi) | `uv tool install "graphifyy[openai]"` |
-| `sql` | SQL sxema ekstraktsiyasi | `uv tool install "graphifyy[sql]"` |
-| `postgres` | Jonli PostgreSQL introspeksiyasi (`--postgres DSN`) | `uv tool install "graphifyy[postgres]"` |
-| `dm` | BYOND DreamMaker `.dm`/`.dme` AST ekstraktsiyasi (platformangizga mos wheel bo'lmasa C kompilyatori + `python3-dev` kerak bo'lishi mumkin) | `uv tool install "graphifyy[dm]"` |
-| `terraform` | Terraform / HCL `.tf`/`.tfvars`/`.hcl` AST ekstraktsiyasi | `uv tool install "graphifyy[terraform]"` |
-| `pascal` | Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` AST ekstraktsiyasi (aniqroq `calls`/`inherits` qirralari; mavjud bo'lmasa regex ekstraktoriga qaytadi) | `uv tool install "graphifyy[pascal]"` |
-| `ocaml` | OCaml `.ml`/`.mli` AST ekstraktsiyasi | `uv tool install "graphifyy[ocaml]"` |
-| `commonlisp` | Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` AST ekstraktsiyasi | `uv tool install "graphifyy[commonlisp]"` |
-| `robot` | Robot Framework `.robot`/`.resource` ekstraktsiyasi (to'plamlar, test holatlari, kalit so'zlar, kalit-so'z chaqiruvi va resource/library import qirralari) | `uv tool install "graphifyy[robot]"` |
-| `chinese` | Xitoycha so'rov segmentatsiyasi (jieba) | `uv tool install "graphifyy[chinese]"` |
-| `all` | Yuqoridagilarning barchasi | `uv tool install "graphifyy[all]"` |
+| `pdf` | PDF ekstraktsiyasi | `uv tool install "graphify[pdf]"` |
+| `office` | `.docx` va `.xlsx` qo'llab-quvvatlash | `uv tool install "graphify[office]"` |
+| `google` | Google Sheets renderlash | `uv tool install "graphify[google]"` |
+| `video` | Video/audio transkripsiyasi (faster-whisper + yt-dlp) | `uv tool install "graphify[video]"` |
+| `mcp` | MCP stdio serveri | `uv tool install "graphify[mcp]"` |
+| `neo4j` | Neo4j push qo'llab-quvvatlash | `uv tool install "graphify[neo4j]"` |
+| `falkordb` | FalkorDB push qo'llab-quvvatlash | `uv tool install "graphify[falkordb]"` |
+| `svg` | SVG graf eksporti | `uv tool install "graphify[svg]"` |
+| `leiden` | Leiden jamoa aniqlash (Python < 3.13 da graspologic; 3.13+ da mahalliy backend) | `uv tool install "graphify[leiden]"` |
+| `ollama` | Ollama mahalliy inferens | `uv tool install "graphify[ollama]"` |
+| `openai` | OpenAI / OpenAI-mos API-lar | `uv tool install "graphify[openai]"` |
+| `gemini` | Google Gemini API | `uv tool install "graphify[gemini]"` |
+| `anthropic` | Anthropic Claude API (`--backend claude`, `ANTHROPIC_API_KEY` dan foydalanadi) | `uv tool install "graphify[anthropic]"` |
+| `bedrock` | AWS Bedrock (IAM dan foydalanadi, API kaliti yo'q) | `uv tool install "graphify[bedrock]"` |
+| `azure` | Azure OpenAI Service (`--backend azure`, `AZURE_OPENAI_API_KEY` + `AZURE_OPENAI_ENDPOINT` dan foydalanadi) | `uv tool install "graphify[openai]"` |
+| `sql` | SQL sxema ekstraktsiyasi | `uv tool install "graphify[sql]"` |
+| `postgres` | Jonli PostgreSQL introspeksiyasi (`--postgres DSN`) | `uv tool install "graphify[postgres]"` |
+| `dm` | BYOND DreamMaker `.dm`/`.dme` AST ekstraktsiyasi (platformangizga mos wheel bo'lmasa C kompilyatori + `python3-dev` kerak bo'lishi mumkin) | `uv tool install "graphify[dm]"` |
+| `terraform` | Terraform / HCL `.tf`/`.tfvars`/`.hcl` AST ekstraktsiyasi | `uv tool install "graphify[terraform]"` |
+| `pascal` | Pascal / Delphi `.pas`/`.dpr`/`.dpk`/`.inc` AST ekstraktsiyasi (aniqroq `calls`/`inherits` qirralari; mavjud bo'lmasa regex ekstraktoriga qaytadi) | `uv tool install "graphify[pascal]"` |
+| `ocaml` | OCaml `.ml`/`.mli` AST ekstraktsiyasi | `uv tool install "graphify[ocaml]"` |
+| `commonlisp` | Common Lisp `.lisp`/`.cl`/`.lsp`/`.asd` AST ekstraktsiyasi | `uv tool install "graphify[commonlisp]"` |
+| `robot` | Robot Framework `.robot`/`.resource` ekstraktsiyasi (to'plamlar, test holatlari, kalit so'zlar, kalit-so'z chaqiruvi va resource/library import qirralari) | `uv tool install "graphify[robot]"` |
+| `chinese` | Xitoycha so'rov segmentatsiyasi (jieba) | `uv tool install "graphify[chinese]"` |
+| `all` | Yuqoridagilarning barchasi | `uv tool install "graphify[all]"` |
 
 </details>
 

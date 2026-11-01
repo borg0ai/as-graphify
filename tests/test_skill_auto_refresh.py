@@ -1,6 +1,6 @@
 """#1805: a package upgrade must not leave the installed skills behind.
 
-`uv tool upgrade graphifyy` / `pip install -U graphifyy` replace the package
+`uv tool upgrade graphify` / `pip install -U graphify` replace the package
 but not the skill copies under ~/.claude, ~/.codex, ~/.config/opencode, ...;
 a plain `graphify install` then refreshes only the detected platform, so every
 other agent kept the old instructions. The CLI now refreshes every stale

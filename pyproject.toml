@@ -106,9 +106,9 @@ sql = ["tree-sitter-sql"]
 pascal = ["tree-sitter-pascal"]
 # tree-sitter-dm (BYOND DreamMaker) ships only a Windows wheel, so on Linux/Mac it
 # must compile from source (needs a C toolchain + python3-dev). Keeping it optional
-# avoids breaking the default `uv tool install graphifyy` for everyone (#1104).
+# avoids breaking the default `uv tool install graphify` for everyone (#1104).
 # Capped <0.26: the 0.26.0 grammar changed the type-path node shape, so
-# extract_dm() stops finding type definitions (a fresh `uvx --from graphifyy[dm]`
+# extract_dm() stops finding type definitions (a fresh `uvx --from graphify[dm]`
 # would otherwise pull it and silently break DM extraction). uv.lock pins 0.25.1.
 dm = ["tree-sitter-dm>=0.25,<0.26"]
 terraform = ["tree-sitter-hcl"]
@@ -157,8 +157,8 @@ dev = [
 ]
 
 [tool.uv]
-# Install via: uv tool install graphifyy
-# Run without installing: uvx graphifyy install
+# Install via: uv tool install graphify
+# Run without installing: uvx graphify install
 package = true
 
 [tool.setuptools]

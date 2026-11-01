@@ -784,8 +784,9 @@ def _git_show(ref: str) -> str:
     )
     if result.returncode != 0:
         raise SystemExit(f"error: could not read {ref}: {result.stderr.strip()}")
-    # The pinned baselines predate the graphify-out -> .graphify output-dir rename.
-    return result.stdout.replace("graphify-out", ".graphify")
+    # The pinned baselines predate the graphify-out -> .graphify output-dir and
+    # graphifyy -> graphify package renames.
+    return result.stdout.replace("graphify-out", ".graphify").replace("graphifyy", "graphify")
 
 
 def _v8_available() -> bool:
@@ -1126,15 +1127,15 @@ def _is_obsidian_usage_comment_line(line: str) -> bool:
 def _is_uv_from_interpreter_fix_line(line: str) -> bool:
     """Whether a line is part of the uv interpreter-detection fix (#1735).
 
-    Step 1's POSIX interpreter probe ran ``uv tool run graphifyy python -c ...``,
-    but ``graphifyy`` exposes its executable as ``graphify``, so uv treated
-    ``python`` as a missing ``graphifyy`` command and the probe silently failed
+    Step 1's POSIX interpreter probe ran ``uv tool run graphify python -c ...``,
+    but ``graphify`` exposes its executable as ``graphify``, so uv treated
+    ``python`` as a missing ``graphify`` command and the probe silently failed
     (the ``2>/dev/null`` swallowed uv's "use --from" hint), leaving PYTHON on a
     graphify-less system interpreter. The probe now runs
-    ``uv tool run --from graphifyy python -c ...``. Both the old (removed) and new
+    ``uv tool run --from graphify python -c ...``. Both the old (removed) and new
     (added) forms match here.
     """
-    return "uv tool run" in line and "graphifyy python" in line
+    return "uv tool run" in line and "graphify python" in line
 
 
 def _is_semantic_cache_scope_fix_line(line: str) -> bool:

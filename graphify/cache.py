@@ -33,7 +33,7 @@ from graphify.paths import os_replace_with_fallback as _os_replace_with_fallback
 try:
     from importlib.metadata import version as _pkg_version
 
-    _EXTRACTOR_VERSION = _pkg_version("graphifyy")
+    _EXTRACTOR_VERSION = _pkg_version("graphify")
 except Exception:
     _EXTRACTOR_VERSION = "unknown"
 

@@ -7,7 +7,7 @@ import graphify from "../graphify/pi/index.ts";
 
 // Use the real installed Python CLI for policy tests. No mock of host path helpers.
 const realCLI = process.env.GRAPHIFY_TEST_CLI ?? Bun.which("graphify");
-if (!realCLI) throw new Error("Install graphifyy or set GRAPHIFY_TEST_CLI to its executable before running this test");
+if (!realCLI) throw new Error("Install graphify or set GRAPHIFY_TEST_CLI to its executable before running this test");
 const savedPath = process.env.PATH;
 const savedStrict = process.env.GRAPHIFY_HOOK_STRICT;
 let root: string;

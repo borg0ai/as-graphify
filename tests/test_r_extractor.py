@@ -198,7 +198,7 @@ def test_r_missing_parser_reports_install_hint(tmp_path, monkeypatch, capsys):
     result = extract([source], cache_root=tmp_path)
 
     assert result["nodes"] == []
-    assert 'pip install "graphifyy[r]"' in capsys.readouterr().err
+    assert 'pip install "graphify[r]"' in capsys.readouterr().err
 
 
 @_needs_r

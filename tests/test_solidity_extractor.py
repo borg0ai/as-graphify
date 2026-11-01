@@ -227,4 +227,4 @@ def test_solidity_missing_parser_reports_install_hint(tmp_path, monkeypatch, cap
     result = extract([source], cache_root=tmp_path)
 
     assert result["nodes"] == []
-    assert 'pip install "graphifyy[solidity]"' in capsys.readouterr().err
+    assert 'pip install "graphify[solidity]"' in capsys.readouterr().err

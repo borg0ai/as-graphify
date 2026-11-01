@@ -26,7 +26,7 @@ def test_extract_pdf_text_missing_pypdf_warns(tmp_path: Path, monkeypatch, capsy
 
     captured = capsys.readouterr()
     assert "PDF text extraction skipped: 'pypdf' is not installed." in captured.err
-    assert "uv tool install 'graphifyy[pdf]'" in captured.err
+    assert "uv tool install 'graphify[pdf]'" in captured.err
 
 
 def test_extract_pdf_text_missing_pypdf_warns_once_across_many_pdfs(

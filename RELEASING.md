@@ -3,7 +3,7 @@
 Maintainer-facing release process. Contributors do not need this; see
 [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose changes.
 
-graphify publishes to PyPI (package name `graphifyy`) automatically through
+graphify publishes to PyPI (package name `graphify`) automatically through
 GitHub trusted publishing. There is no manual `twine` upload and no API token to
 manage.
 
@@ -34,7 +34,7 @@ manage.
 7. **Verify the install** once PyPI has the new version (the JSON API updates
    before the install index; use `--refresh`):
    ```bash
-   uvx --refresh --from graphifyy==X.Y.Z graphify --version
+   uvx --refresh --from graphify==X.Y.Z graphify --version
    ```
 
 ## Version numbering

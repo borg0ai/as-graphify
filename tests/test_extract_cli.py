@@ -115,7 +115,7 @@ def test_extract_exits_nonzero_when_all_semantic_chunks_fail(
     """When every semantic chunk errors (e.g. backend SDK not installed),
     the CLI must exit non-zero instead of silently writing an AST-only graph.
 
-    The bug this guards: `pip install graphifyy` doesn't pull in `anthropic`,
+    The bug this guards: `pip install graphify` doesn't pull in `anthropic`,
     so `graphify extract --backend claude` would print per-chunk errors and
     still exit 0 with a graph.json. Callers checking exit status saw success.
     """

@@ -8,7 +8,7 @@ function Find-GraphifyPython {
     if (Get-Command uv -ErrorAction SilentlyContinue) {
         $uvDir = (uv tool dir 2>$null).Trim()
         if ($uvDir) {
-            $py = Join-Path $uvDir "graphifyy\Scripts\python.exe"
+            $py = Join-Path $uvDir "graphify\Scripts\python.exe"
             if (Test-Path $py) {
                 & $py -c "import graphify" 2>$null
                 if ($LASTEXITCODE -eq 0) { return $py }
@@ -19,7 +19,7 @@ function Find-GraphifyPython {
     if (Get-Command pipx -ErrorAction SilentlyContinue) {
         $venvs = (pipx environment --value PIPX_LOCAL_VENVS 2>$null).Trim()
         if ($venvs) {
-            $py = Join-Path $venvs "graphifyy\Scripts\python.exe"
+            $py = Join-Path $venvs "graphify\Scripts\python.exe"
             if (Test-Path $py) {
                 & $py -c "import graphify" 2>$null
                 if ($LASTEXITCODE -eq 0) { return $py }
@@ -43,9 +43,9 @@ $GRAPHIFY_PYTHON = Find-GraphifyPython
 # Not found — install then re-detect
 if (-not $GRAPHIFY_PYTHON) {
     if (Get-Command uv -ErrorAction SilentlyContinue) {
-        uv tool install --upgrade graphifyy -q 2>&1 | Select-Object -Last 3
+        uv tool install --upgrade graphify -q 2>&1 | Select-Object -Last 3
     } else {
-        pip install graphifyy -q 2>&1 | Select-Object -Last 3
+        pip install graphify -q 2>&1 | Select-Object -Last 3
     }
     $GRAPHIFY_PYTHON = Find-GraphifyPython
 }

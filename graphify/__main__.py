@@ -17,7 +17,7 @@ from pathlib import Path
 try:
     from importlib.metadata import version as _pkg_version
 
-    __version__ = _pkg_version("graphifyy")
+    __version__ = _pkg_version("graphify")
 except Exception:
     __version__ = "unknown"
 
@@ -226,7 +226,7 @@ def _check_skill_version(skill_dst: Path, platform_names: "list[str] | None" = N
             print(
                 f"  warning: skill is from graphify {installed}, but the package is "
                 f"{__version__} (older). Upgrade the package "
-                f"(e.g. 'uv tool upgrade graphifyy' or 'pip install -U graphifyy'); "
+                f"(e.g. 'uv tool upgrade graphify' or 'pip install -U graphify'); "
                 f"running 'graphify install' would downgrade the skill.",
                 file=sys.stderr,
             )
@@ -266,7 +266,7 @@ def _version_tuple(version: str) -> tuple[int, ...]:
 def _refresh_stale_skills() -> None:
     """Refresh user-scope skills left behind by a package upgrade (#1805).
 
-    Upgrading the package (``uv tool upgrade graphifyy``, ``pip install -U``)
+    Upgrading the package (``uv tool upgrade graphify``, ``pip install -U``)
     does not touch the installed skill copies, and a plain ``graphify install``
     refreshes only the detected platform, so every other platform (codex,
     opencode, gemini, ...) kept running the old skill instructions until each

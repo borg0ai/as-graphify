@@ -179,7 +179,7 @@ def test_file_mention_matching_two_ast_files_is_still_lost():
 
 def _mixed_saved_graph(tmp_path: Path) -> Path:
     # A saved graph that still holds the mention beside its AST file node,
-    # as reported on #4389 for graphifyy 0.9.95.
+    # as reported on #4389 for graphify 0.9.95.
     out = tmp_path / "graph.json"
     out.write_text(json.dumps({
         "directed": False,
