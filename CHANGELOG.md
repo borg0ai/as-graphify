@@ -2,6 +2,10 @@
 
 Full release notes with details on each version: [GitHub Releases](https://github.com/Graphify-Labs/graphify/releases)
 
+## 0.10.0 (2026-11-01)
+
+- Breaking: **output** the default output directory is now `.graphify/` instead of `graphify-out/`, across the CLI, the generated skills, hooks and docs. There is no fallback to the old name; set `GRAPHIFY_OUT=graphify-out` to keep using it.
+
 ## 0.9.99 (2026-10-30)
 
 - Feat: **path** when several routes tie on length, `graphify path` and the MCP `shortest_path` tool report the most conservative one: among all shortest paths, the route whose weakest hop is weakest is chosen, and the summary notes it was the weakest of N equal-length routes. Previously an arbitrary equal-length route was returned, so the confidence could overstate how sure the connection is. This is the second half of #4881 (the first half, keeping a collapsed edge's weaker evidence in `also_seen`, shipped in 0.9.98 via #4891, thanks @SyedFahad7).

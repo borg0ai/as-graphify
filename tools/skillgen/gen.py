@@ -784,7 +784,8 @@ def _git_show(ref: str) -> str:
     )
     if result.returncode != 0:
         raise SystemExit(f"error: could not read {ref}: {result.stderr.strip()}")
-    return result.stdout
+    # The pinned baselines predate the graphify-out -> .graphify output-dir rename.
+    return result.stdout.replace("graphify-out", ".graphify")
 
 
 def _v8_available() -> bool:
