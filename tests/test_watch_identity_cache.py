@@ -13,7 +13,7 @@ from graphify.watch import _StoredSourcePaths
 
 
 def _paths(tmp_path: Path, normalize=_norm_source_file) -> _StoredSourcePaths:
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     return _StoredSourcePaths(
         {"nodes": [], "links": []},

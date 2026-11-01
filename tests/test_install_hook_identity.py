@@ -134,7 +134,7 @@ def test_install_removes_legacy_bash_hook_and_stays_idempotent(tmp_path):
                             "hooks": [
                                 {
                                     "type": "command",
-                                    "command": "[ -f graphify-out/graph.json ] && echo x || true",
+                                    "command": "[ -f .graphify/graph.json ] && echo x || true",
                                 }
                             ],
                         }
@@ -149,7 +149,7 @@ def test_install_removes_legacy_bash_hook_and_stays_idempotent(tmp_path):
     install_mod._install_claude_hook(project)
 
     groups = json.loads(settings_path.read_text(encoding="utf-8"))["hooks"]["PreToolUse"]
-    assert "graphify-out/graph.json" not in json.dumps(groups), "legacy bash guard survived"
+    assert ".graphify/graph.json" not in json.dumps(groups), "legacy bash guard survived"
     assert len([g for g in groups if "graphify" in json.dumps(g)]) == 2, "not idempotent"
 
 
@@ -160,7 +160,7 @@ def test_install_removes_legacy_bash_hook_and_stays_idempotent(tmp_path):
         '"C:/tools/graphify.EXE" hook-guard read --strict',
         "graphify hook-guard gemini",
         "graphify hook-check",
-        "[ -f graphify-out/graph.json ] && echo x || true",
+        "[ -f .graphify/graph.json ] && echo x || true",
     ],
 )
 def test_graphify_commands_are_recognised(command):

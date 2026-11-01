@@ -63,7 +63,7 @@ Vervolgens, in je AI-assistent:
 Dat is alles. Je krijgt **drie bestanden**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Dit schrijft een klein configuratiebestand dat je assistent vertelt om de kennis
 
 Precies welke bestanden elk platform schrijft (CodeBuddy's `CODEBUDDY.md` + `PreToolUse`-hooks, Codex's `AGENTS.md`, Kilo's native `.kilo`-plugin, Cursor's `alwaysApply`-regel, enzovoort) wordt behandeld in **[Always-on setup](https://docs.graphify.com/guides/always-on)**.
 
-Om graphify in één keer van alle platforms te verwijderen: `graphify uninstall` (voeg `--purge` toe om ook `graphify-out/` te verwijderen). Of gebruik het per-platform commando (bijv. `graphify claude uninstall`).
+Om graphify in één keer van alle platforms te verwijderen: `graphify uninstall` (voeg `--purge` toe om ook `.graphify/` te verwijderen). Of gebruik het per-platform commando (bijv. `graphify claude uninstall`).
 
 ### CLI-skills of MCP-instructies?
 
@@ -316,7 +316,7 @@ De instructies die door `graphify install` worden geïnstalleerd en die bij een 
 
 | Setup | Guidance to use | Query access |
 |---|---|---|
-| Lokale CLI en geïnstalleerde assistent-skill | De platforminstructies geschreven door `graphify install` | Draai `graphify query`, `graphify path` en `graphify explain` tegen de lokale graaf (standaard `graphify-out/`). |
+| Lokale CLI en geïnstalleerde assistent-skill | De platforminstructies geschreven door `graphify install` | Draai `graphify query`, `graphify path` en `graphify explain` tegen de lokale graaf (standaard `.graphify/`). |
 | Verbonden Graphify MCP-server | De instructies van de verbinding en de tools die die server opsomt | Roep de opgesomde MCP-tools aan tegen de graaf die door die verbinding wordt geserveerd. Toolnamen en -beschrijvingen komen van de server. |
 
 Beide moedigen afgebakende graafqueries aan vóór brede bronzoekopdrachten. Kies de instructies die passen bij de tools waar je assistent daadwerkelijk toegang toe heeft; geen van beide blokken stelt een universele voorrangsregel vast voor de instructiebestanden van je assistent. Als je beide integraties gebruikt, bepaal dan welke graaf elke bevraagt en kies één primair querypad in plaats van twee onvoorwaardelijke instructieblokken in `AGENTS.md` te kopiëren.

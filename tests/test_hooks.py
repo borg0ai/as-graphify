@@ -301,7 +301,7 @@ def test_install_fallback_is_loud_not_silent(tmp_path):
 def test_hook_check_no_additionalContext(tmp_path):
     """graphify hook-check must not emit additionalContext — Codex Desktop rejects it."""
     import sys
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     (out / "graph.json").write_text("{}", encoding="utf-8")
 
@@ -420,7 +420,7 @@ def test_rebuild_bodies_read_graphify_root(name, body):
     recovered root to _rebuild_code instead of the bare Path('.')."""
     assert ".graphify_root" in body, f"{name} ignores .graphify_root (#1173)"
     # The output dir is resolved from GRAPHIFY_OUT at hook-run time, not hardcoded
-    # to graphify-out/, so a renamed output dir is still found (#1423).
+    # to .graphify/, so a renamed output dir is still found (#1423).
     assert "GRAPHIFY_OUT" in body, f"{name} ignores the GRAPHIFY_OUT override (#1423)"
     # The recovered root is what gets rebuilt, not a hardcoded cwd.
     assert "_rebuild_code(_root" in body, f"{name} does not pass the recovered root"
@@ -451,19 +451,19 @@ def _extract_root_resolution(body: str) -> str:
     [("post-commit", _REBUILD_BODY_COMMIT), ("post-checkout", _REBUILD_BODY_CHECKOUT)],
 )
 def test_rebuild_bodies_reject_an_out_of_repo_graphify_root(name, body, tmp_path, monkeypatch):
-    """#3265: `.graphify_root` sits inside graphify-out/, a directory the
+    """#3265: `.graphify_root` sits inside .graphify/, a directory the
     documented team workflow says to commit, so its contents are checkout
     controlled. Without a bound, a value planted there by a malicious fork or PR
     (an absolute path outside the repository) would steer the rebuild -- and so
-    what gets read, and what gets written into the same committed graphify-out/
+    what gets read, and what gets written into the same committed .graphify/
     -- to wherever the checkout names, not the repository the hook was installed
     into. The recovered root must stay inside the working tree the hook actually
     runs from."""
     repo = tmp_path / "repo"
     outside = tmp_path / "outside"
-    (repo / "graphify-out").mkdir(parents=True)
+    (repo / ".graphify").mkdir(parents=True)
     outside.mkdir()
-    (repo / "graphify-out" / ".graphify_root").write_text(str(outside), encoding="utf-8")
+    (repo / ".graphify" / ".graphify_root").write_text(str(outside), encoding="utf-8")
     monkeypatch.chdir(repo)
     ns = {"Path": Path, "os": os}
     exec(compile(_extract_root_resolution(body), "<rebuild_body>", "exec"), ns)
@@ -478,9 +478,9 @@ def test_rebuild_bodies_honour_an_in_repo_graphify_root(name, body, tmp_path, mo
     """The legitimate case the #3265 guard must not break: a subdirectory-scoped
     root (#1173) is still recovered."""
     repo = tmp_path / "repo"
-    (repo / "graphify-out").mkdir(parents=True)
+    (repo / ".graphify").mkdir(parents=True)
     (repo / "backend").mkdir()
-    (repo / "graphify-out" / ".graphify_root").write_text("backend", encoding="utf-8")
+    (repo / ".graphify" / ".graphify_root").write_text("backend", encoding="utf-8")
     monkeypatch.chdir(repo)
     ns = {"Path": Path, "os": os}
     exec(compile(_extract_root_resolution(body), "<rebuild_body>", "exec"), ns)
@@ -492,14 +492,14 @@ def test_rebuild_bodies_honour_an_in_repo_graphify_root(name, body, tmp_path, mo
     [("post-commit", _REBUILD_BODY_COMMIT), ("post-checkout", _REBUILD_BODY_CHECKOUT)],
 )
 def test_rebuild_bodies_treat_blank_graphify_out_as_default(name, body, tmp_path):
-    """A set-but-empty GRAPHIFY_OUT must resolve to graphify-out/ like every other
+    """A set-but-empty GRAPHIFY_OUT must resolve to .graphify/ like every other
     reader (paths._out_from_env), not to the repo root, or the hook misses
     .graphify_root. Runs in a fresh process because the hook reads the value
     when graphify.paths is first imported."""
     repo = tmp_path / "repo"
-    (repo / "graphify-out").mkdir(parents=True)
+    (repo / ".graphify").mkdir(parents=True)
     (repo / "backend").mkdir()
-    (repo / "graphify-out" / ".graphify_root").write_text("backend", encoding="utf-8")
+    (repo / ".graphify" / ".graphify_root").write_text("backend", encoding="utf-8")
     script = (
         "import os\nfrom pathlib import Path\n"
         + _extract_root_resolution(body)
@@ -513,7 +513,7 @@ def test_rebuild_bodies_treat_blank_graphify_out_as_default(name, body, tmp_path
         text=True,
         check=True,
     )
-    assert Path(result.stdout.strip()) == (repo / "backend").resolve(), f"{name} ignored graphify-out/"
+    assert Path(result.stdout.strip()) == (repo / "backend").resolve(), f"{name} ignored .graphify/"
 
 
 @pytest.mark.skipif(sys.platform == "win32", reason="symlink setup differs on Windows")
@@ -528,10 +528,10 @@ def test_rebuild_bodies_survive_a_graphify_root_symlink_loop(name, body, tmp_pat
     guard uncaught -- the guard's own `except OSError` doesn't catch it, since
     a symlink loop is a RuntimeError on this platform, not an OSError."""
     repo = tmp_path / "repo"
-    (repo / "graphify-out").mkdir(parents=True)
+    (repo / ".graphify").mkdir(parents=True)
     (repo / "loop_a").symlink_to(repo / "loop_b")
     (repo / "loop_b").symlink_to(repo / "loop_a")
-    (repo / "graphify-out" / ".graphify_root").write_text("loop_a", encoding="utf-8")
+    (repo / ".graphify" / ".graphify_root").write_text("loop_a", encoding="utf-8")
     monkeypatch.chdir(repo)
     ns = {"Path": Path, "os": os}
     exec(compile(_extract_root_resolution(body), "<rebuild_body>", "exec"), ns)
@@ -1149,7 +1149,7 @@ def test_checkout_hook_skips_same_head_noop_at_runtime():
     guard = '[ "$PREV_HEAD" = "$NEW_HEAD" ] && exit 0'
     assert guard in _CHECKOUT_SCRIPT, "guard missing from the checkout script"
     # Real script through the same-head guard, then a sentinel — stops before the
-    # graphify-out check / detached launch so nothing is actually rebuilt.
+    # .graphify check / detached launch so nothing is actually rebuilt.
     # The block runs inside a subshell (#2986); close it after the sentinel.
     prefix = _CHECKOUT_SCRIPT.split(guard)[0] + guard + "\necho RAN\n)\n"
 
@@ -1216,7 +1216,7 @@ def test_worktree_guard_runs_on_primary_skips_linked(tmp_path):
 @pytest.mark.parametrize("name,script", _HOOK_SCRIPTS)
 def test_hooks_anchor_to_the_top_level_after_the_worktree_guard(name, script):
     """Every hook cds to the checkout's top level before anything reads
-    graphify-out/ or launches the rebuild (#3258), and does so after the
+    .graphify/ or launches the rebuild (#3258), and does so after the
     worktree guard, whose _GFY_GITDIR/_GFY_COMMONDIR it reuses."""
     from graphify.hooks import _TOPLEVEL_ANCHOR, _WORKTREE_GUARD
     assert script.count(_TOPLEVEL_ANCHOR) == 1, f"{name} anchor not present exactly once"
@@ -1681,9 +1681,9 @@ def test_hook_probes_snap_confined_uv_tool_dirs():
 # ── GRAPHIFY_OUT: the shell gates in front of the rebuild must honour it ─────
 #
 # #1423 moved the Python rebuild bodies onto GRAPHIFY_OUT, but the sh that runs
-# BEFORE them still hardcoded graphify-out/: post-checkout exited unless a
-# literal graphify-out/ directory existed, and post-commit's "only graph
-# artifacts changed" filter only recognised graphify-out/ paths. With the
+# BEFORE them still hardcoded .graphify/: post-checkout exited unless a
+# literal .graphify/ directory existed, and post-commit's "only graph
+# artifacts changed" filter only recognised .graphify/ paths. With the
 # documented override (#686) the branch-switch rebuild therefore never launched
 # and a commit touching only the renamed output dir triggered a full rebuild.
 # Behaviour of the emitted script under a real sh, per the #2126/#2641
@@ -1750,11 +1750,11 @@ def test_checkout_hook_rebuilds_when_graphify_out_is_renamed(tmp_path):
     repo = tmp_path / "repo"
     repo.mkdir()
     _git(repo, "init", "-q")
-    (repo / "custom-out").mkdir()  # the configured output dir; no graphify-out/
+    (repo / "custom-out").mkdir()  # the configured output dir; no .graphify/
     result = _emitted_hook_run(repo, _CHECKOUT_SCRIPT, ["aaa", "bbb", "1"], {"GRAPHIFY_OUT": "custom-out"})
     assert result.returncode == 0, result.stderr
     assert _LAUNCH_LINE in result.stdout, (
-        "post-checkout exited before the launch: it gates on a literal graphify-out/ "
+        "post-checkout exited before the launch: it gates on a literal .graphify/ "
         f"instead of $GRAPHIFY_OUT\nstdout={result.stdout!r}\nstderr={result.stderr!r}"
     )
 
@@ -1776,7 +1776,7 @@ def test_rewrite_hook_rebuilds_when_graphify_out_is_renamed(tmp_path):
     repo = tmp_path / "repo"
     repo.mkdir()
     _git(repo, "init", "-q")
-    (repo / "custom-out").mkdir()  # the configured output dir; no graphify-out/
+    (repo / "custom-out").mkdir()  # the configured output dir; no .graphify/
     result = _emitted_hook_run(repo, _REWRITE_SCRIPT, ["rebase"], {"GRAPHIFY_OUT": "custom-out"})
     assert result.returncode == 0, result.stderr
     assert _LAUNCH_LINE in result.stdout, f"stdout={result.stdout!r}\nstderr={result.stderr!r}"
@@ -1788,7 +1788,7 @@ def test_rewrite_hook_ignores_amend(tmp_path):
     repo = tmp_path / "repo"
     repo.mkdir()
     _git(repo, "init", "-q")
-    (repo / "graphify-out").mkdir()
+    (repo / ".graphify").mkdir()
     result = _emitted_hook_run(repo, _REWRITE_SCRIPT, ["amend"], {})
     assert result.returncode == 0, result.stderr
     assert _LAUNCH_LINE not in result.stdout
@@ -1800,7 +1800,7 @@ def test_rewrite_hook_runs_while_rebase_merge_is_still_on_disk(tmp_path):
     repo = tmp_path / "repo"
     repo.mkdir()
     _git(repo, "init", "-q")
-    (repo / "graphify-out").mkdir()
+    (repo / ".graphify").mkdir()
     (repo / ".git" / "rebase-merge").mkdir()
     result = _emitted_hook_run(repo, _REWRITE_SCRIPT, ["rebase"], {})
     assert _LAUNCH_LINE in result.stdout, f"stdout={result.stdout!r}\nstderr={result.stderr!r}"
@@ -1810,7 +1810,7 @@ def _repo_with_code_commits(tmp_path: Path, names: tuple[str, ...]) -> Path:
     repo = tmp_path / "repo"
     repo.mkdir()
     _git(repo, "init", "-q")
-    (repo / "graphify-out").mkdir()
+    (repo / ".graphify").mkdir()
     for name in names:
         (repo / name).write_text(f"def {name[0]}(): pass\n", encoding="utf-8")
         _git(repo, "add", name)
@@ -1949,8 +1949,8 @@ def test_post_merge_hook_runs_after_a_real_merge(tmp_path):
                               capture_output=True, text=True, check=True)
 
     git("init", "-q", "-b", "main")
-    (repo / "graphify-out").mkdir()
-    (repo / "graphify-out" / "graph.json").write_text("{}", encoding="utf-8")
+    (repo / ".graphify").mkdir()
+    (repo / ".graphify" / "graph.json").write_text("{}", encoding="utf-8")
     (repo / "a.py").write_text("def a(): pass\n", encoding="utf-8")
     git("add", ".")
     git("commit", "-qm", "init", env=quiet)
@@ -1972,7 +1972,7 @@ def test_post_merge_hook_runs_after_a_real_merge(tmp_path):
 @_SH_ONLY
 def test_commit_hook_skips_graph_only_commit_under_default_dir(tmp_path):
     """Control: the default-name case the filter always handled keeps working."""
-    repo = _repo_with_graph_only_commit(tmp_path, "graphify-out")
+    repo = _repo_with_graph_only_commit(tmp_path, ".graphify")
     result = _emitted_hook_run(repo, _HOOK_SCRIPT, [], {})
     assert result.returncode == 0, result.stderr
     assert _LAUNCH_LINE not in result.stdout

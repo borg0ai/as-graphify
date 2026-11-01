@@ -13,8 +13,8 @@ from collections.abc import Callable, Iterable
 from pathlib import Path
 
 # Output directory name — override with GRAPHIFY_OUT env var for worktrees or
-# shared-output setups. Accepts a relative name ("graphify-out-feature") or an
-# absolute path ("/shared/graphify-out"). Single source of truth in graphify.paths
+# shared-output setups. Accepts a relative name (".graphify-feature") or an
+# absolute path ("/shared/.graphify"). Single source of truth in graphify.paths
 # (#1423); re-exported here as _GRAPHIFY_OUT for the existing call sites.
 from graphify.paths import GRAPHIFY_OUT as _GRAPHIFY_OUT
 from graphify.paths import os_long_path as _os_long_path
@@ -406,7 +406,7 @@ def _ensure_stat_index(root: Path, cache_root: "Path | None" = None) -> None:
     # _stat_index_root determines the cache FILE location, so honoring an
     # explicit cache_root keeps detect()'s word-count cache under the requested
     # --out dir instead of polluting the scanned corpus with a stray
-    # graphify-out/ (#1747). _stat_index_anchor is the separate KEY anchor:
+    # .graphify/ (#1747). _stat_index_anchor is the separate KEY anchor:
     # in-memory keys stay absolute, but the on-disk index stores in-anchor keys
     # relative so a moved/cloned corpus still hits (#2199) — same load/save
     # re-anchoring the detect manifest uses.
@@ -468,7 +468,7 @@ def _flush_stat_index() -> None:
     # outlives `git worktree remove`, and an unconditional `mkdir -p` here
     # rebuilt the dead path as a husk holding nothing but this index. The
     # index is a pure optimisation, so when its root is gone it is simply not
-    # written. Creating graphify-out/cache/ under a root that still exists is
+    # written. Creating .graphify/cache/ under a root that still exists is
     # unchanged (a first run writes the index before anything else does).
     try:
         if not _stat_index_root.is_dir():
@@ -534,7 +534,7 @@ def file_hash(path: Path, root: Path = Path("."), cache_root: "Path | None" = No
 
     # The stat index is a cache artifact, so it must follow the cache location
     # (cache_root), not the key-anchor root — otherwise it leaves a stray
-    # graphify-out/cache/stat-index.json inside the analyzed source tree even when
+    # .graphify/cache/stat-index.json inside the analyzed source tree even when
     # the AST cache itself is redirected to CWD (#1774 completion).
     _ensure_stat_index(root, cache_root=cache_root)
     resolved = p.resolve()
@@ -1021,12 +1021,12 @@ def cache_dir(root: Path = Path("."), kind: str = "ast",
     "semantic-deep" (#1894). Separate subdirectories prevent semantic cache
     entries from overwriting AST cache entries for the same source_file (#582).
 
-    AST entries live in graphify-out/cache/ast/v{version}-s{schema}-g{grammars}/, namespaced
+    AST entries live in .graphify/cache/ast/v{version}-s{schema}-g{grammars}/, namespaced
     by graphify version, cache-key schema, and tree-sitter grammar set because they depend on extractor
     code and key semantics, not just file contents. Semantic entries are still
     NOT version-namespaced (re-extraction
-    costs LLM calls, #1252): they live in graphify-out/cache/semantic/, with
-    deep-mode entries beside them in graphify-out/cache/semantic-deep/.
+    costs LLM calls, #1252): they live in .graphify/cache/semantic/, with
+    deep-mode entries beside them in .graphify/cache/semantic-deep/.
 
     ``prompt_fp`` (semantic kinds only) adds a p{fingerprint}/ subdirectory so
     entries are attributed to the extraction prompt that produced them (#1939).
@@ -1061,7 +1061,7 @@ def load_cached(path: Path, root: Path = Path("."), kind: str = "ast",
     """Return cached extraction for this file if hash matches, else None.
 
     Cache key: SHA256 of file contents.
-    Cache value: stored as graphify-out/cache/{kind}/{hash}.json (AST entries
+    Cache value: stored as .graphify/cache/{kind}/{hash}.json (AST entries
     under the per-version subdirectory, see :func:`cache_dir`).
 
     ``root`` anchors the content-hash key and source_file relativization (it
@@ -1213,7 +1213,7 @@ def save_cached(path: Path, result: dict, root: Path = Path("."), kind: str = "a
     ``salt`` must match what the corresponding :func:`load_cached` passes
     (see there); it namespaces the key, not the directory.
 
-    Stores as graphify-out/cache/{kind}/{hash}.json where hash = SHA256 of current file contents.
+    Stores as .graphify/cache/{kind}/{hash}.json where hash = SHA256 of current file contents.
     result should be a dict with 'nodes' and 'edges' lists.
 
     ``root`` anchors the content-hash key and source_file relativization;
@@ -1349,7 +1349,7 @@ def prune_semantic_cache(root: Path, live_hashes: set[str]) -> int:
     under a fingerprint other than the current one are pruned by liveness only,
     never swept wholesale the way :func:`_cleanup_stale_ast_entries` sweeps old
     AST versions — two hosts with different prompts (verbose vs compact
-    extraction-spec) can share one graphify-out/, and a wholesale sweep would
+    extraction-spec) can share one .graphify/, and a wholesale sweep would
     have each run delete the other's entries and re-bill extraction on every
     alternation. Liveness keeps the total bounded by live docs × prompts seen.
 

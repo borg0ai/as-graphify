@@ -22,7 +22,7 @@ except Exception:
     __version__ = "unknown"
 
 # Output directory — override with GRAPHIFY_OUT env var for worktrees or shared-output setups.
-# Accepts a relative name ("graphify-out-feature") or an absolute path ("/shared/graphify-out").
+# Accepts a relative name (".graphify-feature") or an absolute path ("/shared/.graphify").
 # Defined once in graphify.paths so the security/callflow path guards honour the
 # same override (#1423).
 from graphify.paths import GRAPHIFY_OUT as _GRAPHIFY_OUT
@@ -748,7 +748,7 @@ def _pin_hash_seed_if_needed() -> None:
     community assignments otherwise churn between runs with no code change.
     A bare `graphify update .` (which the CLAUDE.md template tells agents to
     run after every code change) skipped this, re-clustering differently
-    every time and producing a large, spurious graphify-out diff.
+    every time and producing a large, spurious .graphify diff.
 
     Only re-execs for the commands whose output actually depends on
     clustering, and only when the caller has not already set
@@ -877,18 +877,18 @@ def _run_cli() -> None:
         _platform_values = "|".join([*_PLATFORM_CONFIG, "gemini", "cursor"])
         print(f"  install [--platform P]  copy skill to platform config dir ({_platform_values})")
         print("  uninstall               remove graphify from all detected platforms in one shot")
-        print("    --purge                 also delete graphify-out/ directory")
+        print("    --purge                 also delete .graphify/ directory")
         print("  path \"A\" \"B\"            shortest path between two nodes in graph.json")
-        print("    --graph <path>          path to graph.json (default graphify-out/graph.json)")
+        print("    --graph <path>          path to graph.json (default .graphify/graph.json)")
         print("    --directed              force a directed search (the default;")
         print("                            the JSON 'directed' flag is NOT consulted)")
         print("    --undirected            ignore edge direction")
         print("  explain \"X\"             plain-language explanation of a node and its neighbors")
         print("    --all                   list every connection (default: the 20 most connected)")
-        print("    --graph <path>          path to graph.json (default graphify-out/graph.json)")
+        print("    --graph <path>          path to graph.json (default .graphify/graph.json)")
         print("  diagnose multigraph    report same-endpoint edge collapse risk in graph.json")
         print("    --graph <path>          path to graph/extraction JSON")
-        print("                            (default graphify-out/graph.json)")
+        print("                            (default .graphify/graph.json)")
         print("    --json                  emit machine-readable JSON")
         print("    --max-examples N        max same-endpoint examples to print (default 5)")
         print("    --directed              force directed post-build simulation")
@@ -899,7 +899,7 @@ def _run_cli() -> None:
         print("  clone <github-url>      clone a GitHub repo locally and print its path for /graphify")
         print("  merge-driver <base> <current> <other>  git merge driver: union-merge two graph.json files (set up via hook install)")
         print("  merge-graphs <g1> <g2>  merge two or more graph.json files into one cross-repo graph")
-        print("    --out <path>            output path (default: graphify-out/merged-graph.json)")
+        print("    --out <path>            output path (default: .graphify/merged-graph.json)")
         print("    --previous <path>       restore the previous merged clustering's community ids")
         print("                            (by node id) instead of each input's own per-source ids,")
         print("                            so a later cluster-only run reuses labels correctly")
@@ -916,7 +916,7 @@ def _run_cli() -> None:
         print("    --no-cluster            skip clustering, write raw extraction only")
         print("  cluster-only <path>     rerun clustering on an existing graph.json and regenerate report")
         print("    --no-viz                skip graph.html generation (useful for >5000 node graphs / CI)")
-        print("    --graph <path>          path to graph.json (default <path>/graphify-out/graph.json)")
+        print("    --graph <path>          path to graph.json (default <path>/.graphify/graph.json)")
         print("    --no-label              keep 'Community N' placeholders (skip LLM community naming)")
         print("    --backend=<name>        backend to use for community naming (default: auto-detect)")
         print("    --model=<name>          model to use for community naming (claude-cli also reads GRAPHIFY_CLAUDE_CLI_MODEL)")
@@ -934,19 +934,19 @@ def _run_cli() -> None:
         print("    --seed X                start at node X (id, label or file path; repeatable)")
         print("                            instead of the question's keyword matches")
         print("    --budget N              cap output at N tokens (default 2000)")
-        print("    --graph <path>          path to graph.json (default graphify-out/graph.json)")
+        print("    --graph <path>          path to graph.json (default .graphify/graph.json)")
         print("  query, path and explain exit 0 with an answer, 3 when a name is ambiguous")
         print("  (the candidates are listed), 4 when no node matches")
         print("  affected \"X\"             reverse traversal to find nodes impacted by X")
         print("    --relation R            edge relation to traverse in reverse (repeatable)")
         print("    --depth N               reverse traversal depth (default 2)")
-        print("    --graph <path>          path to graph.json (default graphify-out/graph.json)")
+        print("    --graph <path>          path to graph.json (default .graphify/graph.json)")
         print("  god-nodes               list the most connected nodes (architectural hubs)")
         print("    --top N                 how many to show (default 10)")
-        print("    --graph <path>          path to graph.json (default graphify-out/graph.json)")
+        print("    --graph <path>          path to graph.json (default .graphify/graph.json)")
         print("    --json                  emit JSON instead of text")
         print("  prs                     PR dashboard: CI state, review status, worktree mapping")
-        print("  save-result             save a Q&A result to graphify-out/memory/ for graph feedback loop")
+        print("  save-result             save a Q&A result to .graphify/memory/ for graph feedback loop")
         print("    --question Q            the question asked")
         print("    --answer A              the answer to save")
         print(
@@ -955,10 +955,10 @@ def _run_cli() -> None:
         print("    --nodes N1 N2 ...       source node labels cited in the answer")
         print("    --outcome O             work-memory signal: useful|dead_end|corrected")
         print("    --correction TEXT       what the right answer was (pairs with --outcome corrected)")
-        print("    --memory-dir DIR        memory directory (default: graphify-out/memory)")
-        print("  reflect                 aggregate graphify-out/memory/ outcomes into a deterministic lessons doc")
-        print("    --memory-dir DIR        memory directory (default: graphify-out/memory)")
-        print("    --out FILE              output path (default: graphify-out/reflections/LESSONS.md)")
+        print("    --memory-dir DIR        memory directory (default: .graphify/memory)")
+        print("  reflect                 aggregate .graphify/memory/ outcomes into a deterministic lessons doc")
+        print("    --memory-dir DIR        memory directory (default: .graphify/memory)")
+        print("    --out FILE              output path (default: .graphify/reflections/LESSONS.md)")
         print("    --graph PATH            graph.json, for community grouping + dropping stale nodes (optional)")
         print("    --analysis PATH         .graphify_analysis.json (optional, auto-detected next to --graph)")
         print("    --labels PATH           .graphify_labels.json (optional, auto-detected next to --graph)")
@@ -966,8 +966,8 @@ def _run_cli() -> None:
         print("    --min-corroboration N   distinct useful results to prefer a node (default 2)")
         print("  check-update <path>     check needs_update flag and notify if semantic re-extraction is pending (cron-safe)")
         print("  tree                    emit a D3 v7 collapsible-tree HTML for graph.json")
-        print("    --graph PATH            path to graph.json (default graphify-out/graph.json)")
-        print("    --output HTML           output path (default graphify-out/GRAPH_TREE.html)")
+        print("    --graph PATH            path to graph.json (default .graphify/graph.json)")
+        print("    --output HTML           output path (default .graphify/GRAPH_TREE.html)")
         print("    --root PATH             filesystem root for the hierarchy")
         print("    --max-children N        cap children per node (default 200)")
         print("    --top-k-edges N         per-symbol outbound edges in inspector (default 12)")
@@ -987,7 +987,7 @@ def _run_cli() -> None:
         print("    --token-budget N        per-chunk token cap for semantic extraction (default: 60000)")
         print("    --max-concurrency N     parallel semantic chunks in flight (default: 4; set 1 for local LLMs)")
         print("    --api-timeout S         per-request timeout in seconds for the LLM client (default: 600)")
-        print("    --out DIR, --output DIR output dir (default: <path>); writes <DIR>/graphify-out/")
+        print("    --out DIR, --output DIR output dir (default: <path>); writes <DIR>/.graphify/")
         print("    --google-workspace      export .gdoc/.gsheet/.gslides shortcuts via gws before extraction")
         print("    --no-gitignore         ignore .gitignore and .git/info/exclude (prioritizes .graphifyignore)")
         print("    --no-cluster            skip clustering, write raw extraction only")

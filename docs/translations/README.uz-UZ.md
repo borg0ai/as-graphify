@@ -63,7 +63,7 @@ Keyin, AI yordamchingizda:
 Tamom. Siz **uchta fayl** olasiz:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Bu yordamchingizga kod bazasi savollari uchun bilim grafiga murojaat qilishni ay
 
 Har bir platforma aynan qaysi fayllarni yozishi (CodeBuddy ning `CODEBUDDY.md` + `PreToolUse` hooklari, Codex ning `AGENTS.md`, Kilo ning mahalliy `.kilo` plagini, Cursor ning `alwaysApply` qoidasi va hokazo) **[Doimiy yoniq sozlash](https://docs.graphify.com/guides/always-on)** da yoritilgan.
 
-graphify ni barcha platformalardan bir vaqtning o'zida olib tashlash uchun: `graphify uninstall` (`graphify-out/` ni ham o'chirish uchun `--purge` qo'shing). Yoki har bir platforma buyrug'idan foydalaning (masalan `graphify claude uninstall`).
+graphify ni barcha platformalardan bir vaqtning o'zida olib tashlash uchun: `graphify uninstall` (`.graphify/` ni ham o'chirish uchun `--purge` qo'shing). Yoki har bir platforma buyrug'idan foydalaning (masalan `graphify claude uninstall`).
 
 ### CLI mahoratlari yoki MCP ko'rsatmalari?
 
@@ -316,7 +316,7 @@ graphify ni barcha platformalardan bir vaqtning o'zida olib tashlash uchun: `gra
 
 | Sozlash | Foydalanish ko'rsatmasi | So'rov kirishi |
 |---|---|---|
-| Mahalliy CLI va o'rnatilgan yordamchi mahorati | `graphify install` tomonidan yozilgan platforma ko'rsatmalari | Mahalliy grafga (sukut bo'yicha `graphify-out/`) nisbatan `graphify query`, `graphify path` va `graphify explain` ni ishga tushiring. |
+| Mahalliy CLI va o'rnatilgan yordamchi mahorati | `graphify install` tomonidan yozilgan platforma ko'rsatmalari | Mahalliy grafga (sukut bo'yicha `.graphify/`) nisbatan `graphify query`, `graphify path` va `graphify explain` ni ishga tushiring. |
 | Ulangan Graphify MCP serveri | Ulanishning ko'rsatmalari va o'sha server sanab o'tgan vositalar | O'sha ulanish xizmat qiladigan grafga nisbatan sanab o'tilgan MCP vositalarini chaqiring. Vosita nomlari va tavsiflari serverdan keladi. |
 
 Ikkalasi ham keng manba qidiruvlaridan oldin chegaralangan graf so'rovlarini rag'batlantiradi. Yordamchingiz haqiqatan ham kira oladigan vositalarga mos keladigan ko'rsatmalarni tanlang; birorta blok ham yordamchingizning ko'rsatma fayllari uchun universal ustunlik qoidasini o'rnatmaydi. Agar ikkala integratsiyadan foydalansangiz, har biri qaysi grafni so'rov qilishini aniqlang va `AGENTS.md` ga ikkita shartsiz ko'rsatma blokini nusxalash o'rniga asosiy so'rov yo'lini tanlang.

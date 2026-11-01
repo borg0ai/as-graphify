@@ -105,7 +105,7 @@ def test_a_cross_file_reference_lands_on_the_alias(tmp_path: Path):
     (src / "user.rs").write_text(
         "use crate::types::Callback;\npub struct Button {\n    cb: Callback,\n}\n", encoding="utf-8")
     paths = sorted(src.glob("*.rs"))
-    result = extract(paths, root=tmp_path, cache_root=tmp_path / "graphify-out", parallel=False)
+    result = extract(paths, root=tmp_path, cache_root=tmp_path / ".graphify", parallel=False)
     [alias] = [n for n in result["nodes"] if n["label"] == "Callback"]
     assert alias["source_file"].endswith("types.rs")
     by_id = {n["id"]: n for n in result["nodes"]}

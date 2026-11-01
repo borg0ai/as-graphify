@@ -23,7 +23,7 @@ def _extract(tmp_path: Path, files: dict[str, str]):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8")
         paths.append(path)
-    return extract(paths, cache_root=tmp_path / "graphify-out")
+    return extract(paths, cache_root=tmp_path / ".graphify")
 
 
 def _find(result: dict, label: str, id_contains: str = "") -> str:
@@ -217,7 +217,7 @@ def test_resolution_survives_incremental_rebuild(tmp_path: Path):
         return f"defmodule Demo.Web do\n  alias Demo.Accounts\n{body}end\n"
 
     caller.write_text(_caller(), encoding="utf-8")
-    graph_path = corpus / "graphify-out" / "graph.json"
+    graph_path = corpus / ".graphify" / "graph.json"
 
     def resolves() -> bool:
         data = json.loads(graph_path.read_text(encoding="utf-8"))

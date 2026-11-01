@@ -63,7 +63,7 @@ graphify install               # detects your assistant and registers the skill
 이게 전부입니다. **세 개의 파일**을 얻게 됩니다:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -300,7 +300,7 @@ Pi 에는 `PreToolUse` hook 이 없으므로, `graphify pi guard install` 은 (P
 
 각 플랫폼이 정확히 어떤 파일을 기록하는지(CodeBuddy 의 `CODEBUDDY.md` + `PreToolUse` hooks, Codex 의 `AGENTS.md`, Kilo 의 네이티브 `.kilo` 플러그인, Cursor 의 `alwaysApply` 규칙 등)는 **[Always-on setup](https://docs.graphify.com/guides/always-on)** 에서 다룹니다.
 
-모든 플랫폼에서 graphify 를 한 번에 제거하려면: `graphify uninstall`(`--purge` 를 추가하면 `graphify-out/` 도 삭제). 또는 플랫폼별 명령(예: `graphify claude uninstall`)을 사용하세요.
+모든 플랫폼에서 graphify 를 한 번에 제거하려면: `graphify uninstall`(`--purge` 를 추가하면 `.graphify/` 도 삭제). 또는 플랫폼별 명령(예: `graphify claude uninstall`)을 사용하세요.
 
 ### CLI 스킬인가 MCP 지시인가?
 
@@ -308,7 +308,7 @@ Pi 에는 `PreToolUse` hook 이 없으므로, `graphify pi guard install` 은 (P
 
 | Setup | Guidance to use | Query access |
 |---|---|---|
-| 로컬 CLI 및 설치된 어시스턴트 스킬 | `graphify install` 이 기록한 플랫폼 지침 | 로컬 그래프(기본값 `graphify-out/`)를 대상으로 `graphify query`, `graphify path`, `graphify explain` 을 실행합니다. |
+| 로컬 CLI 및 설치된 어시스턴트 스킬 | `graphify install` 이 기록한 플랫폼 지침 | 로컬 그래프(기본값 `.graphify/`)를 대상으로 `graphify query`, `graphify path`, `graphify explain` 을 실행합니다. |
 | 연결된 Graphify MCP 서버 | 해당 연결의 지침과 그 서버가 나열한 도구 | 해당 연결이 제공하는 그래프를 대상으로 나열된 MCP 도구를 호출합니다. 도구 이름과 설명은 서버에서 옵니다. |
 
 둘 다 폭넓은 소스 검색 이전에 범위가 한정된 그래프 쿼리를 권장합니다. 어시스턴트가 실제로 접근할 수 있는 도구에 맞는 지침을 선택하세요. 어느 블록도 어시스턴트의 지침 파일에 대한 보편적 우선순위 규칙을 수립하지 않습니다. 두 통합을 모두 사용한다면, 각각이 어떤 그래프를 쿼리하는지 식별하고, 두 개의 무조건적 지침 블록을 `AGENTS.md` 에 복사하는 대신 하나의 주요 쿼리 경로를 선택하세요.

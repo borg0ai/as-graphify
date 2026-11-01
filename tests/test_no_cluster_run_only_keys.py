@@ -31,7 +31,7 @@ def _run(root: Path, *args: str) -> dict:
     env = dict(os.environ, PYTHONHASHSEED="0", PYTHONIOENCODING="utf-8")
     r = subprocess.run([PYTHON, "-m", "graphify", *args], cwd=root, env=env, capture_output=True, text=True)
     assert r.returncode == 0, r.stderr[-2000:]
-    text = (root / "graphify-out" / "graph.json").read_text(encoding="utf-8")
+    text = (root / ".graphify" / "graph.json").read_text(encoding="utf-8")
     assert "alice_home" not in text, "graph.json embeds the checkout path"
     return json.loads(text)
 

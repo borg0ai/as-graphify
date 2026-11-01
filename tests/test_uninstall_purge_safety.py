@@ -45,8 +45,8 @@ def env(tmp_path, monkeypatch, _sandbox_home):
     project = tmp_path / "parent" / "project"
     (project / "src").mkdir(parents=True)
     (project / "src" / "important.py").write_text("x = 1\n", encoding="utf-8")
-    (project / "graphify-out").mkdir()
-    (project / "graphify-out" / "graph.json").write_text("{}", encoding="utf-8")
+    (project / ".graphify").mkdir()
+    (project / ".graphify" / "graph.json").write_text("{}", encoding="utf-8")
 
     calls: list[str] = []
     for name in _PLATFORM_UNINSTALLERS:
@@ -76,13 +76,13 @@ def _assert_project_intact(project):
 @pytest.mark.parametrize("value", ["", "   ", "\t"])
 def test_blank_graphify_out_falls_back_to_default(monkeypatch, value):
     monkeypatch.setenv("GRAPHIFY_OUT", value)
-    assert paths._out_from_env() == "graphify-out"
+    assert paths._out_from_env() == ".graphify"
 
 
 @pytest.mark.parametrize("value", [".", "./", "..", "../..", " . "])
 def test_project_or_parent_graphify_out_falls_back_with_warning(monkeypatch, capsys, value):
     monkeypatch.setenv("GRAPHIFY_OUT", value)
-    assert paths._out_from_env() == "graphify-out"
+    assert paths._out_from_env() == ".graphify"
     assert "warning: GRAPHIFY_OUT=" in capsys.readouterr().err
 
 
@@ -105,7 +105,7 @@ def test_absolute_graphify_out_is_kept(monkeypatch, tmp_path):
 
 def test_unset_graphify_out_is_default(monkeypatch):
     monkeypatch.delenv("GRAPHIFY_OUT", raising=False)
-    assert paths._out_from_env() == "graphify-out"
+    assert paths._out_from_env() == ".graphify"
 
 
 # -- End to end: the purge never deletes the project ------------------------
@@ -116,7 +116,7 @@ def test_purge_with_bad_graphify_out_only_removes_default_out(env, monkeypatch, 
     project = env["project"]
     _purge_with_env(monkeypatch, project, value)
     _assert_project_intact(project)
-    assert not (project / "graphify-out").exists()
+    assert not (project / ".graphify").exists()
     # ".." must not have reached the parent of the project either.
     assert project.parent.is_dir()
 
@@ -125,7 +125,7 @@ def test_purge_default_removes_only_graphify_out(env):
     project = env["project"]
     install_mod.uninstall_all(project_dir=project, purge=True)
     _assert_project_intact(project)
-    assert not (project / "graphify-out").exists()
+    assert not (project / ".graphify").exists()
 
 
 def test_purge_custom_relative_out(env, monkeypatch):
@@ -135,7 +135,7 @@ def test_purge_custom_relative_out(env, monkeypatch):
     _purge_with_env(monkeypatch, project, "custom-out")
     _assert_project_intact(project)
     assert not (project / "custom-out").exists()
-    assert (project / "graphify-out").exists()  # not the configured dir
+    assert (project / ".graphify").exists()  # not the configured dir
 
 
 def test_purge_custom_absolute_out_outside_project(env, monkeypatch):
@@ -156,7 +156,7 @@ def _assert_refused(env, capsys, excinfo):
     assert excinfo.value.code == 1
     assert "refusing --purge" in capsys.readouterr().err
     _assert_project_intact(env["project"])
-    assert (env["project"] / "graphify-out" / "graph.json").is_file()
+    assert (env["project"] / ".graphify" / "graph.json").is_file()
     assert env["calls"] == [], "a refused purge must not run any uninstaller"
 
 
@@ -194,7 +194,7 @@ def test_unsafe_purge_reason_rejects_filesystem_roots(env):
 
 def test_unsafe_purge_reason_allows_out_dirs(env):
     project = env["project"]
-    assert install_mod._unsafe_purge_reason(project / "graphify-out", project) is None
+    assert install_mod._unsafe_purge_reason(project / ".graphify", project) is None
     assert install_mod._unsafe_purge_reason(env["tmp"] / "shared-out", project) is None
 
 

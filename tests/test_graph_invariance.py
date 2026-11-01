@@ -33,7 +33,7 @@ _UNSTABLE_KEYS = frozenset({"community", "community_name"})
 
 
 def _copy(src: Path, dst: Path, *, crlf: bool = False) -> Path:
-    shutil.copytree(src, dst, ignore=shutil.ignore_patterns("graphify-out"))
+    shutil.copytree(src, dst, ignore=shutil.ignore_patterns(".graphify"))
     if crlf:
         for path in dst.rglob("*"):
             if not path.is_file():
@@ -57,7 +57,7 @@ def _build(root: Path, *, cluster: bool) -> dict:
     env = dict(os.environ, PYTHONHASHSEED="0", PYTHONIOENCODING="utf-8")
     result = subprocess.run(args, cwd=root, env=env, capture_output=True, text=True)
     assert result.returncode == 0, result.stderr[-2000:]
-    text = (root / "graphify-out" / "graph.json").read_text(encoding="utf-8")
+    text = (root / ".graphify" / "graph.json").read_text(encoding="utf-8")
     graph = json.loads(text)
     graph["__text__"] = text
     return graph

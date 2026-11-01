@@ -63,7 +63,7 @@ Depois, no seu assistente de IA:
 Pronto. Você recebe **três arquivos**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ O `GRAPH_REPORT.md` continua disponível para revisão ampla de arquitetura.
 
 Exatamente quais arquivos cada plataforma grava (o `CODEBUDDY.md` + hooks `PreToolUse` do CodeBuddy, o `AGENTS.md` do Codex, o plugin nativo `.kilo` do Kilo, a regra `alwaysApply` do Cursor, e assim por diante) é coberto em **[Configuração sempre ativa](https://docs.graphify.com/guides/always-on)**.
 
-Para remover o graphify de todas as plataformas de uma vez: `graphify uninstall` (adicione `--purge` para também excluir `graphify-out/`). Ou use o comando por plataforma (por exemplo, `graphify claude uninstall`).
+Para remover o graphify de todas as plataformas de uma vez: `graphify uninstall` (adicione `--purge` para também excluir `.graphify/`). Ou use o comando por plataforma (por exemplo, `graphify claude uninstall`).
 
 ### Skills de CLI ou instruções de MCP?
 
@@ -316,7 +316,7 @@ As instruções instaladas por `graphify install` e aquelas fornecidas com uma c
 
 | Configuração | Orientação a usar | Acesso de consulta |
 |---|---|---|
-| CLI local e skill de assistente instalada | As instruções de plataforma escritas por `graphify install` | Execute `graphify query`, `graphify path` e `graphify explain` contra o grafo local (`graphify-out/` por padrão). |
+| CLI local e skill de assistente instalada | As instruções de plataforma escritas por `graphify install` | Execute `graphify query`, `graphify path` e `graphify explain` contra o grafo local (`.graphify/` por padrão). |
 | Servidor MCP do Graphify conectado | As instruções da conexão e as ferramentas listadas por esse servidor | Chame as ferramentas MCP listadas contra o grafo servido por essa conexão. Os nomes e descrições das ferramentas vêm do servidor. |
 
 Ambas incentivam consultas com escopo ao grafo antes de buscas amplas na fonte. Escolha as instruções que correspondem às ferramentas que seu assistente realmente consegue acessar; nenhum dos blocos estabelece uma regra universal de precedência para os arquivos de instrução do seu assistente. Se você usa as duas integrações, identifique qual grafo cada uma consulta e escolha um caminho de consulta principal em vez de copiar dois blocos de instrução incondicionais no `AGENTS.md`.

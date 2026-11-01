@@ -63,7 +63,7 @@ Sitten AI-avustajassasi:
 Siinä kaikki. Saat **kolme tiedostoa**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Tämä kirjoittaa pienen konfiguraatiotiedoston, joka kehottaa avustajaasi konsu
 
 Tarkalleen mitkä tiedostot kukin alusta kirjoittaa (CodeBuddyn `CODEBUDDY.md` + `PreToolUse`-hookit, Codexin `AGENTS.md`, Kilon natiivi `.kilo`-liitännäinen, Cursorin `alwaysApply`-sääntö ja niin edelleen) on käsitelty kohdassa **[Aina päällä -asetus](https://docs.graphify.com/guides/always-on)**.
 
-Poistaaksesi graphifyn kaikilta alustoilta kerralla: `graphify uninstall` (lisää `--purge` poistaaksesi myös `graphify-out/`). Tai käytä alustakohtaista komentoa (esim. `graphify claude uninstall`).
+Poistaaksesi graphifyn kaikilta alustoilta kerralla: `graphify uninstall` (lisää `--purge` poistaaksesi myös `.graphify/`). Tai käytä alustakohtaista komentoa (esim. `graphify claude uninstall`).
 
 ### CLI-taidot vai MCP-ohjeet?
 
@@ -316,7 +316,7 @@ Poistaaksesi graphifyn kaikilta alustoilta kerralla: `graphify uninstall` (lisä
 
 | Asetus | Käytettävä ohjaus | Kyselyn käyttöoikeus |
 |---|---|---|
-| Paikallinen CLI ja asennettu avustajataito | `graphify install` -komennon kirjoittamat alustaohjeet | Aja `graphify query`, `graphify path` ja `graphify explain` paikallista graafia vasten (`graphify-out/` oletuksena). |
+| Paikallinen CLI ja asennettu avustajataito | `graphify install` -komennon kirjoittamat alustaohjeet | Aja `graphify query`, `graphify path` ja `graphify explain` paikallista graafia vasten (`.graphify/` oletuksena). |
 | Yhdistetty Graphify MCP -palvelin | Yhteyden ohjeet ja kyseisen palvelimen listaamat työkalut | Kutsu listattuja MCP-työkaluja kyseisen yhteyden tarjoamaa graafia vasten. Työkalujen nimet ja kuvaukset tulevat palvelimelta. |
 
 Molemmat kannustavat rajattuihin graafikyselyihin ennen laajoja lähdehakuja. Valitse ohjeet, jotka vastaavat työkaluja, joihin avustajasi todella pääsee käsiksi; kumpikaan lohko ei luo universaalia etusijasääntöä avustajasi ohjetiedostoille. Jos käytät molempia integraatioita, tunnista, mitä graafia kumpikin kyselee, ja valitse ensisijainen kyselypolku sen sijaan, että kopioisit kaksi ehdotonta ohjelohkoa tiedostoon `AGENTS.md`.

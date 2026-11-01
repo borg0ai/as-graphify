@@ -52,13 +52,13 @@ class Repo:
                        env=self.env, check=True, capture_output=True)
 
     def labels(self):
-        graph = json.loads((self.path / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+        graph = json.loads((self.path / ".graphify" / "graph.json").read_text(encoding="utf-8"))
         return {n["label"] for n in graph["nodes"]}
 
 
 def _settle(repo, home, timeout=60):
     """Wait until the detached rebuild is done: log stable, no lock or pending files."""
-    log, out = home / ".cache" / "graphify-rebuild.log", repo.path / "graphify-out"
+    log, out = home / ".cache" / "graphify-rebuild.log", repo.path / ".graphify"
     t0 = time.time()
     while time.time() - t0 < 5 and not log.exists():
         time.sleep(0.1)
@@ -80,8 +80,8 @@ def _settle(repo, home, timeout=60):
 def repo(tmp_path):
     r = Repo(tmp_path / "repo", tmp_path)
     r.git("init", "-q", "-b", "main")
-    (r.path / "graphify-out").mkdir()
-    r.write("graphify-out/graph.json", "{}")
+    (r.path / ".graphify").mkdir()
+    r.write(".graphify/graph.json", "{}")
     r.commit("a.py", "def a(): pass\n", "init")
     install(r.path)
     return r
@@ -136,8 +136,8 @@ def test_rebase_rebuilds_once(repo):
 def test_pull_rebase_rebuilds_once(repo, tmp_path):
     clone = Repo(tmp_path / "clone", tmp_path)
     clone.git("clone", "-q", str(repo.path), ".")  # into the empty dir Repo made
-    (clone.path / "graphify-out").mkdir()  # the graph is untracked, so a clone has none
-    clone.write("graphify-out/graph.json", "{}")
+    (clone.path / ".graphify").mkdir()  # the graph is untracked, so a clone has none
+    clone.write(".graphify/graph.json", "{}")
     install(clone.path)
     repo.commit("up.py", "def up(): pass\n", "up")
     clone.commit("lo.py", "def lo(): pass\n", "lo")
@@ -222,17 +222,17 @@ def test_tracked_graph_range_pick_with_conflict_completes(tmp_path):
     refuse the next pick that touches it ("local changes would be overwritten")."""
     r = Repo(tmp_path / "repo", tmp_path)
     r.git("init", "-q", "-b", "main")
-    (r.path / "graphify-out").mkdir()
-    r.write("graphify-out/graph.json", "{}")
+    (r.path / ".graphify").mkdir()
+    r.write(".graphify/graph.json", "{}")
     r.commit("shared.py", "def s(): return 0\n", "init")
-    r.git("add", "-f", "graphify-out/graph.json")
+    r.git("add", "-f", ".graphify/graph.json")
     r.git("commit", "-qm", "track", quiet=True)
     install(r.path)
     r.git("checkout", "-qb", "side", quiet=True)
     r.commit("n1.py", "def n1(): pass\n", "c1")
     r.commit("shared.py", "def s(): return 2\n", "c2")
-    r.write("graphify-out/graph.json", '{"teammate": true}')
-    r.git("add", "-f", "graphify-out/graph.json")
+    r.write(".graphify/graph.json", '{"teammate": true}')
+    r.git("add", "-f", ".graphify/graph.json")
     r.git("commit", "-qm", "c3", quiet=True)
     r.git("checkout", "-q", "main", quiet=True)
     r.commit("shared.py", "def s(): return 1\n", "main edit")

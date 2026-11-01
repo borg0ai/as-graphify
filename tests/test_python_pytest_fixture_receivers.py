@@ -23,7 +23,7 @@ def _calls(tmp_path: Path, files: dict[str, str]):
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(body, encoding="utf-8")
         paths.append(p)
-    r = extract(paths, root=tmp_path, cache_root=tmp_path / "graphify-out", parallel=False)
+    r = extract(paths, root=tmp_path, cache_root=tmp_path / ".graphify", parallel=False)
     nodes = {n["id"]: n for n in r["nodes"]}
     owner = {e["target"]: nodes[e["source"]]["label"] for e in r["edges"] if e["relation"] == "method"}
     return {(nodes[e["source"]]["label"], owner.get(e["target"], ""), nodes[e["target"]]["label"])
@@ -130,7 +130,7 @@ def test_changed_test_file_rebuild_keeps_the_fixture_edge(tmp_path: Path):
     assert _rebuild_code(full, no_cluster=True, acquire_lock=False, force=True)
 
     def calls_of(root):
-        g = json.loads((root / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+        g = json.loads((root / ".graphify" / "graph.json").read_text(encoding="utf-8"))
         return {(e["source"], e["target"]) for e in g.get("links", g.get("edges", [])) if e["relation"] == "calls"}
 
     assert calls_of(inc) == calls_of(full)
@@ -205,7 +205,7 @@ def test_rebuild_after_the_imported_class_moves_matches_a_full_build(tmp_path: P
     assert _rebuild_code(full, no_cluster=True, acquire_lock=False, force=True)
 
     def fixture_calls(root):
-        g = json.loads((root / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+        g = json.loads((root / ".graphify" / "graph.json").read_text(encoding="utf-8"))
         return {(e["source"], e["target"]) for e in g.get("links", g.get("edges", []))
                 if e["relation"] == "calls" and e["source"].endswith("test_run")}
 

@@ -16,7 +16,7 @@ Open a [bug report](https://github.com/Graphify-Labs/graphify/issues/new/choose)
 
 - what you expected and what actually happened,
 - the smallest input that reproduces it (a sample file or repo helps a lot),
-- the relevant cache entry from `graphify-out/cache/` for an extraction bug,
+- the relevant cache entry from `.graphify/cache/` for an extraction bug,
 - your OS, Python version, and `graphify --version`.
 
 ## Feature requests

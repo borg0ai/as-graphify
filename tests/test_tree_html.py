@@ -42,7 +42,7 @@ def _graph(files: dict[str, str]) -> dict:
 
 
 def _write_graph(tmp_path: Path, graph: dict) -> Path:
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     (out / "graph.json").write_text(json.dumps(graph), encoding="utf-8")
     return out
@@ -193,7 +193,7 @@ def test_tree_cli_absolute_root_mismatch_exits_1(tmp_path):
     assert "error:" in r.stderr, r.stderr
     assert "Traceback" not in r.stderr, r.stderr
     assert "wrote" not in r.stdout, r.stdout
-    assert not (tmp_path / "graphify-out" / "GRAPH_TREE.html").exists()
+    assert not (tmp_path / ".graphify" / "GRAPH_TREE.html").exists()
 
 
 def test_tree_cli_default_root_succeeds(tmp_path):
@@ -201,7 +201,7 @@ def test_tree_cli_default_root_succeeds(tmp_path):
     r = _run(["tree"], tmp_path)
     assert r.returncode == 0, r.stderr
     assert "wrote" in r.stdout, r.stdout
-    html = (tmp_path / "graphify-out" / "GRAPH_TREE.html").read_text(encoding="utf-8")
+    html = (tmp_path / ".graphify" / "GRAPH_TREE.html").read_text(encoding="utf-8")
     # the hierarchy survives: pkg is the root, sub is an interior node
     assert '"name":"pkg"' in html
     assert '"name":"sub"' in html
@@ -211,4 +211,4 @@ def test_tree_cli_partial_match_root_succeeds(tmp_path):
     _write_graph(tmp_path, _graph({"pkg/a.py": "func_a", "other/c.py": "func_c"}))
     r = _run(["tree", "--root", "pkg"], tmp_path)
     assert r.returncode == 0, r.stderr
-    assert (tmp_path / "graphify-out" / "GRAPH_TREE.html").exists()
+    assert (tmp_path / ".graphify" / "GRAPH_TREE.html").exists()

@@ -36,7 +36,7 @@ def test_rust_prelude_types_produce_no_nodes(tmp_path):
         "}\n",
         encoding="utf-8",
     )
-    r = extract(sorted(tmp_path.glob("*.rs")), cache_root=tmp_path / "graphify-out")
+    r = extract(sorted(tmp_path.glob("*.rs")), cache_root=tmp_path / ".graphify")
 
     labels = {n["label"] for n in r["nodes"]}
     for builtin in ("Option", "Vec", "String", "Result", "HashMap"):
@@ -54,7 +54,7 @@ def test_rust_newtype_construction_is_reference_not_call(tmp_path):
         "    raw\n"
         "}\n",
         encoding="utf-8")
-    r = extract(sorted(tmp_path.glob("*.rs")), cache_root=tmp_path / "graphify-out")
+    r = extract(sorted(tmp_path.glob("*.rs")), cache_root=tmp_path / ".graphify")
 
     cid = next(n["id"] for n in r["nodes"] if n["label"] == "ClientId")
     related = [e for e in r["edges"] if e["target"] == cid]
@@ -74,7 +74,7 @@ def test_rust_same_file_construction_is_reference_not_call(tmp_path):
         "    raw\n"
         "}\n",
         encoding="utf-8")
-    r = extract(sorted(tmp_path.glob("*.rs")), cache_root=tmp_path / "graphify-out")
+    r = extract(sorted(tmp_path.glob("*.rs")), cache_root=tmp_path / ".graphify")
 
     cid = next(n["id"] for n in r["nodes"] if n["label"] == "ClientId")
     related = [e for e in r["edges"] if e["target"] == cid and str(e["source"]).endswith("wrap")]
@@ -92,7 +92,7 @@ def test_rust_locally_defined_prelude_name_is_kept(tmp_path):
         "    pub value: Result<u32>,\n"
         "}\n",
         encoding="utf-8")
-    r = extract(sorted(tmp_path.glob("*.rs")), cache_root=tmp_path / "graphify-out")
+    r = extract(sorted(tmp_path.glob("*.rs")), cache_root=tmp_path / ".graphify")
 
     result_ids = [n["id"] for n in r["nodes"] if n["label"] == "Result"]
     assert result_ids, "a locally defined Result must still become a node"
@@ -108,7 +108,7 @@ def test_rust_function_call_still_emits_calls(tmp_path):
         "pub fn helper() -> u32 { 1 }\n"
         "pub fn run() -> u32 { helper() }\n",
         encoding="utf-8")
-    r = extract(sorted(tmp_path.glob("*.rs")), cache_root=tmp_path / "graphify-out")
+    r = extract(sorted(tmp_path.glob("*.rs")), cache_root=tmp_path / ".graphify")
 
     rels = {e["relation"] for e in r["edges"] if str(e["target"]).endswith("helper")}
     assert "calls" in rels, f"a real function call must stay `calls`; got {rels}"

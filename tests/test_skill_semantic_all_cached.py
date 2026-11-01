@@ -1,7 +1,7 @@
 """A semantic run where every doc/paper/image hits the cache must still reach
 Part C with its cached nodes.
 
-Part C reads ``graphify-out/.graphify_semantic.json`` unconditionally, and the
+Part C reads ``.graphify/.graphify_semantic.json`` unconditionally, and the
 only Part B step that writes it is the Step B3 merge. A body that routes the
 all-cached case straight to Part C crashes there with ``FileNotFoundError``;
 working around that with an empty file drops every cached node. Running B3 with
@@ -69,7 +69,7 @@ def test_all_cached_run_reaches_part_c_with_cached_nodes_and_no_stale_chunks(tmp
     doc.write_text("# Notes\nCached content.\n", encoding="utf-8")
     spec = tmp_path / "extraction-spec.md"
     spec.write_text("# spec\n", encoding="utf-8")
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     (out / ".graphify_detect.json").write_text(
         json.dumps({"files": {"document": [doc.as_posix()]}}), encoding="utf-8")

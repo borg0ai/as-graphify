@@ -63,7 +63,7 @@ Pagkatapos, sa iyong AI assistant:
 Ayan na. Makakakuha ka ng **tatlong file**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Ang `GRAPH_REPORT.md` ay magagamit pa rin para sa malawak na pagsusuri ng arkite
 
 Kung aling mga file ang isinusulat ng bawat platform (ang `CODEBUDDY.md` + `PreToolUse` hook ng CodeBuddy, ang `AGENTS.md` ng Codex, ang native na `.kilo` plugin ng Kilo, ang `alwaysApply` na panuntunan ng Cursor, at iba pa) ay saklaw sa **[Always-on setup](https://docs.graphify.com/guides/always-on)**.
 
-Upang alisin ang graphify sa lahat ng platform nang sabay-sabay: `graphify uninstall` (idagdag ang `--purge` upang tanggalin din ang `graphify-out/`). O gamitin ang per-platform na utos (hal. `graphify claude uninstall`).
+Upang alisin ang graphify sa lahat ng platform nang sabay-sabay: `graphify uninstall` (idagdag ang `--purge` upang tanggalin din ang `.graphify/`). O gamitin ang per-platform na utos (hal. `graphify claude uninstall`).
 
 ### CLI skills o MCP instructions?
 
@@ -316,7 +316,7 @@ Ang mga instruksyong ini-install ng `graphify install` at ang mga ibinibigay sa 
 
 | Setup | Gabay na gagamitin | Query access |
 |---|---|---|
-| Lokal na CLI at naka-install na assistant skill | Ang mga instruksyon ng platform na isinulat ng `graphify install` | Patakbuhin ang `graphify query`, `graphify path`, at `graphify explain` laban sa lokal na graph (`graphify-out/` bilang default). |
+| Lokal na CLI at naka-install na assistant skill | Ang mga instruksyon ng platform na isinulat ng `graphify install` | Patakbuhin ang `graphify query`, `graphify path`, at `graphify explain` laban sa lokal na graph (`.graphify/` bilang default). |
 | Nakakonektang Graphify MCP server | Ang mga instruksyon ng koneksyon at ang mga tool na nakalista ng server na iyon | Tawagin ang mga nakalistang MCP tool laban sa graph na inihahain ng koneksyong iyon. Ang mga pangalan at paglalarawan ng tool ay nagmumula sa server. |
 
 Parehong naghihikayat ng mga naka-scope na graph query bago ang malawak na source search. Piliin ang mga instruksyong tumutugma sa mga tool na talagang maa-access ng iyong assistant; walang bloke sa dalawa ang nagtatakda ng unibersal na panuntunan ng pagkakasunod para sa mga instruction file ng iyong assistant. Kung gumagamit ka ng parehong integrasyon, tukuyin kung aling graph ang ini-query ng bawat isa at pumili ng pangunahing landas ng query sa halip na kumopya ng dalawang hindi-kondisyonal na instruction block sa `AGENTS.md`.

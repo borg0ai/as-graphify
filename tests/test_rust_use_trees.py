@@ -31,14 +31,14 @@ def _write(root: Path, files: dict[str, str]) -> None:
 def _extract(root: Path, files: dict[str, str]) -> dict:
     _write(root, files)
     paths = sorted(root / name for name in files if name.endswith(".rs"))
-    return extract(paths, root=root, cache_root=root / "graphify-out", parallel=False)
+    return extract(paths, root=root, cache_root=root / ".graphify", parallel=False)
 
 
 def _build(root: Path, changed: list[Path] | None = None) -> dict:
     from graphify.watch import _rebuild_code
 
     assert _rebuild_code(root, changed_paths=changed, no_cluster=True, acquire_lock=False) is True
-    return json.loads((root / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+    return json.loads((root / ".graphify" / "graph.json").read_text(encoding="utf-8"))
 
 
 def _edges(edges: list[dict], kind: str = "import") -> list[str]:
@@ -159,7 +159,7 @@ def _parity(tmp_path: Path, monkeypatch, steps: list) -> None:
             mainmod.main()
         except SystemExit as exc:
             assert exc.code in (None, 0)
-        return json.loads((root / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+        return json.loads((root / ".graphify" / "graph.json").read_text(encoding="utf-8"))
 
     def view(graph: dict) -> tuple:
         # v8 keeps external stubs across incremental builds (unreferenced ones too)
@@ -202,9 +202,9 @@ def test_a_cache_entry_from_before_the_bindings_is_not_served(tmp_path: Path, mo
         stale = rust_module.extract_rust(path)
     for edge in stale["edges"]:
         edge.pop("_rust_use_group", None)
-    save_cached(path, stale, tmp_path, cache_root=tmp_path / "graphify-out")
+    save_cached(path, stale, tmp_path, cache_root=tmp_path / ".graphify")
     monkeypatch.setattr(cache_mod, "_AST_CACHE_SCHEMA", current)
-    result = extract(sorted(tmp_path / name for name in files), root=tmp_path, cache_root=tmp_path / "graphify-out",
+    result = extract(sorted(tmp_path / name for name in files), root=tmp_path, cache_root=tmp_path / ".graphify",
                      parallel=False)
     assert sorted(e["target"] for e in result["edges"]
                   if e.get("context") == "import" and e["source_file"].endswith("user.rs")) == ["src_util_parse", "src_util_render"]
@@ -357,8 +357,8 @@ def test_a_cache_entry_from_before_child_mod_names_is_not_served(tmp_path: Path,
     stale = rust_module.extract_rust(path)
     for edge in stale["edges"]:
         edge.pop("_rust_use_name", None)  # what 0.9.92 cached for a child-mod `use`
-    save_cached(path, stale, tmp_path, cache_root=tmp_path / "graphify-out")
+    save_cached(path, stale, tmp_path, cache_root=tmp_path / ".graphify")
     monkeypatch.setattr(cache_mod, "_AST_CACHE_SCHEMA", current)
     result = extract(sorted(tmp_path / name for name in files), root=tmp_path,
-                     cache_root=tmp_path / "graphify-out", parallel=False)
+                     cache_root=tmp_path / ".graphify", parallel=False)
     assert _imports(result, "model.rs") == [_decl(result, "Invoice", "item.rs")]

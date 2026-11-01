@@ -33,8 +33,8 @@ def test_strict_deny_does_not_ask_to_spread_itself_to_subagents():
     ("read", {"file_path": "src/app.py"}),
 ])
 def test_emitted_reminder_has_no_commands(tmp_path, monkeypatch, kind, tool_input):
-    (tmp_path / "graphify-out").mkdir()
-    (tmp_path / "graphify-out" / "graph.json").write_text("{}", encoding="utf-8")
+    (tmp_path / ".graphify").mkdir()
+    (tmp_path / ".graphify" / "graph.json").write_text("{}", encoding="utf-8")
     monkeypatch.chdir(tmp_path)
     monkeypatch.setenv("CLAUDE_PROJECT_DIR", str(tmp_path))
     payload = json.dumps({"session_id": "s1", "tool_input": tool_input}).encode()

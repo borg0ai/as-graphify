@@ -198,7 +198,7 @@ def test_changed_files_rebuild_keeps_inherited_calls(tmp_path: Path):
     assert _rebuild_code(full, no_cluster=True, acquire_lock=False, force=True)
 
     def edges_of(root: Path) -> set[tuple[object, object, object]]:
-        g = json.loads((root / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+        g = json.loads((root / ".graphify" / "graph.json").read_text(encoding="utf-8"))
         label = {n["id"]: n.get("label") for n in g["nodes"]}
         links = g.get("links", g.get("edges", []))
         return {

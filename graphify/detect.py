@@ -886,7 +886,7 @@ def convert_office_file(path: Path, out_dir: Path, root: "Path | None" = None) -
     # Hash the path RELATIVE to the scan root, not the absolute path: the
     # absolute form salts the name with the checkout location, so the same
     # tracked .xlsx in two clones/worktrees emits two differently-named,
-    # byte-identical sidecars — unbounded duplicates when graphify-out/ is
+    # byte-identical sidecars — unbounded duplicates when .graphify/ is
     # committed, each ingested as a distinct source doc (#2059). The relative
     # path still disambiguates same-stem files in different directories.
     # Normalize to NFC before hashing: on macOS (HFS+/APFS) os.walk/rglob return
@@ -897,7 +897,7 @@ def convert_office_file(path: Path, out_dir: Path, root: "Path | None" = None) -
     import hashlib
     import unicodedata
     if root is None:
-        # Default layout: out_dir is <root>/<graphify-out>/converted.
+        # Default layout: out_dir is <root>/<.graphify>/converted.
         root = out_dir.parent.parent
     try:
         key = path.resolve().relative_to(Path(root).resolve()).as_posix()
@@ -979,7 +979,6 @@ _SKIP_DIRS = {
     "site-packages", "lib64",
     ".pytest_cache", ".mypy_cache", ".ruff_cache",
     ".tox", ".nox", ".eggs", "*.egg-info",  # nox is tox's successor, same .nox/ venv shape (#1804)
-    "graphify-out",  # never treat the default output as source input (#524)
     # Coverage/test-artefact dirs — generated, never architecturally meaningful
     "lcov-report",                          # Vitest/Istanbul/nyc HTML reports (#870);
                                             # bare "coverage" is gated on report
@@ -2171,7 +2170,7 @@ def detect(root: Path, *, follow_symlinks: bool | None = None, google_workspace:
             explicit_cache=explicit_ignore_cache,
         )
 
-    # Always include graphify-out/memory/ - query results filed back into the graph
+    # Always include .graphify/memory/ - query results filed back into the graph
     memory_dir = root / GRAPHIFY_OUT / "memory"
     scan_paths = [root]
     if memory_dir.exists():
@@ -2352,7 +2351,7 @@ def detect(root: Path, *, follow_symlinks: bool | None = None, google_workspace:
                 if md_path:
                     # #3504: the sidecar lands under converted_dir, which the
                     # documented .gitignore advice puts inside a gitignored
-                    # graphify-out/ -- an ignore check here would reject the
+                    # .graphify/ -- an ignore check here would reject the
                     # tool's own output for the same reason it should be
                     # gitignored in the first place, silently dropping the
                     # source document from the corpus. The ignore check exists
@@ -2610,13 +2609,13 @@ def _collapse_manifest_duplicates(
 
 
 def _manifest_storage_anchor(manifest_path: str | Path | None, root: Path | None) -> Path | None:
-    """When a manifest lives under <repo>/graphify-out/manifest.json and root
+    """When a manifest lives under <repo>/.graphify/manifest.json and root
     is a subfolder of <repo>, stored relative keys are anchored to <repo> (#3785)."""
     if root is None or not manifest_path:
         return root
     try:
         mp = Path(manifest_path).resolve()
-        if mp.parent.name in ("graphify-out", GRAPHIFY_OUT_NAME):
+        if mp.parent.name in (".graphify", GRAPHIFY_OUT_NAME):
             manifest_base = mp.parent.parent
             root_resolved = Path(root).resolve()
             if root_resolved != manifest_base:
@@ -2639,7 +2638,7 @@ def load_manifest(
 
     When ``root`` is provided, stored relative keys are re-anchored against
     it so callers see absolute paths regardless of on-disk format. Legacy
-    manifests with absolute keys pass through unchanged, so a graphify-out/
+    manifests with absolute keys pass through unchanged, so a .graphify/
     written by an older version (or by a caller that didn't supply ``root``
     to :func:`save_manifest`) remains readable.
 
@@ -2769,7 +2768,7 @@ def save_manifest(
     zero-node anomalous extract). Blanks BOTH ``ast_hash`` and
     ``semantic_hash`` on the seeded row so either detect_incremental kind
     re-queues the file after the failure is fixed, without deleting
-    graphify-out/.
+    .graphify/.
 
     ``ast_empty`` (#2879): code files the AST extractor declined by design this
     run (data JSON, etc.) — stamped as up-to-date yet contributing zero nodes.
@@ -2903,7 +2902,7 @@ def save_manifest(
         except OSError:
             continue
         if f in stale_checkout:
-            continue  # previous checkout copied with graphify-out (#3581)
+            continue  # previous checkout copied with .graphify (#3581)
         if scan_set is not None and not _in_scan(f) and _in_root(f):
             continue  # excluded-but-alive: drop the stale row (#1908)
         if clear_ast_set is not None and _in_clear_ast(f):
@@ -3162,7 +3161,7 @@ def detect_incremental(
     same way the fresh-scan (non-incremental) call site already does. Without
     it, an incremental run with a ``--out`` destination outside the scan root
     falls back to anchoring the cache at the scan root itself, leaking
-    ``graphify-out/cache/stat-index.json`` there even though the fresh-scan
+    ``.graphify/cache/stat-index.json`` there even though the fresh-scan
     path stays clean (#3847).
     """
     full = detect(

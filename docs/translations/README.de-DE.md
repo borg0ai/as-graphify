@@ -63,7 +63,7 @@ Dann, in Ihrem KI-Assistenten:
 Das war's. Sie erhalten **drei Dateien**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Dies schreibt eine kleine Konfigurationsdatei, die Ihrem Assistenten sagt, den W
 
 Welche Dateien jede Plattform genau schreibt (CodeBuddys `CODEBUDDY.md` + `PreToolUse`-Hooks, Codex' `AGENTS.md`, Kilos natives `.kilo`-Plugin, Cursors `alwaysApply`-Regel usw.) wird in **[Always-on-Einrichtung](https://docs.graphify.com/guides/always-on)** behandelt.
 
-Um graphify von allen Plattformen auf einmal zu entfernen: `graphify uninstall` (fügen Sie `--purge` hinzu, um auch `graphify-out/` zu löschen). Oder nutzen Sie den Per-Plattform-Befehl (z. B. `graphify claude uninstall`).
+Um graphify von allen Plattformen auf einmal zu entfernen: `graphify uninstall` (fügen Sie `--purge` hinzu, um auch `.graphify/` zu löschen). Oder nutzen Sie den Per-Plattform-Befehl (z. B. `graphify claude uninstall`).
 
 ### CLI-Skills oder MCP-Instruktionen?
 
@@ -316,7 +316,7 @@ Die von `graphify install` installierten Instruktionen und jene, die mit einer G
 
 | Einrichtung | Zu nutzende Anleitung | Abfragezugriff |
 |---|---|---|
-| Lokale CLI und installierter Assistenten-Skill | Die von `graphify install` geschriebenen Plattform-Instruktionen | Führen Sie `graphify query`, `graphify path` und `graphify explain` gegen den lokalen Graphen aus (`graphify-out/` standardmäßig). |
+| Lokale CLI und installierter Assistenten-Skill | Die von `graphify install` geschriebenen Plattform-Instruktionen | Führen Sie `graphify query`, `graphify path` und `graphify explain` gegen den lokalen Graphen aus (`.graphify/` standardmäßig). |
 | Verbundener Graphify-MCP-Server | Die Instruktionen der Verbindung und die von diesem Server aufgelisteten Tools | Rufen Sie die aufgelisteten MCP-Tools gegen den von dieser Verbindung bereitgestellten Graphen auf. Tool-Namen und -Beschreibungen stammen vom Server. |
 
 Beide empfehlen begrenzte Graphenabfragen vor breiten Quellensuchen. Wählen Sie die Instruktionen, die zu den Tools passen, auf die Ihr Assistent tatsächlich zugreifen kann; keiner der Blöcke legt eine universelle Vorrangregel für die Instruktionsdateien Ihres Assistenten fest. Wenn Sie beide Integrationen nutzen, identifizieren Sie, welchen Graphen jede abfragt, und wählen Sie einen primären Abfragepfad, statt zwei unbedingte Instruktionsblöcke in `AGENTS.md` zu kopieren.

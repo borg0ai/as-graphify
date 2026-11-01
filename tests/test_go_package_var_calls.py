@@ -28,7 +28,7 @@ def _calls(tmp_path, files: dict[str, str]) -> set[tuple[str, str]]:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8")
     result = extract([tmp_path / n for n in files],
-                     cache_root=tmp_path / "graphify-out", parallel=False)
+                     cache_root=tmp_path / ".graphify", parallel=False)
     label = {n["id"]: n["label"] for n in result["nodes"]}
     return {(label.get(e["source"]), label.get(e["target"]))
             for e in result["edges"] if e["relation"] == "calls"}

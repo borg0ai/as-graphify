@@ -63,7 +63,7 @@ graphify install               # detects your assistant and registers the skill
 เท่านี้เอง คุณจะได้ **สามไฟล์**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -300,7 +300,7 @@ Pi ไม่มี `PreToolUse` hook ดังนั้น `graphify pi guard in
 
 ไฟล์ที่แต่ละแพลตฟอร์มเขียนออกมาจริง ๆ (เช่น `CODEBUDDY.md` + `PreToolUse` hooks ของ CodeBuddy, `AGENTS.md` ของ Codex, ปลั๊กอิน `.kilo` แบบเนทีฟของ Kilo, กฎ `alwaysApply` ของ Cursor และอื่น ๆ) ครอบคลุมใน **[Always-on setup](https://docs.graphify.com/guides/always-on)**
 
-หากต้องการนำ graphify ออกจากทุกแพลตฟอร์มในครั้งเดียว: `graphify uninstall` (เพิ่ม `--purge` เพื่อลบ `graphify-out/` ด้วย) หรือใช้คำสั่งเฉพาะแพลตฟอร์ม (เช่น `graphify claude uninstall`)
+หากต้องการนำ graphify ออกจากทุกแพลตฟอร์มในครั้งเดียว: `graphify uninstall` (เพิ่ม `--purge` เพื่อลบ `.graphify/` ด้วย) หรือใช้คำสั่งเฉพาะแพลตฟอร์ม (เช่น `graphify claude uninstall`)
 
 ### สกิล CLI หรือคำสั่ง MCP?
 
@@ -308,7 +308,7 @@ Pi ไม่มี `PreToolUse` hook ดังนั้น `graphify pi guard in
 
 | Setup | Guidance to use | Query access |
 |---|---|---|
-| CLI ในเครื่องและสกิลผู้ช่วยที่ติดตั้งไว้ | คำสั่งของแพลตฟอร์มที่เขียนโดย `graphify install` | รัน `graphify query`, `graphify path` และ `graphify explain` กับกราฟในเครื่อง (`graphify-out/` โดยค่าเริ่มต้น) |
+| CLI ในเครื่องและสกิลผู้ช่วยที่ติดตั้งไว้ | คำสั่งของแพลตฟอร์มที่เขียนโดย `graphify install` | รัน `graphify query`, `graphify path` และ `graphify explain` กับกราฟในเครื่อง (`.graphify/` โดยค่าเริ่มต้น) |
 | เซิร์ฟเวอร์ Graphify MCP ที่เชื่อมต่อ | คำสั่งของการเชื่อมต่อนั้นและเครื่องมือที่เซิร์ฟเวอร์นั้นแสดงรายการ | เรียกเครื่องมือ MCP ที่แสดงรายการกับกราฟที่การเชื่อมต่อนั้นให้บริการ ชื่อและคำอธิบายเครื่องมือมาจากเซิร์ฟเวอร์ |
 
 ทั้งสองแบบส่งเสริมการสืบค้นกราฟแบบจำกัดขอบเขตก่อนการค้นหาซอร์สในวงกว้าง เลือกคำสั่งที่ตรงกับเครื่องมือที่ผู้ช่วยของคุณเข้าถึงได้จริง ไม่มีบล็อกใดสร้างกฎลำดับความสำคัญสากลสำหรับไฟล์คำสั่งของผู้ช่วยของคุณ หากคุณใช้ทั้งสองการผสานรวม ให้ระบุว่าแต่ละอันสืบค้นกราฟใด และเลือกเส้นทางการสืบค้นหลักหนึ่งเส้นทาง แทนการคัดลอกบล็อกคำสั่งแบบไม่มีเงื่อนไขสองบล็อกลงใน `AGENTS.md`

@@ -97,8 +97,8 @@ ALWAYS_ON_BLOCKS = {
 # optional once they have a specific file in mind.
 _QUERY_FIRST_EDIT = (
     'For codebase questions, first run `graphify query "<question>"` when '
-    "graphify-out/graph.json exists.",
-    'When graphify-out/graph.json exists, run `graphify query "<question>"` before '
+    ".graphify/graph.json exists.",
+    'When .graphify/graph.json exists, run `graphify query "<question>"` before '
     "your first grep, search or source-file read for a codebase question, and put "
     "this rule in every subagent prompt that explores code. Read raw files only for "
     "lines the graph or an earlier read already located.",
@@ -117,7 +117,7 @@ _UPDATE_RULE = "run `graphify update .` to keep the graph current (AST-only, no 
 _GRAPH_DIFF_EDIT = (
     _UPDATE_RULE,
     _UPDATE_RULE
-    + "\n- A committed graphify-out/graph.json is rewritten whole on every build, so a large diff"
+    + "\n- A committed .graphify/graph.json is rewritten whole on every build, so a large diff"
     " to it in a pull request is expected. Do not flag it as churn or suggest skipping the"
     " graph rebuild or its hooks.",
 )
@@ -392,9 +392,9 @@ def _render_frontmatter(platform: Platform) -> str:
 # would drift), the composed body is translated deterministically:
 #
 #   * ```` ```bash ```` fences become ```` ```powershell ```` fences;
-#   * the inline ``$(cat graphify-out/.graphify_python) -c "..."`` python blocks
+#   * the inline ``$(cat .graphify/.graphify_python) -c "..."`` python blocks
 #     become single-quoted here-strings piped to the interpreter's stdin
-#     (``@'...'@ | & (Get-Content graphify-out\.graphify_python) -``). A
+#     (``@'...'@ | & (Get-Content .graphify\.graphify_python) -``). A
 #     single-quoted here-string is verbatim, so the bash ``\"`` escapes are
 #     dropped and no PowerShell escaping is introduced; piping the program to
 #     stdin (``python -``) sidesteps Windows PowerShell 5.1's native-argument
@@ -407,14 +407,14 @@ def _render_frontmatter(platform: Platform) -> str:
 # untranslated bash to the Windows variant. ``_POWERSHELL_BANNED_TOKENS`` is the
 # belt-and-braces post-check on the final body.
 
-_PY_INVOKE_POSIX = '$(cat graphify-out/.graphify_python) -c "'
+_PY_INVOKE_POSIX = '$(cat .graphify/.graphify_python) -c "'
 _PY_INVOKE_PS_OPEN = "@'"
-_PY_INVOKE_PS_CLOSE = "'@ | & (Get-Content graphify-out\\.graphify_python) -"
-_MKDIR_POSIX = "mkdir -p graphify-out"
-_MKDIR_PS = "New-Item -ItemType Directory -Force -Path graphify-out | Out-Null"
-_FIND_CHUNKS_POSIX = "find graphify-out -maxdepth 1 -name '.graphify_chunk_*.json' -delete 2>/dev/null"
+_PY_INVOKE_PS_CLOSE = "'@ | & (Get-Content .graphify\\.graphify_python) -"
+_MKDIR_POSIX = "mkdir -p .graphify"
+_MKDIR_PS = "New-Item -ItemType Directory -Force -Path .graphify | Out-Null"
+_FIND_CHUNKS_POSIX = "find .graphify -maxdepth 1 -name '.graphify_chunk_*.json' -delete 2>/dev/null"
 _FIND_CHUNKS_PS = (
-    "Get-ChildItem graphify-out -Filter '.graphify_chunk_*.json' -File "
+    "Get-ChildItem .graphify -Filter '.graphify_chunk_*.json' -File "
     "-ErrorAction SilentlyContinue | Remove-Item -Force"
 )
 
@@ -1025,7 +1025,7 @@ def _is_zero_node_guard_fix_line(line: str) -> bool:
         or s == "raise SystemExit(1)"
         or "to_json(G, communities," in line
         or s == "if not wrote:"
-        or "refused to shrink graphify-out/graph.json" in line
+        or "refused to shrink .graphify/graph.json" in line
         or "Guard BEFORE any write" in line
         or "GRAPH_REPORT.md / analysis sidecar" in line
         or "Persist the graph first" in line
@@ -1182,12 +1182,12 @@ def _is_step1_root_marker_fix_line(line: str) -> bool:
 
     The v8 monoliths did not persist .graphify_root in Step 1. The fix adds the
     safe quoted-heredoc scan-root writer to Step 1, persisting
-    graphify-out/.graphify_root so that `graphify update` and `--watch` can consume
+    .graphify/.graphify_root so that `graphify update` and `--watch` can consume
     the trusted resolved path.
     """
     stripped = line.strip()
     return (
-        stripped.startswith('"$PYTHON" -c "import os, sys; out_path = os.path.abspath(\'graphify-out/.graphify_root\')')
+        stripped.startswith('"$PYTHON" -c "import os, sys; out_path = os.path.abspath(\'.graphify/.graphify_root\')')
         or stripped in ("INPUT_PATH", "GRAPHIFY_ROOT_EOF")
         or stripped == "# Save scan root so `graphify update` (no args) knows where to look next time."
         or stripped == "# The scan path is passed through a quoted heredoc, never substituted into the"
@@ -1203,15 +1203,15 @@ def _is_watch_injection_fix_line(line: str) -> bool:
     The v8 monoliths passed the raw, agent-substituted INPUT_PATH placeholder
     unquoted to `graphify.watch` in bash (`python3 -m graphify.watch INPUT_PATH --debounce 3`),
     which executed command substitutions in hostile paths. The fix consumes the
-    trusted `graphify-out/.graphify_root` resolved in Step 1 via $(cat ...).
+    trusted `.graphify/.graphify_root` resolved in Step 1 via $(cat ...).
     Both the removed v8 command/prose and the added trusted-root command/prose match here.
     """
     stripped = line.strip()
     return (
         stripped == "python3 -m graphify.watch INPUT_PATH --debounce 3"
-        or stripped == '$(cat graphify-out/.graphify_python) -m graphify.watch "$(cat graphify-out/.graphify_root)" --debounce 3'
+        or stripped == '$(cat .graphify/.graphify_python) -m graphify.watch "$(cat .graphify/.graphify_root)" --debounce 3'
         or stripped == "Replace INPUT_PATH with the folder to watch. Behavior depends on what changed:"
-        or stripped == "This watches the same folder graphify extracted, read from the trusted `graphify-out/.graphify_root` that Step 1 resolved - there is no path to substitute, so a scan root containing shell metacharacters can never be re-interpreted here. Behavior depends on what changed:"
+        or stripped == "This watches the same folder graphify extracted, read from the trusted `.graphify/.graphify_root` that Step 1 resolved - there is no path to substitute, so a scan root containing shell metacharacters can never be re-interpreted here. Behavior depends on what changed:"
     )
 
 
@@ -1247,12 +1247,12 @@ def _is_persisted_scan_options_fix_line(line: str) -> bool:
 def _is_worktree_visibility_note_line(line: str) -> bool:
     """Whether a line is the Step 9 working-tree note (#3941).
 
-    Step 9's report never told the user that ``graphify-out/`` was written into
+    Step 9's report never told the user that ``.graphify/`` was written into
     their working tree, so a repository that does not ignore it was left with
     untracked machine-local files in ``git status`` and no explanation. The report
     now adds one sentence saying so, with the two ways to handle it.
     """
-    return "`graphify-out/` was written into the working tree" in line
+    return "`.graphify/` was written into the working tree" in line
 
 
 def _is_semantic_origin_stamp_fix_line(line: str) -> bool:
@@ -1304,9 +1304,9 @@ def _is_code_only_fast_path_fix_line(line: str) -> bool:
             'import json',
             'from pathlib import Path',
             '"',
-            '$(cat graphify-out/.graphify_python) -c "',
+            '$(cat .graphify/.graphify_python) -c "',
             "if [ ! -f .graphify_extract.json ]; then",
-            "if [ ! -f graphify-out/.graphify_extract.json ]; then",
+            "if [ ! -f .graphify/.graphify_extract.json ]; then",
         )
         or (s.startswith("**Fast path:** If detection found zero docs") and (
             "**First write an empty semantic file**" in s

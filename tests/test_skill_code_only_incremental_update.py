@@ -43,7 +43,7 @@ def _run_code(script: str, *, cwd: Path, root: Path) -> subprocess.CompletedProc
     script = script.replace("INPUT_PATH", root.as_posix()).replace("IS_DIRECTED", "False")
     env = {
         **os.environ,
-        "GRAPHIFY_OUT": "graphify-out",
+        "GRAPHIFY_OUT": ".graphify",
         "PYTHONPATH": str(REPO_ROOT),
     }
     return subprocess.run(
@@ -100,7 +100,7 @@ def test_codex_code_only_update_materializes_and_merges_fresh_ast(tmp_path: Path
     notes = root / "notes.md"
     notes.write_text("# Existing semantic source\n", encoding="utf-8")
     deleted = root / "deleted.py"
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
 
     # Normal cleanup leaves no final extraction. Seed a stale semantic sidecar
@@ -133,7 +133,7 @@ assert saved == 1
 """
     cache_env = {
         **os.environ,
-        "GRAPHIFY_OUT": "graphify-out",
+        "GRAPHIFY_OUT": ".graphify",
         "GRAPHIFY_TEST_ROOT": str(root),
         "PYTHONPATH": str(REPO_ROOT),
     }

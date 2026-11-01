@@ -55,7 +55,7 @@ def _write(root: Path, files: dict[str, str]) -> None:
 
 
 def _graph(root: Path) -> dict:
-    return json.loads((root / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+    return json.loads((root / ".graphify" / "graph.json").read_text(encoding="utf-8"))
 
 
 def _labels(graph: dict) -> dict[str, str]:

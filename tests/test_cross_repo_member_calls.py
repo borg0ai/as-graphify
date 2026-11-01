@@ -485,8 +485,8 @@ def _build(tmp_path: Path, repo: str, name: str, body: str) -> Path:
     path = tmp_path / repo / name
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(body, encoding="utf-8")
-    result = extract([path], cache_root=tmp_path / repo / "graphify-out")
-    graph = tmp_path / repo / "graphify-out" / "graph.json"
+    result = extract([path], cache_root=tmp_path / repo / ".graphify")
+    graph = tmp_path / repo / ".graphify" / "graph.json"
     _write_graph(graph, result["nodes"], result["edges"])
     return graph
 
@@ -507,8 +507,8 @@ def _cross_repo_calls(merged: dict) -> list[dict]:
 def test_merge_graphs_cli_finishes_the_parked_call(tmp_path: Path):
     # The pass has to be reached through the real command, not just called
     # directly, and it has to survive the repo prefixing the merge applies.
-    a = tmp_path / "app" / "graphify-out" / "graph.json"
-    b = tmp_path / "lib" / "graphify-out" / "graph.json"
+    a = tmp_path / "app" / ".graphify" / "graph.json"
+    b = tmp_path / "lib" / ".graphify" / "graph.json"
     _write_graph(a, [{"id": "app_run", "label": ".run()", "source_file": "src/App.java",
                       "metadata": {"unresolved_calls": PARKED_GREET}}], [])
     _write_graph(

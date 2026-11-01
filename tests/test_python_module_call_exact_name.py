@@ -28,7 +28,7 @@ def _calls(tmp_path: Path, caller_body: str) -> list[tuple[str, str, str]]:
     (tmp_path / "core_schema.py").write_text(_CORE, encoding="utf-8")
     (tmp_path / "caller.py").write_text(caller_body, encoding="utf-8")
     result = extract([tmp_path / "caller.py", tmp_path / "core_schema.py"], root=tmp_path,
-                     cache_root=tmp_path / "graphify-out", parallel=False)
+                     cache_root=tmp_path / ".graphify", parallel=False)
     label = {n["id"]: n["label"] for n in result["nodes"]}
     return [(label.get(e["source"], ""), label.get(e["target"], ""), e["confidence"])
             for e in result["edges"]
@@ -66,7 +66,7 @@ def test_a_call_never_binds_to_an_unrelated_modules_child(tmp_path: Path):
         encoding="utf-8")
     result = extract(
         [tmp_path / "caller.py", tmp_path / "core_schema.py", tmp_path / "other.py"],
-        root=tmp_path, cache_root=tmp_path / "graphify-out", parallel=False)
+        root=tmp_path, cache_root=tmp_path / ".graphify", parallel=False)
     label = {n["id"]: n["label"] for n in result["nodes"]}
     targets = [label.get(e["target"], "") for e in result["edges"]
                if e["relation"] == "calls" and label.get(e["source"]) == "build()"]

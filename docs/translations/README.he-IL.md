@@ -63,7 +63,7 @@ graphify install               # detects your assistant and registers the skill
 זהו. אתם מקבלים **שלושה קבצים**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -300,7 +300,7 @@ graphify install --project --platform codex
 
 אילו קבצים בדיוק כל פלטפורמה כותבת (ה-`CODEBUDDY.md` + hooks של `PreToolUse` של CodeBuddy, ה-`AGENTS.md` של Codex, תוסף ה-`.kilo` המקורי של Kilo, כלל ה-`alwaysApply` של Cursor, וכן הלאה) מכוסה ב-**[הגדרה תמידית](https://docs.graphify.com/guides/always-on)**.
 
-כדי להסיר את graphify מכל הפלטפורמות בבת אחת: `graphify uninstall` (הוסיפו `--purge` כדי למחוק גם את `graphify-out/`). או השתמשו בפקודה הספציפית לפלטפורמה (לדוגמה `graphify claude uninstall`).
+כדי להסיר את graphify מכל הפלטפורמות בבת אחת: `graphify uninstall` (הוסיפו `--purge` כדי למחוק גם את `.graphify/`). או השתמשו בפקודה הספציפית לפלטפורמה (לדוגמה `graphify claude uninstall`).
 
 ### מיומנויות CLI או הנחיות MCP?
 
@@ -308,7 +308,7 @@ graphify install --project --platform codex
 
 | הגדרה | הנחיה לשימוש | גישת תשאול |
 |---|---|---|
-| CLI מקומי ומיומנות עוזר מותקנת | הנחיות הפלטפורמה שנכתבו על ידי `graphify install` | הריצו `graphify query`, `graphify path`, ו-`graphify explain` מול הגרף המקומי (`graphify-out/` כברירת מחדל). |
+| CLI מקומי ומיומנות עוזר מותקנת | הנחיות הפלטפורמה שנכתבו על ידי `graphify install` | הריצו `graphify query`, `graphify path`, ו-`graphify explain` מול הגרף המקומי (`.graphify/` כברירת מחדל). |
 | שרת MCP מחובר של Graphify | הנחיות החיבור והכלים המפורטים על ידי אותו שרת | קראו לכלי ה-MCP המפורטים מול הגרף שמוגש על ידי אותו חיבור. שמות הכלים והתיאורים מגיעים מהשרת. |
 
 שתיהן מעודדות שאילתות גרף ממוקדות לפני חיפושי מקור רחבים. בחרו את ההנחיות שתואמות לכלים שהעוזר שלכם יכול לגשת אליהם בפועל; אף בלוק אינו קובע כלל קדימות אוניברסלי לקבצי ההנחיות של העוזר שלכם. אם אתם משתמשים בשתי האינטגרציות, זהו איזה גרף כל אחת מתשאלת ובחרו נתיב תשאול ראשי במקום להעתיק שני בלוקי הנחיות ללא תנאי ל-`AGENTS.md`.

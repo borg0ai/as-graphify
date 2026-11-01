@@ -35,7 +35,7 @@ def _write_corpus(root: Path) -> Path:
 
 
 def _graph(root: Path) -> tuple[set[str], list[dict]]:
-    data = json.loads((root / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+    data = json.loads((root / ".graphify" / "graph.json").read_text(encoding="utf-8"))
     return {n["id"] for n in data["nodes"]}, data.get("links", data.get("edges", []))
 
 

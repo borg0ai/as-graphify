@@ -548,7 +548,7 @@ Find `build_merge()` at line 191. Update signature and the internal `build()` ca
 ```python
 def build_merge(
     new_chunks: list[dict],
-    graph_path: str | Path = "graphify-out/graph.json",
+    graph_path: str | Path = ".graphify/graph.json",
     prune_sources: list[str] | None = None,
     *,
     directed: bool = False,
@@ -652,14 +652,14 @@ def test_manifest_written_after_extract(tmp_path):
     # Should fail with no API key — but NOT with a path error
     assert "no LLM API key" in r.stderr or r.returncode != 0
     # manifest should NOT exist (run failed before writing)
-    manifest = docs / "graphify-out" / "manifest.json"
+    manifest = docs / ".graphify" / "manifest.json"
     assert not manifest.exists()
 
 
 def test_incremental_mode_detected_via_manifest(tmp_path):
     """If manifest.json + graph.json exist, incremental mode message is shown."""
     docs = _make_docs_corpus(tmp_path)
-    out = docs / "graphify-out"
+    out = docs / ".graphify"
     out.mkdir()
     # Fake a prior successful run
     (out / "graph.json").write_text(json.dumps({"nodes": [], "links": []}))

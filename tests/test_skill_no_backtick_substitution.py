@@ -1,7 +1,7 @@
 """No command may run from a backtick inside a skill's double-quoted `-c "..."` block.
 
 Bash expands backticks (and $(...)) inside double quotes. A comment such as
-``# `graphify update` deleted it ...`` inside ``$(cat graphify-out/.graphify_python) -c "..."``
+``# `graphify update` deleted it ...`` inside ``$(cat .graphify/.graphify_python) -c "..."``
 therefore ran graphify before Python started and pasted its output into the Python source
 (#4461): a SyntaxError, plus an unrequested rebuild of the user's graph.
 
@@ -9,7 +9,7 @@ Two checks over the generated skill files (graphify/skill*.md and graphify/skill
 
 * static: no backtick inside any double-quoted -c block. PowerShell @' ... '@ here-strings
   are skipped, because nothing inside a single-quoted here-string is expanded.
-* runtime: each ``$(cat graphify-out/.graphify_python) -c "..."`` statement of the files that
+* runtime: each ``$(cat .graphify/.graphify_python) -c "..."`` statement of the files that
   hold Part C or the --update merge is run under bash with a stub interpreter, so it needs no
   inputs. A fake `graphify` and a fake `changed` log their calls and print three lines. The
   shell traces every command it runs (set -x) and PATH holds only the fakes, a `cat` link and
@@ -30,8 +30,8 @@ GENERATED = sorted(GEN.glob("skill*.md")) + sorted(GEN.glob("skills/**/*.md"))
 
 _FENCE = re.compile(r"^```(\w*)\s*$")
 _DQ = re.compile(r'(?<!\\)"')                  # an unescaped double quote
-OPENER = '$(cat graphify-out/.graphify_python) -c "'
-OPENER_RE = re.compile(r'^"?\$\(cat graphify-out/\.graphify_python\)"? -c "')
+OPENER = '$(cat .graphify/.graphify_python) -c "'
+OPENER_RE = re.compile(r'^"?\$\(cat .graphify/\.graphify_python\)"? -c "')
 PART_C = "merged_edges = ast['edges'] + sem['edges']"
 UPDATE = "from graphify.build import build_merge"
 BASH = shutil.which("bash")
@@ -170,8 +170,8 @@ def run_statements(
     stub = bin_ / "stubpy"
     _exe(stub, "#!/bin/sh\nexit 0\n")
     (bin_ / "cat").symlink_to(CAT)
-    (tmp_path / "graphify-out").mkdir()
-    (tmp_path / "graphify-out" / ".graphify_python").write_text(str(stub))
+    (tmp_path / ".graphify").mkdir()
+    (tmp_path / ".graphify" / ".graphify_python").write_text(str(stub))
     bad_exits = []
     for stmt in stmts:
         script = f"exec 9>>{trace}\nBASH_XTRACEFD=9\nPS4='+T '\nset -x\n{stmt}\n"
@@ -182,7 +182,7 @@ def run_statements(
         if r.returncode != 0:
             bad_exits.append((r.returncode, stmt.splitlines()[0]))
     allowed = (
-        re.compile(r"^\+\+T cat graphify-out/\.graphify_python$"),
+        re.compile(r"^\+\+T cat .graphify/\.graphify_python$"),
         re.compile(rf"^\+T {re.escape(str(stub))} -c "),
     )
     traced = [ln for ln in trace.read_text().splitlines() if re.match(r"^\++T ", ln)]

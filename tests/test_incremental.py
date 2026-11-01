@@ -47,14 +47,14 @@ def test_manifest_written_after_extract(tmp_path):
     # Should fail with no API key — but NOT with a path error
     assert "no LLM API key" in r.stderr or r.returncode != 0
     # manifest should NOT exist (run failed before writing)
-    manifest = docs / "graphify-out" / "manifest.json"
+    manifest = docs / ".graphify" / "manifest.json"
     assert not manifest.exists()
 
 
 def test_incremental_mode_detected_via_manifest(tmp_path):
     """If manifest.json + graph.json exist, incremental mode message is shown."""
     docs = _make_docs_corpus(tmp_path)
-    out = docs / "graphify-out"
+    out = docs / ".graphify"
     out.mkdir()
     (out / "graph.json").write_text(json.dumps({"nodes": [], "links": []}))
     (out / "manifest.json").write_text(json.dumps({"document": [str(docs / "intro.md")]}))
@@ -84,7 +84,7 @@ def test_extract_no_cluster_incremental_noop_preserves_existing_graph(tmp_path):
 
     first = _run(["extract", str(project), "--no-cluster"], tmp_path)
     assert first.returncode == 0, first.stderr
-    graph_path = project / "graphify-out" / "graph.json"
+    graph_path = project / ".graphify" / "graph.json"
     before_text = graph_path.read_text(encoding="utf-8")
     before = json.loads(before_text)
     assert before.get("nodes"), "first run should produce a non-empty code graph"
@@ -124,7 +124,7 @@ def test_extract_no_cluster_incremental_changed_file_preserves_unchanged_files(t
 
     first = _run(["extract", str(proj), "--code-only", "--no-cluster"], tmp_path)
     assert first.returncode == 0, first.stderr
-    gj = proj / "graphify-out" / "graph.json"
+    gj = proj / ".graphify" / "graph.json"
     base = json.loads(gj.read_text(encoding="utf-8"))
     base_ids = {n["id"] for n in base["nodes"]}
     # Sanity: importer file, target file, and target symbol all present.
@@ -195,7 +195,7 @@ def test_update_preserves_generic_rust_self_call_to_unchanged_impl(tmp_path):
 
     def has_call() -> bool:
         graph = json.loads(
-            (proj / "graphify-out" / "graph.json").read_text(encoding="utf-8")
+            (proj / ".graphify" / "graph.json").read_text(encoding="utf-8")
         )
         nodes = {
             (node.get("label"), node.get("source_file")): node["id"]
@@ -234,7 +234,7 @@ def test_extract_no_cluster_incremental_code_only_preserves_doc_nodes(tmp_path):
 
     first = _run(["extract", str(proj), "--code-only", "--no-cluster"], tmp_path)
     assert first.returncode == 0, first.stderr
-    gj = proj / "graphify-out" / "graph.json"
+    gj = proj / ".graphify" / "graph.json"
     g = json.loads(gj.read_text(encoding="utf-8"))
     assert g.get("nodes"), "first run should produce a non-empty code graph"
 
@@ -377,7 +377,7 @@ def test_update_prunes_a_removed_imports_edge(tmp_path):
     # initial extract -> the import edge a -> b exists
     r1 = _run(["extract", str(proj), "--no-cluster"], tmp_path)
     assert r1.returncode == 0, r1.stderr
-    gj = proj / "graphify-out" / "graph.json"
+    gj = proj / ".graphify" / "graph.json"
     before = _edges(gj)
     assert any(e.get("relation") in ("imports", "imports_from") and
                str(e.get("source_file", "")).endswith("a.py") for e in before), \
@@ -411,7 +411,7 @@ def test_update_preserves_cross_file_imports_and_calls_to_unchanged_file(tmp_pat
 
     r1 = _run(["extract", str(proj), "--no-cluster"], tmp_path)
     assert r1.returncode == 0, r1.stderr
-    gj = proj / "graphify-out" / "graph.json"
+    gj = proj / ".graphify" / "graph.json"
     before = _edges(gj)
 
     # Initial build must contain both the imports edge and the calls edge
@@ -482,7 +482,7 @@ def test_update_does_not_resurrect_a_dropped_cross_file_edge_via_context(tmp_pat
 
     r1 = _run(["extract", str(proj), "--no-cluster"], tmp_path)
     assert r1.returncode == 0, r1.stderr
-    gj = proj / "graphify-out" / "graph.json"
+    gj = proj / ".graphify" / "graph.json"
     before = _edges(gj)
     assert any(
         e.get("relation") == "imports"

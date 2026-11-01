@@ -39,7 +39,7 @@ write graph.json + .graphify_analysis.json + manifest.json
 ## Feature 1: Incremental Updates
 
 ### Auto-detection
-If `graphify-out/manifest.json` + `graphify-out/graph.json` both exist → incremental mode. No flag needed. First run is always full.
+If `.graphify/manifest.json` + `.graphify/graph.json` both exist → incremental mode. No flag needed. First run is always full.
 
 ### Incremental mode changes
 - `detect_incremental(target)` instead of `detect(target)` — returns `new_files`, `unchanged_files`, `deleted_files`

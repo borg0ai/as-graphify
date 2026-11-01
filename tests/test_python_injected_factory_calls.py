@@ -138,7 +138,7 @@ def test_changed_file_watch_rebuild_keeps_unchanged_return_annotations(tmp_path)
     service = tmp_path / "services.py"
     service.write_text(service.read_text() + "\n# changed\n")
     assert _rebuild_code(tmp_path, changed_paths=[service], no_cluster=True, acquire_lock=False)
-    graph = json.loads((tmp_path / "graphify-out/graph.json").read_text())
+    graph = json.loads((tmp_path / ".graphify/graph.json").read_text())
     assert _edge({"edges": graph.get("links", graph.get("edges", []))}, "services_taskservice_complete_task", "models_task_complete") is not None
 
 
@@ -157,7 +157,7 @@ def test_changed_file_cli_extract_keeps_unchanged_return_annotations(tmp_path):
             service.write_text(service.read_text() + "\n# changed\n")
         run = subprocess.run(command, cwd=tmp_path, env=env, capture_output=True, text=True)
         assert run.returncode == 0, run.stderr[-2000:]
-        graph = json.loads((tmp_path / "graphify-out/graph.json").read_text())
+        graph = json.loads((tmp_path / ".graphify/graph.json").read_text())
         assert _edge({"edges": graph.get("links", graph.get("edges", []))}, "services_taskservice_complete_task", "models_task_complete") is not None
 
 

@@ -29,7 +29,7 @@ def _calls(tmp_path, files: dict[str, str]):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8")
     result = extract([tmp_path / n for n in files],
-                     cache_root=tmp_path / "graphify-out", parallel=False)
+                     cache_root=tmp_path / ".graphify", parallel=False)
     label = {n["id"]: n["label"] for n in result["nodes"]}
     calls = {(label.get(e["source"]), label.get(e["target"])): e
              for e in result["edges"] if e["relation"] == "calls"}
@@ -252,7 +252,7 @@ def test_a_sibling_files_struct_field_survives_a_rebuild_of_the_method_file_only
     run.write_text(run.read_text(encoding="utf-8") + "// touched\n", encoding="utf-8")
     assert _rebuild_code(tmp_path, changed_paths=[run], no_cluster=True, acquire_lock=False)
 
-    g = json.loads((tmp_path / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+    g = json.loads((tmp_path / ".graphify" / "graph.json").read_text(encoding="utf-8"))
     label = {n["id"]: n["label"] for n in g["nodes"]}
     calls = {(label.get(e["source"]), label.get(e["target"]))
              for e in g.get("links", g.get("edges", [])) if e["relation"] == "calls"}

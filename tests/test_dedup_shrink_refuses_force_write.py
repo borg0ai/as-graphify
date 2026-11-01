@@ -66,7 +66,7 @@ def _corpus(tmp_path):
 def _arm(monkeypatch, tmp_path, *, nodes, extra_argv=()):
     corpus = _corpus(tmp_path)
     out_dir = tmp_path / "out"
-    graph_path = out_dir / "graphify-out" / "graph.json"
+    graph_path = out_dir / ".graphify" / "graph.json"
     _write_graph(graph_path, nodes)
     monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-test-fake-key")
 
@@ -197,7 +197,7 @@ def test_pruned_node_count_ignores_a_stub_created_this_run(tmp_path):
         {"id": "kept", "label": "Overview", "file_type": "document", "source_file": kept},
         {"id": "gone", "label": "Gone", "file_type": "document", "source_file": gone},
     ]
-    graph_path = root / "graphify-out" / "graph.json"
+    graph_path = root / ".graphify" / "graph.json"
     _write_graph(graph_path, disk)
     stub_edge = {"source": "gone", "target": "fresh_stub", "source_file": gone}
     chunk = {

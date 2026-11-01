@@ -36,7 +36,7 @@ def _edges(tmp_path, files: dict[str, str]) -> dict[tuple[str, str, str], dict]:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8")
     result = extract([tmp_path / n for n in files if n.endswith(".go")],
-                     cache_root=tmp_path / "graphify-out", parallel=False)
+                     cache_root=tmp_path / ".graphify", parallel=False)
     label = {n["id"]: n["label"] for n in result["nodes"]}
     return {(label.get(e["source"]), e["relation"], label.get(e["target"])): e
             for e in result["edges"] if e["relation"] in ("calls", "indirect_call")}
@@ -82,7 +82,7 @@ def test_a_field_passed_as_an_argument_links_nothing_and_parks_nothing(tmp_path)
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8")
     result = extract([tmp_path / n for n in files if n.endswith(".go")],
-                     cache_root=tmp_path / "graphify-out", parallel=False)
+                     cache_root=tmp_path / ".graphify", parallel=False)
     label = {n["id"]: n["label"] for n in result["nodes"]}
     assert not [e for e in result["edges"] if e["relation"] == "indirect_call"], result["edges"]
     use = next(n for n in result["nodes"] if label[n["id"]] == ".Use()")

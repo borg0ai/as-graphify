@@ -120,7 +120,7 @@ def test_self_call_to_another_files_impl_still_resolves(tmp_path: Path):
         ),
     }.items():
         (tmp_path / name).write_text(body, encoding="utf-8")
-    result = extract([tmp_path / "a.rs", tmp_path / "b.rs"], cache_root=tmp_path / "graphify-out")
+    result = extract([tmp_path / "a.rs", tmp_path / "b.rs"], cache_root=tmp_path / ".graphify")
     nodes = {n["id"]: n for n in result["nodes"]}
     targets = {
         Path(str(nodes[e["target"]]["source_file"])).name

@@ -48,7 +48,7 @@ def _calls(tmp_path: Path, files: dict[str, str]) -> dict[tuple[str, str], str]:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8")
         paths.append(path)
-    result = extract(paths, cache_root=tmp_path / "graphify-out")
+    result = extract(paths, cache_root=tmp_path / ".graphify")
     return _qualified(result["nodes"], result["edges"])
 
 
@@ -264,7 +264,7 @@ def test_qualified_call_survives_incremental_rebuild(tmp_path: Path):
         ))
 
     caller.write_text(_caller(), encoding="utf-8")
-    graph_path = corpus / "graphify-out" / "graph.json"
+    graph_path = corpus / ".graphify" / "graph.json"
 
     def calls() -> dict[tuple[str, str], str]:
         data = json.loads(graph_path.read_text(encoding="utf-8"))

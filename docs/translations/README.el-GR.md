@@ -63,7 +63,7 @@ graphify install               # detects your assistant and registers the skill
 Αυτό ήταν. Λαμβάνετε **τρία αρχεία**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -300,7 +300,7 @@ graphify install --project --platform codex
 
 Ακριβώς ποια αρχεία γράφει κάθε πλατφόρμα (το `CODEBUDDY.md` + `PreToolUse` hooks του CodeBuddy, το `AGENTS.md` του Codex, το εγγενές plugin `.kilo` του Kilo, ο κανόνας `alwaysApply` του Cursor, κ.ο.κ.) καλύπτεται στο **[Always-on setup](https://docs.graphify.com/guides/always-on)**.
 
-Για να αφαιρέσετε το graphify από όλες τις πλατφόρμες ταυτόχρονα: `graphify uninstall` (προσθέστε `--purge` για να διαγράψετε επίσης το `graphify-out/`). Ή χρησιμοποιήστε την εντολή ανά πλατφόρμα (π.χ. `graphify claude uninstall`).
+Για να αφαιρέσετε το graphify από όλες τις πλατφόρμες ταυτόχρονα: `graphify uninstall` (προσθέστε `--purge` για να διαγράψετε επίσης το `.graphify/`). Ή χρησιμοποιήστε την εντολή ανά πλατφόρμα (π.χ. `graphify claude uninstall`).
 
 ### CLI skills ή οδηγίες MCP;
 
@@ -308,7 +308,7 @@ graphify install --project --platform codex
 
 | Ρύθμιση | Οδηγίες προς χρήση | Πρόσβαση ερωτημάτων |
 |---|---|---|
-| Τοπικό CLI και εγκατεστημένο skill βοηθού | Οι οδηγίες πλατφόρμας που γράφει το `graphify install` | Εκτελέστε `graphify query`, `graphify path`, και `graphify explain` πάνω στον τοπικό γράφο (`graphify-out/` από προεπιλογή). |
+| Τοπικό CLI και εγκατεστημένο skill βοηθού | Οι οδηγίες πλατφόρμας που γράφει το `graphify install` | Εκτελέστε `graphify query`, `graphify path`, και `graphify explain` πάνω στον τοπικό γράφο (`.graphify/` από προεπιλογή). |
 | Συνδεδεμένος διακομιστής Graphify MCP | Οι οδηγίες της σύνδεσης και τα εργαλεία που παραθέτει αυτός ο διακομιστής | Καλέστε τα παρατιθέμενα εργαλεία MCP πάνω στον γράφο που εξυπηρετεί αυτή η σύνδεση. Τα ονόματα και οι περιγραφές των εργαλείων προέρχονται από τον διακομιστή. |
 
 Και οι δύο ενθαρρύνουν οριοθετημένα ερωτήματα γράφου πριν από ευρείες αναζητήσεις πηγαίου κώδικα. Επιλέξτε τις οδηγίες που ταιριάζουν με τα εργαλεία στα οποία έχει πραγματικά πρόσβαση ο βοηθός σας· κανένα από τα δύο μπλοκ δεν θεσπίζει έναν καθολικό κανόνα προτεραιότητας για τα αρχεία οδηγιών του βοηθού σας. Αν χρησιμοποιείτε και τις δύο ενσωματώσεις, προσδιορίστε ποιον γράφο ρωτά η καθεμία και επιλέξτε μια κύρια διαδρομή ερωτημάτων αντί να αντιγράψετε δύο άνευ όρων μπλοκ οδηγιών στο `AGENTS.md`.

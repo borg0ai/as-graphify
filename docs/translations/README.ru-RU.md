@@ -63,7 +63,7 @@ graphify install               # detects your assistant and registers the skill
 Вот и всё. Вы получаете **три файла**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ graphify install --project --platform codex
 
 Какие именно файлы записывает каждая платформа (`CODEBUDDY.md` + хуки `PreToolUse` у CodeBuddy, `AGENTS.md` у Codex, нативный плагин `.kilo` у Kilo, правило `alwaysApply` у Cursor и так далее) описано в **[Настройка постоянной работы](https://docs.graphify.com/guides/always-on)**.
 
-Чтобы удалить graphify со всех платформ сразу: `graphify uninstall` (добавьте `--purge`, чтобы также удалить `graphify-out/`). Либо используйте команду для конкретной платформы (например, `graphify claude uninstall`).
+Чтобы удалить graphify со всех платформ сразу: `graphify uninstall` (добавьте `--purge`, чтобы также удалить `.graphify/`). Либо используйте команду для конкретной платформы (например, `graphify claude uninstall`).
 
 ### CLI skills or MCP instructions?
 
@@ -316,7 +316,7 @@ graphify install --project --platform codex
 
 | Настройка | Какое руководство использовать | Доступ к запросам |
 |---|---|---|
-| Локальный CLI и установленный навык ассистента | Инструкции платформы, записанные `graphify install` | Запускайте `graphify query`, `graphify path` и `graphify explain` по локальному графу (`graphify-out/` по умолчанию). |
+| Локальный CLI и установленный навык ассистента | Инструкции платформы, записанные `graphify install` | Запускайте `graphify query`, `graphify path` и `graphify explain` по локальному графу (`.graphify/` по умолчанию). |
 | Подключённый MCP-сервер Graphify | Инструкции подключения и инструменты, перечисленные этим сервером | Вызывайте перечисленные MCP-инструменты по графу, обслуживаемому этим подключением. Имена и описания инструментов приходят от сервера. |
 
 Оба подхода поощряют ограниченные запросы к графу перед широким поиском по исходникам. Выбирайте те инструкции, которые соответствуют инструментам, к которым ваш ассистент действительно имеет доступ; ни один из этих блоков не устанавливает универсального правила приоритета для файлов инструкций вашего ассистента. Если вы используете обе интеграции, определите, какой граф запрашивает каждая, и выберите основной путь запросов вместо копирования двух безусловных блоков инструкций в `AGENTS.md`.

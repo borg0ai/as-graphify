@@ -119,7 +119,7 @@ def test_a_reference_from_another_file_of_the_package_lands_on_the_alias(tmp_pat
         (tmp_path / name).parent.mkdir(parents=True, exist_ok=True)
         (tmp_path / name).write_text(body, encoding="utf-8")
     result = extract([tmp_path / n for n in files], root=tmp_path,
-                     cache_root=tmp_path / "graphify-out", parallel=False)
+                     cache_root=tmp_path / ".graphify", parallel=False)
     [handler] = [n for n in result["nodes"] if n["label"] == "Handler"]
     assert handler["source_file"].endswith("types.go")
     label = _labels(result)
@@ -143,7 +143,7 @@ def test_a_same_name_re_export_alias_resolves_to_the_original(tmp_path: Path):
         (tmp_path / name).parent.mkdir(parents=True, exist_ok=True)
         (tmp_path / name).write_text(body, encoding="utf-8")
     result = extract([tmp_path / n for n in files], root=tmp_path,
-                     cache_root=tmp_path / "graphify-out", parallel=False)
+                     cache_root=tmp_path / ".graphify", parallel=False)
     fields = [n for n in result["nodes"] if n["label"] == "Field"]
     assert [Path(n["source_file"]).as_posix().endswith("core/field.go") for n in fields] == [True]
     label = _labels(result)

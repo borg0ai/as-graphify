@@ -79,11 +79,11 @@ else if (config.mode === "delayed") {
   process.env.PATH = dirname(fixture);
   delete process.env.GRAPHIFY_HOOK_STRICT;
   writeFileSync(join(cwd, "source.py"), "def example(): pass\n");
-  mkdirSync(join(cwd, "graphify-out"));
-  writeFileSync(join(cwd, "graphify-out", "graph.json"), JSON.stringify({ nodes: [], links: [] }));
-  writeFileSync(join(cwd, "graphify-out", "manifest.json"), JSON.stringify({ "source.py": {} }));
+  mkdirSync(join(cwd, ".graphify"));
+  writeFileSync(join(cwd, ".graphify", "graph.json"), JSON.stringify({ nodes: [], links: [] }));
+  writeFileSync(join(cwd, ".graphify", "manifest.json"), JSON.stringify({ "source.py": {} }));
   const fresh = new Date(Date.now() + 1000);
-  utimesSync(join(cwd, "graphify-out", "graph.json"), fresh, fresh);
+  utimesSync(join(cwd, ".graphify", "graph.json"), fresh, fresh);
 });
 
 afterEach(() => {
@@ -101,7 +101,7 @@ test("real CLI strict denial blocks once; later calls return trusted passive con
   const result = await api.emit("tool_call", event);
   expect(result?.block).toBe(true);
   expect(result?.reason).toContain("graphify");
-  expect(existsSync(join(cwd, "graphify-out", "cache", "hook_sessions", "omp-test-session.denied"))).toBe(true);
+  expect(existsSync(join(cwd, ".graphify", "cache", "hook_sessions", "omp-test-session.denied"))).toBe(true);
   // After the one-time deny, every qualifying call carries its own guidance.
   const second = await api.emit("tool_call", { ...event, toolCallId: "call-2" });
   expect(second?.additionalContext).toContain("graphify");

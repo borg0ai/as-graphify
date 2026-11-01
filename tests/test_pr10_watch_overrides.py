@@ -22,4 +22,4 @@ def test_ignored_root_configuration_still_rebuilds_the_graph(tmp_path, monkeypat
 
     drive_watch(tmp_path, monkeypatch, [change])
     assert "configured()" in graph_labels(tmp_path)
-    assert (tmp_path / "graphify-out" / "needs_update").read_text() == "1"
+    assert (tmp_path / ".graphify" / "needs_update").read_text() == "1"

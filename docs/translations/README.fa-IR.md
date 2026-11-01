@@ -63,7 +63,7 @@ graphify install               # detects your assistant and registers the skill
 همین. شما **سه فایل** دریافت می‌کنید:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Pi هیچ قلاب `PreToolUse` ندارد، بنابراین `graphify pi guard
 
 اینکه دقیقاً هر پلتفرم چه فایل‌هایی می‌نویسد (`CODEBUDDY.md` + قلاب‌های `PreToolUse` برای CodeBuddy، `AGENTS.md` برای Codex، افزونهٔ بومی `.kilo` برای Kilo، قاعدهٔ `alwaysApply` برای Cursor، و غیره) در **[Always-on setup](https://docs.graphify.com/guides/always-on)** پوشش داده شده است.
 
-برای حذف graphify از همهٔ پلتفرم‌ها به‌یک‌باره: `graphify uninstall` (برای حذف `graphify-out/` نیز `--purge` را اضافه کنید). یا از فرمان هر پلتفرم استفاده کنید (برای مثال `graphify claude uninstall`).
+برای حذف graphify از همهٔ پلتفرم‌ها به‌یک‌باره: `graphify uninstall` (برای حذف `.graphify/` نیز `--purge` را اضافه کنید). یا از فرمان هر پلتفرم استفاده کنید (برای مثال `graphify claude uninstall`).
 
 ### CLI skills or MCP instructions?
 
@@ -316,7 +316,7 @@ Pi هیچ قلاب `PreToolUse` ندارد، بنابراین `graphify pi guard
 
 | Setup | Guidance to use | Query access |
 |---|---|---|
-| CLI محلی و مهارت دستیار نصب‌شده | دستورالعمل‌های پلتفرم که توسط `graphify install` نوشته می‌شوند | `graphify query`، `graphify path` و `graphify explain` را در برابر گراف محلی (`graphify-out/` به‌طور پیش‌فرض) اجرا کنید. |
+| CLI محلی و مهارت دستیار نصب‌شده | دستورالعمل‌های پلتفرم که توسط `graphify install` نوشته می‌شوند | `graphify query`، `graphify path` و `graphify explain` را در برابر گراف محلی (`.graphify/` به‌طور پیش‌فرض) اجرا کنید. |
 | سرور Graphify MCP متصل | دستورالعمل‌های اتصال و ابزارهایی که آن سرور فهرست می‌کند | ابزارهای MCP فهرست‌شده را در برابر گرافی که آن اتصال سرو می‌کند فراخوانی کنید. نام‌ها و توضیحات ابزار از سرور می‌آیند. |
 
 هر دو، پرس‌وجوهای محدودشدهٔ گراف را پیش از جست‌وجوهای گستردهٔ منبع تشویق می‌کنند. دستورالعمل‌هایی را انتخاب کنید که با ابزارهایی که دستیار شما واقعاً می‌تواند به آن‌ها دسترسی داشته باشد مطابقت دارند؛ هیچ‌کدام از این بلوک‌ها یک قاعدهٔ تقدم جهانی برای فایل‌های دستورالعمل دستیار شما برقرار نمی‌کند. اگر از هر دو یکپارچه‌سازی استفاده می‌کنید، مشخص کنید هر کدام کدام گراف را پرس‌وجو می‌کند و یک مسیر پرس‌وجوی اصلی انتخاب کنید به‌جای کپی کردن دو بلوک دستورالعمل بی‌قیدوشرط در `AGENTS.md`.

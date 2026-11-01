@@ -31,17 +31,17 @@ def _clear_optout(monkeypatch):
 
 def test_cta_prints_on_a_tty(tmp_path, monkeypatch):
     _clear_optout(monkeypatch)
-    out = _run(tmp_path / "graphify-out", monkeypatch, tty=True)
+    out = _run(tmp_path / ".graphify", monkeypatch, tty=True)
     assert "Graphify Cloud" in out
     assert "app.graphify.com" in out
 
 
 def test_cta_suppressed_when_not_a_tty(tmp_path, monkeypatch):
     _clear_optout(monkeypatch)
-    out = _run(tmp_path / "graphify-out", monkeypatch, tty=False)
+    out = _run(tmp_path / ".graphify", monkeypatch, tty=False)
     assert out == ""
     # a non-TTY run must not leave the marker either, so a later TTY run still shows it
-    assert not (tmp_path / "graphify-out" / ".cloud-cta-shown").exists()
+    assert not (tmp_path / ".graphify" / ".cloud-cta-shown").exists()
 
 
 def test_cta_respects_the_opt_out_env_vars(tmp_path, monkeypatch):
@@ -54,7 +54,7 @@ def test_cta_respects_the_opt_out_env_vars(tmp_path, monkeypatch):
 
 def test_cta_shows_once_per_project(tmp_path, monkeypatch):
     _clear_optout(monkeypatch)
-    out_dir = tmp_path / "graphify-out"
+    out_dir = tmp_path / ".graphify"
     first = _run(out_dir, monkeypatch, tty=True)
     second = _run(out_dir, monkeypatch, tty=True)
     assert "Graphify Cloud" in first

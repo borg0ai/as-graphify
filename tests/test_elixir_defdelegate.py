@@ -25,7 +25,7 @@ def _graph(tmp_path: Path):
         "end\n",
         encoding="utf-8",
     )
-    result = extract([src], cache_root=tmp_path / "graphify-out")
+    result = extract([src], cache_root=tmp_path / ".graphify")
     label = {n["id"]: n["label"] for n in result["nodes"]}
     return result, label
 

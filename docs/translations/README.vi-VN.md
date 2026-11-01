@@ -63,7 +63,7 @@ Sau đó, trong trợ lý AI của bạn:
 Vậy là xong. Bạn nhận được **ba tệp**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -300,7 +300,7 @@ Việc này ghi một tệp cấu hình nhỏ bảo trợ lý của bạn tham k
 
 Chính xác tệp nào mỗi nền tảng ghi ra (`CODEBUDDY.md` + `PreToolUse` hooks của CodeBuddy, `AGENTS.md` của Codex, plugin `.kilo` gốc của Kilo, quy tắc `alwaysApply` của Cursor, v.v.) được đề cập trong **[Always-on setup](https://docs.graphify.com/guides/always-on)**.
 
-Để gỡ graphify khỏi mọi nền tảng cùng lúc: `graphify uninstall` (thêm `--purge` để cũng xóa `graphify-out/`). Hoặc dùng lệnh theo từng nền tảng (ví dụ `graphify claude uninstall`).
+Để gỡ graphify khỏi mọi nền tảng cùng lúc: `graphify uninstall` (thêm `--purge` để cũng xóa `.graphify/`). Hoặc dùng lệnh theo từng nền tảng (ví dụ `graphify claude uninstall`).
 
 ### Skill CLI hay hướng dẫn MCP?
 
@@ -308,7 +308,7 @@ Các hướng dẫn được cài bởi `graphify install` và các hướng d�
 
 | Setup | Guidance to use | Query access |
 |---|---|---|
-| CLI cục bộ và kỹ năng trợ lý đã cài | Các hướng dẫn nền tảng được `graphify install` ghi ra | Chạy `graphify query`, `graphify path`, và `graphify explain` trên đồ thị cục bộ (`graphify-out/` theo mặc định). |
+| CLI cục bộ và kỹ năng trợ lý đã cài | Các hướng dẫn nền tảng được `graphify install` ghi ra | Chạy `graphify query`, `graphify path`, và `graphify explain` trên đồ thị cục bộ (`.graphify/` theo mặc định). |
 | Máy chủ Graphify MCP đã kết nối | Các hướng dẫn của kết nối đó và các công cụ mà máy chủ đó liệt kê | Gọi các công cụ MCP được liệt kê trên đồ thị mà kết nối đó phục vụ. Tên và mô tả công cụ đến từ máy chủ. |
 
 Cả hai đều khuyến khích các truy vấn đồ thị giới hạn phạm vi trước các tìm kiếm nguồn trên diện rộng. Hãy chọn các hướng dẫn khớp với các công cụ mà trợ lý của bạn thực sự có thể truy cập; không khối nào thiết lập một quy tắc ưu tiên phổ quát cho các tệp hướng dẫn của trợ lý của bạn. Nếu bạn dùng cả hai tích hợp, hãy xác định mỗi cái truy vấn đồ thị nào và chọn một đường truy vấn chính thay vì sao chép hai khối hướng dẫn vô điều kiện vào `AGENTS.md`.

@@ -173,15 +173,15 @@ def test_tools_list_over_http(tmp_path):
 
 
 def _project_with_graph(tmp_path, node_count: int, name: str = "proj") -> str:
-    """Create ``<proj>/graphify-out/graph.json`` and return the project dir."""
+    """Create ``<proj>/.graphify/graph.json`` and return the project dir."""
     proj = tmp_path / name
-    (proj / "graphify-out").mkdir(parents=True)
+    (proj / ".graphify").mkdir(parents=True)
     graph = {
         "directed": True,
         "nodes": [{"id": f"n{i}", "label": f"N{i}", "community": 0} for i in range(node_count)],
         "edges": [],
     }
-    (proj / "graphify-out" / "graph.json").write_text(json.dumps(graph), encoding="utf-8")
+    (proj / ".graphify" / "graph.json").write_text(json.dumps(graph), encoding="utf-8")
     return str(proj)
 
 
@@ -271,8 +271,8 @@ def test_project_context_cache_is_lru_and_pins_default_graph(tmp_path, monkeypat
         # The configured default graph stays warm even when project capacity is full.
         assert "Nodes: 2" in _call_tool(client, headers, "graph_stats", {}, rid=7)
 
-    first_graph = str((Path(projects[0]) / "graphify-out" / "graph.json").resolve())
-    second_graph = str((Path(projects[1]) / "graphify-out" / "graph.json").resolve())
+    first_graph = str((Path(projects[0]) / ".graphify" / "graph.json").resolve())
+    second_graph = str((Path(projects[1]) / ".graphify" / "graph.json").resolve())
     default_graph = str(Path(default_graph).resolve())
     assert loads[first_graph] == 1
     assert loads[second_graph] == 2
@@ -294,7 +294,7 @@ def test_bad_project_path_errors_without_killing_server(tmp_path):
 def test_corrupt_project_graph_is_a_tool_error_without_killing_server(tmp_path):
     """A CLI-style SystemExit from a client graph cannot stop the MCP server."""
     project = Path(_project_with_graph(tmp_path, node_count=3))
-    (project / "graphify-out" / "graph.json").write_text("{not json", encoding="utf-8")
+    (project / ".graphify" / "graph.json").write_text("{not json", encoding="utf-8")
     app = serve_mod._build_http_app(_graph_file(tmp_path), json_response=True)
     with _client(app) as client:
         headers = _init_session(client)
@@ -335,8 +335,8 @@ def test_cli_defaults_to_stdio(monkeypatch):
     monkeypatch.setattr(
         serve_mod, "serve_http", lambda *a, **k: calls.setdefault("http", (a, k))
     )
-    serve_mod._main(["graphify-out/graph.json"])
-    assert calls.get("stdio") == "graphify-out/graph.json"
+    serve_mod._main([".graphify/graph.json"])
+    assert calls.get("stdio") == ".graphify/graph.json"
     assert "http" not in calls
 
 
@@ -489,7 +489,7 @@ def _git(repo: Path, *args: str) -> str:
 
 
 def _repo_with_graph(tmp_path: Path) -> tuple[Path, str]:
-    """A git repo whose graphify-out/graph.json was built at its current HEAD."""
+    """A git repo whose .graphify/graph.json was built at its current HEAD."""
     repo = tmp_path / "repo"
     repo.mkdir()
     _git(repo, "init", "-q")
@@ -497,8 +497,8 @@ def _repo_with_graph(tmp_path: Path) -> tuple[Path, str]:
     _git(repo, "add", "a.py")
     _git(repo, "commit", "-q", "-m", "one")
     sha = _git(repo, "rev-parse", "HEAD")
-    (repo / "graphify-out").mkdir()
-    (repo / "graphify-out" / "graph.json").write_text(
+    (repo / ".graphify").mkdir()
+    (repo / ".graphify" / "graph.json").write_text(
         json.dumps({**SAMPLE_GRAPH, "built_at_commit": sha}), encoding="utf-8")
     return repo, sha
 
@@ -530,7 +530,7 @@ def test_graph_stats_reports_built_at_commit_without_git(tmp_path, monkeypatch):
 def test_graph_stats_without_git_binary_still_shows_commit(tmp_path, monkeypatch):
     repo, sha = _repo_with_graph(tmp_path)
     monkeypatch.setenv("PATH", str(tmp_path / "no-bin"))
-    out = _graph_stats_for(str(repo / "graphify-out" / "graph.json"))
+    out = _graph_stats_for(str(repo / ".graphify" / "graph.json"))
     assert out == _STATS_NO_COMMIT + f"Built at commit: {sha}\n"
 
 
@@ -539,7 +539,7 @@ def test_graph_stats_flags_graph_behind_head(tmp_path):
     """HEAD is read at query time from the graph's own repo (not the server's
     cwd), so a commit made after the build shows up without a rebuild."""
     repo, sha = _repo_with_graph(tmp_path)
-    graph = str(repo / "graphify-out" / "graph.json")
+    graph = str(repo / ".graphify" / "graph.json")
     assert _graph_stats_for(graph) == (
         _STATS_NO_COMMIT + f"Built at commit: {sha} (matches HEAD)\n")
 

@@ -2784,7 +2784,7 @@ def extract_corpus_parallel(
     ``source_file`` resolution — the same split the AST cache uses (#1774).
     With ``--out``, cli.py passes the corpus as ``root`` and the output
     directory as ``cache_root`` so checkpoints land where the recovery read
-    looks, instead of creating an unwanted ``graphify-out/`` inside the
+    looks, instead of creating an unwanted ``.graphify/`` inside the
     analyzed source tree (#1990).
 
     Accepts ``str`` paths as well as ``Path``; string entries are coerced up

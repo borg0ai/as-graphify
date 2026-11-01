@@ -1,5 +1,5 @@
 """#1769 - `graphify extract` printed this run's tokens but never added them to
-graphify-out/cost.json, so the ledger only ever showed the skill's first run.
+.graphify/cost.json, so the ledger only ever showed the skill's first run.
 """
 from __future__ import annotations
 
@@ -55,7 +55,7 @@ def setup(monkeypatch, tmp_path):
 @pytest.mark.parametrize("extra", [(), ("--no-cluster",)])
 def test_each_extract_run_is_added_to_cost_json(monkeypatch, setup, extra):
     corpus, out_dir = setup
-    cost_path = out_dir / "graphify-out" / "cost.json"
+    cost_path = out_dir / ".graphify" / "cost.json"
 
     _run_extract(monkeypatch, corpus, out_dir, *extra)
     cost = json.loads(cost_path.read_text(encoding="utf-8"))
@@ -76,7 +76,7 @@ def test_each_extract_run_is_added_to_cost_json(monkeypatch, setup, extra):
 
 def test_existing_skill_ledger_is_kept(monkeypatch, setup):
     corpus, out_dir = setup
-    cost_path = out_dir / "graphify-out" / "cost.json"
+    cost_path = out_dir / ".graphify" / "cost.json"
     cost_path.parent.mkdir(parents=True)
     earlier = {"date": "2026-01-01T00:00:00+00:00", "input_tokens": 5000,
                "output_tokens": 0, "files": 493}
@@ -101,12 +101,12 @@ def test_existing_skill_ledger_is_kept(monkeypatch, setup):
 ])
 def test_unreadable_ledger_is_not_overwritten(monkeypatch, setup, bad):
     corpus, out_dir = setup
-    cost_path = out_dir / "graphify-out" / "cost.json"
+    cost_path = out_dir / ".graphify" / "cost.json"
     cost_path.parent.mkdir(parents=True)
     cost_path.write_text(bad, encoding="utf-8")
 
     _run_extract(monkeypatch, corpus, out_dir)
-    assert (out_dir / "graphify-out" / "graph.json").exists()
+    assert (out_dir / ".graphify" / "graph.json").exists()
     assert cost_path.read_text(encoding="utf-8") == bad
 
 
@@ -118,5 +118,5 @@ def test_code_only_run_with_no_tokens_writes_nothing(monkeypatch, tmp_path):
     out_dir = tmp_path / "out"
 
     _run_extract(monkeypatch, corpus, out_dir)
-    assert (out_dir / "graphify-out" / "graph.json").exists()
-    assert not (out_dir / "graphify-out" / "cost.json").exists()
+    assert (out_dir / ".graphify" / "graph.json").exists()
+    assert not (out_dir / ".graphify" / "cost.json").exists()

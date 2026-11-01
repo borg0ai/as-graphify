@@ -116,7 +116,7 @@ def test_no_cluster_update_leaves_no_undeclared_endpoint(tmp_path: Path):
     (corpus / "pkg" / "__init__.py").write_text("from .a import go\n", encoding="utf-8")
 
     assert _rebuild_code(corpus, no_cluster=True, acquire_lock=False) is True
-    data = json.loads((corpus / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+    data = json.loads((corpus / ".graphify" / "graph.json").read_text(encoding="utf-8"))
     declared = {n["id"] for n in data["nodes"]}
     dangling = [
         (e.get("source"), e.get("target"))
@@ -133,7 +133,7 @@ def test_no_cluster_update_leaves_no_undeclared_endpoint(tmp_path: Path):
 
 
 def _graph(corpus: Path) -> dict:
-    return json.loads((corpus / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+    return json.loads((corpus / ".graphify" / "graph.json").read_text(encoding="utf-8"))
 
 
 def _two_file_corpus(tmp_path: Path) -> Path:
@@ -200,7 +200,7 @@ def test_rebuild_heals_stub_left_by_an_earlier_version(tmp_path: Path):
 
     corpus = _two_file_corpus(tmp_path)
     assert _rebuild_code(corpus, no_cluster=True, acquire_lock=False) is True
-    graph_path = corpus / "graphify-out" / "graph.json"
+    graph_path = corpus / ".graphify" / "graph.json"
     data = _graph(corpus)
     for node in data["nodes"]:
         if node.get("external"):

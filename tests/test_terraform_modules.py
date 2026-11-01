@@ -208,7 +208,7 @@ def test_incremental_source_change_target_addition_and_deletion(tmp_path, monkey
                 args.append("--no-cluster")
             p = subprocess.run(args, cwd=root, env=os.environ.copy(), capture_output=True, text=True)
             assert p.returncode == 0, p.stdout + p.stderr
-        result = json.loads((root / "graphify-out/graph.json").read_text())
+        result = json.loads((root / ".graphify/graph.json").read_text())
         _assert_integrity(result)
         return result
 
@@ -247,7 +247,7 @@ def test_incremental_exclusion_removes_incoming_module_links(tmp_path, monkeypat
                 capture_output=True, text=True,
             )
             assert p.returncode == 0, p.stdout + p.stderr
-        return json.loads((root / "graphify-out/graph.json").read_text())
+        return json.loads((root / ".graphify/graph.json").read_text())
 
     assert len(_module_edges(rebuild())) == 1
     ignore = _write(root, ".graphifyignore", "app/\n")

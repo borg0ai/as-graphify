@@ -63,7 +63,7 @@ Sedan, i din AI-assistent:
 Det är allt. Du får **tre filer**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Detta skriver en liten konfigurationsfil som säger åt din assistent att konsul
 
 Exakt vilka filer varje plattform skriver (CodeBuddys `CODEBUDDY.md` + `PreToolUse`-hooks, Codex `AGENTS.md`, Kilos inbyggda `.kilo`-plugin, Cursors `alwaysApply`-regel och så vidare) beskrivs i **[Alltid aktiv-uppsättning](https://docs.graphify.com/guides/always-on)**.
 
-För att ta bort graphify från alla plattformar på en gång: `graphify uninstall` (lägg till `--purge` för att även radera `graphify-out/`). Eller använd kommandot per plattform (t.ex. `graphify claude uninstall`).
+För att ta bort graphify från alla plattformar på en gång: `graphify uninstall` (lägg till `--purge` för att även radera `.graphify/`). Eller använd kommandot per plattform (t.ex. `graphify claude uninstall`).
 
 ### CLI-färdigheter eller MCP-instruktioner?
 
@@ -316,7 +316,7 @@ Instruktionerna som installeras av `graphify install` och de som medföljer en G
 
 | Uppsättning | Vägledning att använda | Frågeåtkomst |
 |---|---|---|
-| Lokal CLI och installerad assistentfärdighet | Plattformsinstruktionerna som skrivs av `graphify install` | Kör `graphify query`, `graphify path` och `graphify explain` mot den lokala grafen (`graphify-out/` som standard). |
+| Lokal CLI och installerad assistentfärdighet | Plattformsinstruktionerna som skrivs av `graphify install` | Kör `graphify query`, `graphify path` och `graphify explain` mot den lokala grafen (`.graphify/` som standard). |
 | Ansluten Graphify MCP-server | Anslutningens instruktioner och verktygen som den servern listar | Anropa de listade MCP-verktygen mot grafen som den anslutningen betjänar. Verktygsnamn och beskrivningar kommer från servern. |
 
 Båda uppmuntrar avgränsade graffrågor före breda källsökningar. Välj de instruktioner som matchar de verktyg din assistent faktiskt har åtkomst till; ingetdera blocket etablerar en universell företrädesregel för din assistents instruktionsfiler. Om du använder båda integrationerna, identifiera vilken graf var och en frågar och välj en primär frågeväg i stället för att kopiera två ovillkorliga instruktionsblock till `AGENTS.md`.

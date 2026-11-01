@@ -32,7 +32,7 @@ def _cross_file_calls(tmp_path: Path, files: dict[str, str]) -> set[tuple[str, s
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8")
         paths.append(path)
-    result = extract(paths, cache_root=tmp_path / "graphify-out")
+    result = extract(paths, cache_root=tmp_path / ".graphify")
     label = {n["id"]: n["label"] for n in result["nodes"]}
     return {
         (label[e["source"]], label[e["target"]])
@@ -162,7 +162,7 @@ def test_imported_call_survives_incremental_rebuild(tmp_path: Path):
         )
 
     caller.write_text(_caller(), encoding="utf-8")
-    graph_path = corpus / "graphify-out" / "graph.json"
+    graph_path = corpus / ".graphify" / "graph.json"
 
     def calls() -> set[tuple[str, str]]:
         data = json.loads(graph_path.read_text(encoding="utf-8"))

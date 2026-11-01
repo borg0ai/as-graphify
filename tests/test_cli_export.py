@@ -41,8 +41,8 @@ def _run(args: list[str], cwd: Path, env: dict[str, str] | None = None) -> subpr
 
 
 def _make_graph(tmp_path: Path) -> Path:
-    """Build a minimal graph.json + analysis/labels files in tmp_path/graphify-out/."""
-    out = tmp_path / "graphify-out"
+    """Build a minimal graph.json + analysis/labels files in tmp_path/.graphify/."""
+    out = tmp_path / ".graphify"
     out.mkdir()
 
     extraction = json.loads((FIXTURES / "extraction.json").read_text())
@@ -79,7 +79,7 @@ def test_export_html_creates_file(tmp_path):
     _make_graph(tmp_path)
     r = _run(["export", "html"], tmp_path)
     assert r.returncode == 0, r.stderr
-    html = tmp_path / "graphify-out" / "graph.html"
+    html = tmp_path / ".graphify" / "graph.html"
     assert html.exists()
     assert html.stat().st_size > 0
 
@@ -131,7 +131,7 @@ def test_export_obsidian_creates_vault(tmp_path):
     _make_graph(tmp_path)
     r = _run(["export", "obsidian"], tmp_path)
     assert r.returncode == 0, r.stderr
-    vault = tmp_path / "graphify-out" / "obsidian"
+    vault = tmp_path / ".graphify" / "obsidian"
     assert vault.exists()
     md_files = list(vault.glob("*.md"))
     assert len(md_files) > 0
@@ -152,7 +152,7 @@ def test_export_wiki_creates_articles(tmp_path):
     _make_graph(tmp_path)
     r = _run(["export", "wiki"], tmp_path)
     assert r.returncode == 0, r.stderr
-    wiki = tmp_path / "graphify-out" / "wiki"
+    wiki = tmp_path / ".graphify" / "wiki"
     assert wiki.exists()
     assert (wiki / "index.md").exists()
 
@@ -176,7 +176,7 @@ def test_export_graphml_creates_file(tmp_path):
     _make_graph(tmp_path)
     r = _run(["export", "graphml"], tmp_path)
     assert r.returncode == 0, r.stderr
-    gml = tmp_path / "graphify-out" / "graph.graphml"
+    gml = tmp_path / ".graphify" / "graph.graphml"
     assert gml.exists()
     assert gml.stat().st_size > 0
     content = gml.read_text()
@@ -189,7 +189,7 @@ def test_export_neo4j_creates_cypher(tmp_path):
     _make_graph(tmp_path)
     r = _run(["export", "neo4j"], tmp_path)
     assert r.returncode == 0, r.stderr
-    cypher = tmp_path / "graphify-out" / "cypher.txt"
+    cypher = tmp_path / ".graphify" / "cypher.txt"
     assert cypher.exists()
     assert cypher.stat().st_size > 0
     content = cypher.read_text()
@@ -202,7 +202,7 @@ def test_export_falkordb_creates_cypher(tmp_path):
     _make_graph(tmp_path)
     r = _run(["export", "falkordb"], tmp_path)
     assert r.returncode == 0, r.stderr
-    cypher = tmp_path / "graphify-out" / "cypher.txt"
+    cypher = tmp_path / ".graphify" / "cypher.txt"
     assert cypher.exists()
     assert cypher.stat().st_size > 0
     content = cypher.read_text()
@@ -421,7 +421,7 @@ def test_query_uses_graphify_out_env(tmp_path):
 
 def test_extract_writes_to_graphify_out_env(tmp_path):
     """#1423: `graphify extract` honours GRAPHIFY_OUT for where it WRITES, not only
-    where readers look — previously it hardcoded graphify-out/ and ignored the
+    where readers look — previously it hardcoded .graphify/ and ignored the
     override. Code-only corpus, so no LLM backend is needed."""
     (tmp_path / "m.py").write_text("def a():\n    return b()\n\n\ndef b():\n    return 1\n")
     env = os.environ.copy()
@@ -433,7 +433,7 @@ def test_extract_writes_to_graphify_out_env(tmp_path):
     assert (tmp_path / "custom-out" / "graph.json").exists(), r.stdout
     assert (tmp_path / "custom-out" / "manifest.json").exists()
     # The default dir must NOT be created when the override is set.
-    assert not (tmp_path / "graphify-out").exists(), "extract ignored GRAPHIFY_OUT and wrote graphify-out/"
+    assert not (tmp_path / ".graphify").exists(), "extract ignored GRAPHIFY_OUT and wrote .graphify/"
     # Manifest keys are relative to the scan root (portable) — #1417.
     keys = list(json.loads((tmp_path / "custom-out" / "manifest.json").read_text()).keys())
     assert keys == ["m.py"], keys
@@ -469,7 +469,7 @@ def test_path_uses_graphify_out_env(tmp_path):
 
 def _write_path_graph(tmp_path: Path, nodes: list[str], links: list[dict]) -> Path:
     """Write a minimal hand-rolled directed graph.json for path-direction tests."""
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     (out / "graph.json").write_text(json.dumps({
         "directed": True,
@@ -613,19 +613,19 @@ def test_update_no_cluster_writes_raw_graph(tmp_path):
     r = _run(["update", ".", "--no-cluster"], tmp_path)
     assert r.returncode == 0, r.stderr
 
-    graph_path = tmp_path / "graphify-out" / "graph.json"
+    graph_path = tmp_path / ".graphify" / "graph.json"
     assert graph_path.exists()
     data = json.loads(graph_path.read_text(encoding="utf-8"))
     assert "nodes" in data and "links" in data
     assert all("community" not in node for node in data["nodes"])
 
 
-# Regression test for #934 - cluster-only crashes when graphify-out/ doesn't exist
+# Regression test for #934 - cluster-only crashes when .graphify/ doesn't exist
 
 def test_cluster_only_creates_output_dir_when_missing(tmp_path):
-    """cluster-only must not crash with FileNotFoundError when graphify-out/ is absent (#934)."""
-    # Build graph.json somewhere other than the default graphify-out/ location
-    # so we can point --graph at it while graphify-out/ doesn't exist yet.
+    """cluster-only must not crash with FileNotFoundError when .graphify/ is absent (#934)."""
+    # Build graph.json somewhere other than the default .graphify/ location
+    # so we can point --graph at it while .graphify/ doesn't exist yet.
     graph_src = tmp_path / "backup" / "graph.json"
     graph_src.parent.mkdir()
 
@@ -636,20 +636,20 @@ def test_cluster_only_creates_output_dir_when_missing(tmp_path):
     shutil.copy(graph_json, graph_src)
     shutil.rmtree(out_dir)
 
-    assert not (tmp_path / "graphify-out").exists()
+    assert not (tmp_path / ".graphify").exists()
 
     r = _run(["cluster-only", ".", "--graph", str(graph_src), "--no-viz"], tmp_path)
     assert r.returncode == 0, r.stderr
-    assert (tmp_path / "graphify-out" / "GRAPH_REPORT.md").exists()
+    assert (tmp_path / ".graphify" / "GRAPH_REPORT.md").exists()
 
 
 def test_cluster_only_graph_in_graphify_out_writes_beside_it(tmp_path):
-    """#1747 Case 2: `cluster-only --graph <elsewhere>/graphify-out/graph.json`
+    """#1747 Case 2: `cluster-only --graph <elsewhere>/.graphify/graph.json`
     must write GRAPH_REPORT.md and the re-clustered graph beside that graph, not
-    into a stray graphify-out/ in the CWD."""
+    into a stray .graphify/ in the CWD."""
     project = tmp_path / "project"
     project.mkdir()
-    out_dir = _make_graph(project)  # project/graphify-out/graph.json
+    out_dir = _make_graph(project)  # project/.graphify/graph.json
 
     cwd = tmp_path / "elsewhere"
     cwd.mkdir()
@@ -659,12 +659,12 @@ def test_cluster_only_graph_in_graphify_out_writes_beside_it(tmp_path):
     )
     assert r.returncode == 0, r.stderr
     assert (out_dir / "GRAPH_REPORT.md").exists()          # beside --graph
-    assert not (cwd / "graphify-out").exists()             # no CWD pollution
+    assert not (cwd / ".graphify").exists()             # no CWD pollution
 
 
 def test_extract_out_does_not_pollute_corpus(tmp_path):
     """#1747 Case 1: `extract <corpus> --out <elsewhere>` must not leave a stray
-    graphify-out/ (cache, stat-index) inside the scanned corpus."""
+    .graphify/ (cache, stat-index) inside the scanned corpus."""
     corpus = tmp_path / "corpus"
     corpus.mkdir()
     (corpus / "a.py").write_text("def main():\n    return 1\n")
@@ -675,8 +675,8 @@ def test_extract_out_does_not_pollute_corpus(tmp_path):
         tmp_path,
     )
     assert r.returncode == 0, r.stderr
-    assert (out / "graphify-out" / "graph.json").exists()   # graph in --out
-    assert not (corpus / "graphify-out").exists()           # corpus untouched
+    assert (out / ".graphify" / "graph.json").exists()   # graph in --out
+    assert not (corpus / ".graphify").exists()           # corpus untouched
 
 
 # Regression test for #1027 - cluster-only must remap labels via node overlap
@@ -928,7 +928,7 @@ def test_graph_json_node_ids_are_portable_across_checkout_paths(tmp_path):
         (root / "pkg" / "app.py").write_text("from pkg.mod import f\ndef g(): return f()\n")
         r = _run(["extract", ".", "--code-only", "--no-cluster"], root)
         assert r.returncode == 0, r.stderr
-        data = json.loads((root / "graphify-out" / "graph.json").read_text())
+        data = json.loads((root / ".graphify" / "graph.json").read_text())
         return sorted(n["id"] for n in data["nodes"])
 
     a = _build(tmp_path / "alice_home" / "proj")
@@ -984,7 +984,7 @@ def test_cluster_only_preserves_parallel_edges(tmp_path):
     dropping a second edge (e.g. imports + calls) between a pair that stayed
     connected by the other. Community is a node attribute; re-clustering must
     never change the edge set."""
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     (out / "graph.json").write_text(json.dumps({
         "directed": False, "multigraph": False, "graph": {},
@@ -1136,7 +1136,7 @@ def test_query_command_header_names_the_graph(tmp_path):
     r = _run(["query", "Transformer"], tmp_path)
     assert r.returncode == 0, r.stderr
     first_line = r.stdout.splitlines()[0]
-    assert first_line.startswith("Graph: graphify-out/graph.json ("), first_line
+    assert first_line.startswith("Graph: .graphify/graph.json ("), first_line
     assert "nodes)" in first_line
     assert "Traversal:" in first_line
 
@@ -1164,7 +1164,7 @@ def test_cluster_only_preserves_parallel_edges_across_an_id_remap(tmp_path):
     their endpoints no longer match the post-remap node set. build_from_json
     rewrites the shared link endpoints in place before to_json reads them;
     this test guards that invariant against a future refactor."""
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     # `claude_alpha` + source_file `.claude/CLAUDE.md` remaps to
     # `claude_claude_alpha` (parent-dir == stem case, #1917).
@@ -1297,7 +1297,7 @@ def test_cluster_only_accepts_file_mention_folded_into_ast_twin(tmp_path):
     """#4389 follow-up: a saved document mention of a file folds into that
     file's AST node on reload. That is one node, not a lost one, so cluster-only
     must write instead of refusing."""
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     (out / "graph.json").write_text(json.dumps({
         "directed": False,

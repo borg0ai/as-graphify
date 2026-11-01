@@ -63,7 +63,7 @@ graphify install               # detects your assistant and registers the skill
 Ось і все. Ви отримуєте **три файли**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Pi не має хука `PreToolUse`, тож `graphify pi guard install` реє�
 
 Які саме файли записує кожна платформа (CodeBuddy's `CODEBUDDY.md` + `PreToolUse` hooks, Codex's `AGENTS.md`, нативний плагін Kilo `.kilo`, правило Cursor `alwaysApply` тощо) описано в **[Always-on setup](https://docs.graphify.com/guides/always-on)**.
 
-Щоб видалити graphify з усіх платформ одразу: `graphify uninstall` (додайте `--purge`, щоб також видалити `graphify-out/`). Або використайте команду для конкретної платформи (наприклад, `graphify claude uninstall`).
+Щоб видалити graphify з усіх платформ одразу: `graphify uninstall` (додайте `--purge`, щоб також видалити `.graphify/`). Або використайте команду для конкретної платформи (наприклад, `graphify claude uninstall`).
 
 ### Скіли CLI чи інструкції MCP?
 
@@ -316,7 +316,7 @@ Pi не має хука `PreToolUse`, тож `graphify pi guard install` реє�
 
 | Налаштування | Настанова до використання | Доступ до запитів |
 |---|---|---|
-| Локальний CLI та встановлений скіл асистента | Інструкції платформи, записані `graphify install` | Запустіть `graphify query`, `graphify path` та `graphify explain` проти локального графа (`graphify-out/` by default). |
+| Локальний CLI та встановлений скіл асистента | Інструкції платформи, записані `graphify install` | Запустіть `graphify query`, `graphify path` та `graphify explain` проти локального графа (`.graphify/` by default). |
 | Підключений сервер Graphify MCP | Інструкції зʼєднання та інструменти, перелічені тим сервером | Викликайте перелічені інструменти MCP проти графа, що обслуговується цим зʼєднанням. Назви та описи інструментів походять від сервера. |
 
 Обидва заохочують обмежені запити графа перед широкими пошуками в джерелах. Оберіть інструкції, що відповідають інструментам, до яких ваш асистент дійсно має доступ; жоден блок не встановлює універсального правила пріоритету для файлів інструкцій вашого асистента. Якщо ви використовуєте обидві інтеграції, визначте, який граф запитує кожна, та оберіть основний шлях запитів замість копіювання двох безумовних блоків інструкцій у `AGENTS.md`.

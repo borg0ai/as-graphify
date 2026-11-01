@@ -36,8 +36,8 @@ def test_codex_b2_persists_each_result_and_fails_closed():
     b2 = skill.split("**Step B2", 1)[1].split("**Step B3", 1)[0]
 
     assert "write each result to its matching" in b2
-    assert "graphify-out/.graphify_chunk_NN.json" in b2
-    assert "Do not aggregate results or write `graphify-out/.graphify_semantic_new.json` in B2" in b2
+    assert ".graphify/.graphify_chunk_NN.json" in b2
+    assert "Do not aggregate results or write `.graphify/.graphify_semantic_new.json` in B2" in b2
     assert "If any subagent fails, returns no result or invalid JSON" in b2
     assert "stop before Step B3" in b2
     assert "save cache" in b2
@@ -62,7 +62,7 @@ def test_codex_chunk_results_survive_b3_merge_cache_and_all_cached_rerun(tmp_pat
         doc.write_text("semantic source", encoding="utf-8")
     spec = tmp_path / "extraction-spec.md"
     spec.write_text("# extraction spec\n", encoding="utf-8")
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     (out / ".graphify_detect.json").write_text(
         json.dumps({"files": {"document": [doc.as_posix() for doc in docs]}}),

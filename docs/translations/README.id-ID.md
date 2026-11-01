@@ -63,7 +63,7 @@ Kemudian, di asisten AI Anda:
 Begitu saja. Anda mendapatkan **tiga berkas**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Ini menulis berkas konfigurasi kecil yang memberi tahu asisten Anda untuk berkon
 
 Berkas apa yang persisnya ditulis setiap platform (`CODEBUDDY.md` + `PreToolUse` hooks milik CodeBuddy, `AGENTS.md` milik Codex, plugin `.kilo` native milik Kilo, aturan `alwaysApply` milik Cursor, dan seterusnya) dibahas di **[Always-on setup](https://docs.graphify.com/guides/always-on)**.
 
-Untuk menghapus graphify dari semua platform sekaligus: `graphify uninstall` (tambahkan `--purge` untuk juga menghapus `graphify-out/`). Atau gunakan perintah per platform (mis. `graphify claude uninstall`).
+Untuk menghapus graphify dari semua platform sekaligus: `graphify uninstall` (tambahkan `--purge` untuk juga menghapus `.graphify/`). Atau gunakan perintah per platform (mis. `graphify claude uninstall`).
 
 ### CLI skills atau instruksi MCP?
 
@@ -316,7 +316,7 @@ Instruksi yang dipasang oleh `graphify install` dan instruksi yang disuplai deng
 
 | Penyiapan | Panduan yang digunakan | Akses query |
 |---|---|---|
-| CLI lokal dan skill asisten yang terpasang | Instruksi platform yang ditulis oleh `graphify install` | Jalankan `graphify query`, `graphify path`, dan `graphify explain` terhadap graf lokal (`graphify-out/` secara default). |
+| CLI lokal dan skill asisten yang terpasang | Instruksi platform yang ditulis oleh `graphify install` | Jalankan `graphify query`, `graphify path`, dan `graphify explain` terhadap graf lokal (`.graphify/` secara default). |
 | Server MCP Graphify yang terhubung | Instruksi koneksi dan tool yang didaftarkan oleh server tersebut | Panggil tool MCP yang terdaftar terhadap graf yang dilayani oleh koneksi tersebut. Nama dan deskripsi tool berasal dari server. |
 
 Keduanya mendorong query graf yang dibatasi cakupannya sebelum pencarian sumber yang luas. Pilih instruksi yang sesuai dengan tool yang benar-benar dapat diakses asisten Anda; tidak ada blok yang menetapkan aturan prioritas universal untuk berkas instruksi asisten Anda. Jika Anda menggunakan kedua integrasi, identifikasi graf mana yang di-query masing-masing dan pilih satu jalur query utama alih-alih menyalin dua blok instruksi tanpa syarat ke dalam `AGENTS.md`.

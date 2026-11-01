@@ -37,7 +37,7 @@ def _write(root: Path, files: dict[str, str]) -> list[Path]:
 
 
 def _calls(tmp_path, files: dict[str, str]):
-    r = extract(_write(tmp_path, files), cache_root=tmp_path / "graphify-out", parallel=False)
+    r = extract(_write(tmp_path, files), cache_root=tmp_path / ".graphify", parallel=False)
     nodes = {n["id"]: n for n in r["nodes"]}
     edges = [e for e in r["edges"] if e["relation"] == "calls"]
     return nodes, edges
@@ -120,7 +120,7 @@ def test_a_base_from_outside_or_not_imported_emits_no_edge(tmp_path):
 
 
 def _rebuild_calls(root: Path) -> set[tuple[str, str]]:
-    g = json.loads((root / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+    g = json.loads((root / ".graphify" / "graph.json").read_text(encoding="utf-8"))
     return {(e["source"], e["target"]) for e in g.get("links", g.get("edges", [])) if e["relation"] == "calls"}
 
 

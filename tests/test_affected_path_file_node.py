@@ -166,7 +166,7 @@ def _build(root: Path) -> dict:
     )
     assert result.returncode == 0, result.stderr[-2000:]
     return json.loads(
-        (root / "graphify-out" / "graph.json").read_text(encoding="utf-8")
+        (root / ".graphify" / "graph.json").read_text(encoding="utf-8")
     )
 
 
@@ -190,7 +190,7 @@ def test_affected_cli_resolves_shared_basename_with_docstring(tmp_path):
 
     file_node = _file_node_id(graph, "app/alpha/hooks.py")
     assert graph["nodes"] and resolve_seed(
-        load_graph(tmp_path / "graphify-out" / "graph.json"),
+        load_graph(tmp_path / ".graphify" / "graph.json"),
         "app/alpha/hooks.py",
         root=tmp_path,
     ) == file_node
@@ -211,7 +211,7 @@ def test_affected_cli_resolves_shared_basename_without_docstring(tmp_path):
 
     file_node = _file_node_id(graph, "app/alpha/hooks.py")
     assert resolve_seed(
-        load_graph(tmp_path / "graphify-out" / "graph.json"),
+        load_graph(tmp_path / ".graphify" / "graph.json"),
         "app/alpha/hooks.py",
         root=tmp_path,
     ) == file_node

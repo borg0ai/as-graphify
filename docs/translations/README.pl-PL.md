@@ -63,7 +63,7 @@ Następnie, w swoim asystencie AI:
 To wszystko. Otrzymujesz **trzy pliki**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ To zapisuje mały plik konfiguracyjny, który mówi Twojemu asystentowi, aby prz
 
 Dokładnie to, które pliki zapisuje każda platforma (`CODEBUDDY.md` + hooki `PreToolUse` w CodeBuddy, `AGENTS.md` w Codex, natywny plugin `.kilo` w Kilo, reguła `alwaysApply` w Cursorze itd.), jest opisane w **[Always-on setup](https://docs.graphify.com/guides/always-on)**.
 
-Aby usunąć graphify ze wszystkich platform naraz: `graphify uninstall` (dodaj `--purge`, aby usunąć również `graphify-out/`). Albo użyj polecenia dla konkretnej platformy (np. `graphify claude uninstall`).
+Aby usunąć graphify ze wszystkich platform naraz: `graphify uninstall` (dodaj `--purge`, aby usunąć również `.graphify/`). Albo użyj polecenia dla konkretnej platformy (np. `graphify claude uninstall`).
 
 ### CLI skills or MCP instructions?
 
@@ -316,7 +316,7 @@ Instrukcje instalowane przez `graphify install` oraz te dostarczane wraz z poł�
 
 | Setup | Guidance to use | Query access |
 |---|---|---|
-| Lokalne CLI i zainstalowana umiejętność asystenta | Instrukcje platformy zapisane przez `graphify install` | Uruchamiaj `graphify query`, `graphify path` i `graphify explain` względem lokalnego grafu (domyślnie `graphify-out/`). |
+| Lokalne CLI i zainstalowana umiejętność asystenta | Instrukcje platformy zapisane przez `graphify install` | Uruchamiaj `graphify query`, `graphify path` i `graphify explain` względem lokalnego grafu (domyślnie `.graphify/`). |
 | Połączony serwer Graphify MCP | Instrukcje połączenia i narzędzia wymienione przez ten serwer | Wywołuj wymienione narzędzia MCP względem grafu obsługiwanego przez to połączenie. Nazwy i opisy narzędzi pochodzą z serwera. |
 
 Oba podejścia zachęcają do zawężonych zapytań do grafu przed szerokim przeszukiwaniem źródeł. Wybierz instrukcje pasujące do narzędzi, do których Twój asystent faktycznie ma dostęp; żaden z tych bloków nie ustanawia uniwersalnej reguły pierwszeństwa dla plików instrukcji Twojego asystenta. Jeśli używasz obu integracji, ustal, który graf odpytuje każda z nich, i wybierz główną ścieżkę zapytań zamiast kopiować dwa bezwarunkowe bloki instrukcji do `AGENTS.md`.

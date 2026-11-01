@@ -330,7 +330,7 @@ def safe_fetch_text(url: str, max_bytes: int = _MAX_TEXT_BYTES, timeout: int = 1
 def validate_graph_path(path: str | Path, base: Path | None = None) -> Path:
     """Resolve *path* and verify it stays inside *base*.
 
-    *base* defaults to the `graphify-out` directory relative to CWD.
+    *base* defaults to the `.graphify` directory relative to CWD.
     Also requires the base directory to exist, so a caller cannot
     trick graphify into reading files before any graph has been built.
 
@@ -360,7 +360,7 @@ def validate_graph_path(path: str | Path, base: Path | None = None) -> Path:
     except ValueError:
         raise ValueError(
             f"Path {path!r} escapes the allowed directory {base}. "
-            "Only paths inside graphify-out/ are permitted."
+            "Only paths inside .graphify/ are permitted."
         )
 
     if not resolved.exists():

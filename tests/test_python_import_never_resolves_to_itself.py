@@ -31,7 +31,7 @@ def _build(tmp_path: Path, files: dict[str, str]):
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(body, encoding="utf-8")
         paths.append(p)
-    r = extract(paths, root=tmp_path, cache_root=tmp_path / "graphify-out", parallel=False)
+    r = extract(paths, root=tmp_path, cache_root=tmp_path / ".graphify", parallel=False)
     return {n["id"]: n for n in r["nodes"]}, r["edges"]
 
 
@@ -94,7 +94,7 @@ def test_a_same_named_module_in_another_package_still_resolves(tmp_path):
                 paths.append(p)
             if b_first:
                 paths[-2], paths[-1] = paths[-1], paths[-2]
-            r = extract(paths, root=root, cache_root=root / "graphify-out", parallel=False)
+            r = extract(paths, root=root, cache_root=root / ".graphify", parallel=False)
             nodes = {n["id"]: n for n in r["nodes"]}
             bases = [nodes[e["target"]].get("source_file") for e in r["edges"] if e["relation"] == "inherits"]
             assert bases == ["proj/b/utils.py"], (importer, b_first, bases)

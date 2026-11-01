@@ -2,7 +2,7 @@
 
 The tag was `source.parent.parent.name`, which is empty whenever the graph is not two
 levels below a named directory — `graphify global add /tmp/graph.json`, or any relative
-path such as `graphify-out/graph.json`. The empty tag then prefixes every node with
+path such as `.graphify/graph.json`. The empty tag then prefixes every node with
 `::`, prunes by `""`, and registers a manifest entry the `remove` subcommand rejected
 as a missing argument, so the store could not be cleaned up again.
 """
@@ -81,10 +81,10 @@ def test_a_nameless_repo_dir_degrades_to_repo():
 
 def test_relative_path_infers_from_the_resolved_repo_dir(monkeypatch, tmp_path, store):
     repo = tmp_path / "myrepo"
-    _write_graph(repo / "graphify-out" / "graph.json")
+    _write_graph(repo / ".graphify" / "graph.json")
     monkeypatch.chdir(repo)
 
-    assert _run(monkeypatch, ["graphify", "global", "add", "graphify-out/graph.json"]) == 0
+    assert _run(monkeypatch, ["graphify", "global", "add", ".graphify/graph.json"]) == 0
 
     assert list(_manifest(store)) == ["myrepo"]
 

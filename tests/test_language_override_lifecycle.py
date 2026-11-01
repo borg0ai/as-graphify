@@ -19,7 +19,7 @@ def reset_overrides():
 
 
 def manifest(root):
-    return root / "graphify-out" / "manifest.json"
+    return root / ".graphify" / "manifest.json"
 
 
 def save(root, files, kind="both"):
@@ -166,7 +166,7 @@ def drive_watch(root, monkeypatch, actions, *, observed_roots=None):
 
 
 def graph_labels(root):
-    graph = json.loads((root / "graphify-out" / "graph.json").read_text())
+    graph = json.loads((root / ".graphify" / "graph.json").read_text())
     return {node["label"] for node in graph["nodes"]}
 
 
@@ -181,7 +181,7 @@ def test_watch_declared_code_updates_graph_on_observer_thread(tmp_path, monkeypa
 
     drive_watch(tmp_path, monkeypatch, [change])
     assert "watched()" in graph_labels(tmp_path)
-    assert not (tmp_path / "graphify-out" / "needs_update").exists()
+    assert not (tmp_path / ".graphify" / "needs_update").exists()
 
 
 def test_watch_document_override_marks_semantic_work_instead_of_rebuilding(tmp_path, monkeypatch):
@@ -194,8 +194,8 @@ def test_watch_document_override_marks_semantic_work_instead_of_rebuilding(tmp_p
         return events.FileModifiedEvent(str(source))
 
     drive_watch(tmp_path, monkeypatch, [change])
-    assert (tmp_path / "graphify-out" / "needs_update").read_text() == "1"
-    assert not (tmp_path / "graphify-out" / "graph.json").exists()
+    assert (tmp_path / ".graphify" / "needs_update").read_text() == "1"
+    assert not (tmp_path / ".graphify" / "graph.json").exists()
 
 
 @pytest.mark.parametrize("operation", ["create", "modify", "replace", "delete"])
@@ -243,14 +243,14 @@ def test_watch_keeps_ignored_and_read_only_events_inert(tmp_path, monkeypatch, i
     def ignored_change():
         if ignored == "read-only":
             return events.FileOpenedEvent(str(stable))
-        path = tmp_path / {"nested-config": "nested/.graphifyrc", "ignored-directory": "ignored/file.tpl", "output": "graphify-out/cache/file.py"}[ignored]
+        path = tmp_path / {"nested-config": "nested/.graphifyrc", "ignored-directory": "ignored/file.tpl", "output": ".graphify/cache/file.py"}[ignored]
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text("language.tpl=php\n" if ignored == "nested-config" else "def ignored(): pass\n")
         return events.FileModifiedEvent(str(path))
 
     drive_watch(tmp_path, monkeypatch, [ignored_change])
-    assert not (tmp_path / "graphify-out" / "graph.json").exists()
-    assert not (tmp_path / "graphify-out" / "needs_update").exists()
+    assert not (tmp_path / ".graphify" / "graph.json").exists()
+    assert not (tmp_path / ".graphify" / "needs_update").exists()
 
 
 @pytest.mark.parametrize("with_document_event", [False, True])
@@ -271,7 +271,7 @@ def test_watch_config_changes_keep_semantic_work_visible(tmp_path, monkeypatch, 
 
     drive_watch(tmp_path, monkeypatch, [change])
     assert "stable()" in graph_labels(tmp_path)
-    assert (tmp_path / "graphify-out" / "needs_update").read_text() == "1"
+    assert (tmp_path / ".graphify" / "needs_update").read_text() == "1"
 
 
 @pytest.mark.parametrize("argument", [".", "src"])
@@ -288,6 +288,6 @@ def test_watch_relative_roots_receive_config_events_without_rebasing_source_path
         return events.FileModifiedEvent(str(Path(registered_roots[0]) / ".graphifyrc"))
 
     drive_watch(Path(argument), monkeypatch, [change], observed_roots=registered_roots)
-    graph = json.loads((root / "graphify-out" / "graph.json").read_text())
+    graph = json.loads((root / ".graphify" / "graph.json").read_text())
     paths = {node["source_file"] for node in graph["nodes"] if node["label"] == "watched()"}
     assert paths == {str(Path(argument) / "page.tpl")}

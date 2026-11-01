@@ -912,10 +912,10 @@ def _infer_merge_root(graph_path: Path) -> str | None:
     """Best-effort scan root for relativizing paths in build_merge when the caller
     passes no ``root`` (#1571).
 
-    Prefers the committed ``graphify-out/.graphify_root`` marker — the authoritative
+    Prefers the committed ``.graphify/.graphify_root`` marker — the authoritative
     scan root graphify records at build/watch time (#686/#1423) — then falls back to
     the directory that contains the output dir (``graph.json``'s grandparent, i.e.
-    ``<root>/graphify-out/graph.json`` -> ``<root>``). The grandparent heuristic is
+    ``<root>/.graphify/graph.json`` -> ``<root>``). The grandparent heuristic is
     applied only when ``graph.json``'s own directory actually looks like a graphify
     out-dir (named like one, or holding the marker/manifest); for arbitrary layouts
     (``<root>/graph.json``, #2446) the grandparent is NOT the scan root, and guessing
@@ -988,7 +988,7 @@ def _derive_prune_root(prune_sources: "list[str]", stored_sfs: "set[str]") -> "s
 
     When build_merge/merge_raw_extraction receive absolute prune_sources but no
     ``root``, :func:`_infer_merge_root`'s guess can be wrong for non-standard
-    layouts (``graph.json`` not under ``<root>/graphify-out/``), so every prune
+    layouts (``graph.json`` not under ``<root>/.graphify/``), so every prune
     entry silently no-ops. Each absolute prune path ``P`` that ends with a
     stored RELATIVE source_file ``S`` implies the candidate root
     ``P[:-len(S)-1]``. Within one graph all relative source_files share a single
@@ -1655,7 +1655,7 @@ def build_from_json(extraction: dict, *, directed: bool = False, root: str | Pat
                 # AST-origin nodes always overwrite a prior non-AST entry.
                 _loc_nodes[key] = nid
                 # #3344: a self-referential semantic pass (e.g. re-extracting a
-                # saved graphify-out/memory/*.md query answer) mints a NEW
+                # saved .graphify/memory/*.md query answer) mints a NEW
                 # non-AST node for every bare file path/basename it mentions in
                 # prose ("App.tsx", "customer-app/index.ts"), stamped with
                 # source_file = the memory doc being read, NOT the file named in
@@ -1717,7 +1717,7 @@ def build_from_json(extraction: dict, *, directed: bool = False, root: str | Pat
 
     # Pass 2b (#3344): catch ghosts the (source_file, label) key above cannot,
     # because their source_file is simply wrong — a semantic pass over a
-    # document that only *mentions* a file (a saved graphify-out/memory/*.md
+    # document that only *mentions* a file (a saved .graphify/memory/*.md
     # query answer, a README, an ADR) stamps the file's own name as a new
     # node's label but the DOCUMENT's path as source_file, since it has no way
     # to know the mentioned file's real path. Resolve these by label alone
@@ -3097,8 +3097,8 @@ def prefix_graph_for_global(
 def distinct_repo_tags(graph_paths: "list[Path]") -> "list[str]":
     """Return a unique, human-meaningful repo tag per input graph for merge-graphs.
 
-    The naive tag (the ``graphify-out`` parent dir name) is NOT unique across
-    inputs: ``src/graphify-out`` and ``frontend/src/graphify-out`` both yield
+    The naive tag (the ``.graphify`` parent dir name) is NOT unique across
+    inputs: ``src/.graphify`` and ``frontend/src/.graphify`` both yield
     ``src``. Prefixing both node sets with ``src::`` then makes same-stem nodes
     (a backend ``src/app.js`` and a frontend ``App.jsx``, both bare ``app``)
     collide, so ``nx.compose`` silently merges two unrelated entities and invents
@@ -3106,7 +3106,7 @@ def distinct_repo_tags(graph_paths: "list[Path]") -> "list[str]":
     dir (``frontend_src``), then an index suffix guarantees uniqueness so no two
     graphs ever share a prefix.
     """
-    repo_dirs = [p.parent.parent for p in graph_paths]  # graphify-out/.. → repo dir
+    repo_dirs = [p.parent.parent for p in graph_paths]  # .graphify/.. → repo dir
     tags = [d.name or "repo" for d in repo_dirs]
     if len(set(tags)) != len(tags):
         widened: list[str] = []

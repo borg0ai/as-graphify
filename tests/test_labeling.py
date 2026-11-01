@@ -69,7 +69,7 @@ def test_label_communities_passes_model_override(monkeypatch):
 def test_label_cli_passes_model_override(tmp_path, monkeypatch):
     import graphify.__main__ as cli
 
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     graph = {
         "directed": False,
@@ -125,7 +125,7 @@ def test_label_cli_passes_model_override(tmp_path, monkeypatch):
 def test_label_cli_missing_only_preserves_existing_labels(tmp_path, monkeypatch):
     import graphify.__main__ as cli
 
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     graph = {
         "directed": False,
@@ -555,7 +555,7 @@ def test_cluster_commands_render_aggregated_html_above_viz_limit(
     """#2853: relabeling a large graph must keep a current aggregated HTML."""
     import graphify.__main__ as cli
 
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     _two_community_graph(out)
     html = out / "graph.html"
@@ -596,7 +596,7 @@ def test_cluster_only_preserves_but_does_not_claim_unusable_aggregate(
     import importlib
     import graphify.__main__ as cli
 
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     _two_community_graph(out)
     html = out / "graph.html"
@@ -632,7 +632,7 @@ def test_cluster_only_restores_html_after_unexpected_render_failure(
     import importlib
     import graphify.__main__ as cli
 
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     _two_community_graph(out)
     html = out / "graph.html"
@@ -669,7 +669,7 @@ def test_cluster_only_marks_html_stale_before_report_generation(
     import graphify.__main__ as cli
     from graphify.watch import _reconcile_graph_html
 
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     _two_community_graph(out)
     html = out / "graph.html"
@@ -706,7 +706,7 @@ def test_cluster_only_refused_graph_write_preserves_existing_stale_marker(
     """A refused write must not erase retry state owned by an earlier run."""
     import graphify.__main__ as cli
 
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     _two_community_graph(out)
     html = out / "graph.html"
@@ -736,7 +736,7 @@ def test_cluster_only_succeeds_when_stale_marker_cleanup_fails(
     """A completed HTML replacement must remain a successful command."""
     import graphify.__main__ as cli
 
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     _two_community_graph(out)
     html = out / "graph.html"
@@ -775,7 +775,7 @@ def test_cluster_only_does_not_erase_concurrent_html_after_failure(
     import importlib
     import graphify.__main__ as cli
 
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     _two_community_graph(out)
     html = out / "graph.html"
@@ -809,7 +809,7 @@ def test_cluster_only_no_label_does_not_persist_placeholders(tmp_path, monkeypat
     placeholders (which the reuse path would then treat as fresh forever). A
     later normal run must produce real (non-placeholder) labels."""
     import graphify.__main__ as cli
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     _two_community_graph(out)
     labels_path = out / ".graphify_labels.json"
@@ -841,7 +841,7 @@ def test_cluster_only_heals_persisted_placeholder_but_reuses_genuine(tmp_path, m
     genuine label for another) self-heals — the placeholder is replaced by the
     hub name while the genuine label is reused, with no LLM call."""
     import graphify.__main__ as cli
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     _two_community_graph(out)
     labels_path = out / ".graphify_labels.json"
@@ -914,7 +914,7 @@ def test_cluster_only_keeps_label_on_majority_membership_overlap(tmp_path, monke
     cli = _patch_cluster_only_reuse(monkeypatch)
 
     root = tmp_path / "add-one"
-    out = root / "graphify-out"
+    out = root / ".graphify"
     out.mkdir(parents=True)
     _auth_billing_graph(out)
     labels_path = out / ".graphify_labels.json"
@@ -944,7 +944,7 @@ def test_cluster_only_keeps_label_on_majority_membership_overlap(tmp_path, monke
     assert labels["1"] == "Billing Desk"
 
     fragment = tmp_path / "fragment"
-    fragment_out = fragment / "graphify-out"
+    fragment_out = fragment / ".graphify"
     fragment_out.mkdir(parents=True)
     member_ids = [f"n{i:03d}" for i in range(200)]
     fragment_graph = {
@@ -982,7 +982,7 @@ def test_cluster_only_keeps_unchanged_label_when_count_changes(tmp_path, monkeyp
     communities whose membership did not shrink."""
     cli = _patch_cluster_only_reuse(monkeypatch)
 
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     _auth_billing_graph(out)
     labels_path = out / ".graphify_labels.json"
@@ -1029,7 +1029,7 @@ def test_label_cli_drops_sentinel_and_bare_key_echoes(tmp_path, monkeypatch):
     the deterministic hub labels win — while a real name still overrides."""
     import graphify.__main__ as cli
 
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     graph = {
         "directed": False,

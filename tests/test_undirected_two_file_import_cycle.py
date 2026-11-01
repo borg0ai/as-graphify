@@ -137,7 +137,7 @@ def _rebuild_cycles(root, changed=None):
     from graphify.watch import _rebuild_code
 
     assert _rebuild_code(root, changed_paths=changed, acquire_lock=False, force=True)
-    data = json.loads((root / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+    data = json.loads((root / ".graphify" / "graph.json").read_text(encoding="utf-8"))
     G = build_from_json({"nodes": data["nodes"], "edges": data["links"], "hyperedges": []},
                         directed=bool(data.get("directed")))
     return _names(find_import_cycles(G))

@@ -250,7 +250,7 @@ def test_mentions_survive_a_rebuild_over_an_existing_graph(tmp_path):
     (corpus / "widget.py").write_text(_WIDGET_PY)
     doc = corpus / "doc.md"
     doc.write_text("# Doc\n\n## Usage\n\nBuild a `Widget`.\n")
-    graph_path = corpus / "graphify-out" / "graph.json"
+    graph_path = corpus / ".graphify" / "graph.json"
 
     def mention_edges():
         links = json.loads(graph_path.read_text(encoding="utf-8"))["links"]

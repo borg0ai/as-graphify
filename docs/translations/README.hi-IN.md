@@ -63,7 +63,7 @@ graphify install               # detects your assistant and registers the skill
 बस इतना ही। आपको **तीन फाइलें** मिलती हैं:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Pi के पास कोई `PreToolUse` hook नहीं है, इसल�
 
 हर प्लेटफॉर्म वास्तव में कौन-सी फाइलें लिखता है (CodeBuddy की `CODEBUDDY.md` + `PreToolUse` hooks, Codex की `AGENTS.md`, Kilo का नेटिव `.kilo` प्लगइन, Cursor का `alwaysApply` नियम, इत्यादि) यह **[Always-on setup](https://docs.graphify.com/guides/always-on)** में शामिल है।
 
-सभी प्लेटफॉर्म से graphify को एक साथ हटाने के लिए: `graphify uninstall` (`graphify-out/` को भी हटाने के लिए `--purge` जोड़ें)। या प्रति-प्लेटफॉर्म कमांड उपयोग करें (उदा. `graphify claude uninstall`)।
+सभी प्लेटफॉर्म से graphify को एक साथ हटाने के लिए: `graphify uninstall` (`.graphify/` को भी हटाने के लिए `--purge` जोड़ें)। या प्रति-प्लेटफॉर्म कमांड उपयोग करें (उदा. `graphify claude uninstall`)।
 
 ### CLI स्किल या MCP इंस्ट्रक्शन?
 
@@ -316,7 +316,7 @@ Pi के पास कोई `PreToolUse` hook नहीं है, इसल�
 
 | Setup | उपयोग करने योग्य मार्गदर्शन | Query पहुंच |
 |---|---|---|
-| लोकल CLI और इंस्टॉल की गई असिस्टेंट स्किल | `graphify install` द्वारा लिखी गई प्लेटफॉर्म इंस्ट्रक्शन | लोकल ग्राफ (डिफ़ॉल्ट रूप से `graphify-out/`) के विरुद्ध `graphify query`, `graphify path`, और `graphify explain` चलाएं। |
+| लोकल CLI और इंस्टॉल की गई असिस्टेंट स्किल | `graphify install` द्वारा लिखी गई प्लेटफॉर्म इंस्ट्रक्शन | लोकल ग्राफ (डिफ़ॉल्ट रूप से `.graphify/`) के विरुद्ध `graphify query`, `graphify path`, और `graphify explain` चलाएं। |
 | जुड़ा हुआ Graphify MCP सर्वर | कनेक्शन की इंस्ट्रक्शन और उस सर्वर द्वारा सूचीबद्ध tools | उस कनेक्शन द्वारा सर्व किए गए ग्राफ के विरुद्ध सूचीबद्ध MCP tools कॉल करें। Tool नाम और विवरण सर्वर से आते हैं। |
 
 दोनों व्यापक स्रोत सर्च से पहले scoped ग्राफ queries को प्रोत्साहित करते हैं। उन इंस्ट्रक्शन को चुनें जो उन tools से मेल खाती हों जिन तक आपका असिस्टेंट वास्तव में पहुंच सकता है; कोई भी ब्लॉक आपके असिस्टेंट की इंस्ट्रक्शन फाइलों के लिए कोई सार्वभौमिक प्राथमिकता नियम स्थापित नहीं करता। यदि आप दोनों इंटीग्रेशन उपयोग करते हैं, तो पहचानें कि प्रत्येक कौन-सा ग्राफ query करता है और `AGENTS.md` में दो बिना-शर्त इंस्ट्रक्शन ब्लॉक कॉपी करने के बजाय एक प्राथमिक query पथ चुनें।

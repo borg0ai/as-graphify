@@ -23,7 +23,7 @@ def _graph():
 
 
 def _write(tmp_path, G):
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     graph_path = out / "graph.json"
     graph_path.write_text(json.dumps(json_graph.node_link_data(G, edges="links")))

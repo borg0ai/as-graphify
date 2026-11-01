@@ -21,7 +21,7 @@ def _indirect(tmp_path, a_js: str):
     for name, body in files.items():
         (tmp_path / name).write_text(body)
     r = extract([tmp_path / n for n in files],
-                cache_root=tmp_path / "graphify-out", parallel=False)
+                cache_root=tmp_path / ".graphify", parallel=False)
     lbl = {n["id"]: n["label"] for n in r["nodes"]}
     return {(lbl.get(e["source"]), lbl.get(e["target"])) for e in r["edges"]
             if e["relation"] == "indirect_call"}

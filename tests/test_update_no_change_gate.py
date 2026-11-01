@@ -43,7 +43,7 @@ def built(tmp_path: Path) -> Path:
     """A corpus with one completed rebuild behind it (manifest stamped)."""
     root = _corpus(tmp_path / "corpus")
     assert _rebuild_code(root, acquire_lock=False) is True
-    assert (root / "graphify-out" / "manifest.json").is_file()
+    assert (root / ".graphify" / "manifest.json").is_file()
     return root
 
 
@@ -63,7 +63,7 @@ def _spy_extract(monkeypatch: pytest.MonkeyPatch) -> list:
 def _snapshot(root: Path) -> dict[str, bytes]:
     return {
         p.name: p.read_bytes()
-        for p in sorted((root / "graphify-out").iterdir())
+        for p in sorted((root / ".graphify").iterdir())
         if p.is_file()
     }
 
@@ -189,7 +189,7 @@ def test_force_does_not_use_the_gate(
 def test_gate_fails_closed_without_a_manifest(
     built: Path, monkeypatch: pytest.MonkeyPatch, capsys
 ) -> None:
-    (built / "graphify-out" / "manifest.json").unlink()
+    (built / ".graphify" / "manifest.json").unlink()
     calls = _spy_extract(monkeypatch)
 
     assert _rebuild_code(built, acquire_lock=False) is True
@@ -205,7 +205,7 @@ def test_inputs_unchanged_rejects_an_empty_manifest(tmp_path: Path) -> None:
     root = _corpus(tmp_path / "corpus")
     detected = detect(root)
 
-    assert _inputs_unchanged(detected, root / "graphify-out" / "manifest.json", root) is False
+    assert _inputs_unchanged(detected, root / ".graphify" / "manifest.json", root) is False
 
 
 def test_inputs_unchanged_treats_a_scanned_file_with_no_manifest_row_as_changed(
@@ -220,7 +220,7 @@ def test_inputs_unchanged_treats_a_scanned_file_with_no_manifest_row_as_changed(
     from graphify.detect import detect, load_manifest
     from graphify.watch import _inputs_unchanged
 
-    manifest_path = built / "graphify-out" / "manifest.json"
+    manifest_path = built / ".graphify" / "manifest.json"
     manifest = load_manifest(str(manifest_path), root=built)
     assert str((built / "src" / "m.py").resolve()) in manifest
 
@@ -297,8 +297,8 @@ def test_partially_published_graph_is_never_stamped(
     # truncated graph.json (#2689). Its non-atomic fallback can still land part of
     # the bytes and report success. Stamping that file records the truncated size,
     # and the next run matches the stamp and skips over the damage forever.
-    graph = built / "graphify-out" / "graph.json"
-    stamp = built / "graphify-out" / STAMP_NAME
+    graph = built / ".graphify" / "graph.json"
+    stamp = built / ".graphify" / STAMP_NAME
     stamp_before = stamp.read_bytes()
 
     real_replace = watch_mod.os_replace_with_fallback
@@ -336,12 +336,12 @@ def test_write_build_state_refuses_a_graph_that_is_not_a_whole_json_object(
 ) -> None:
     from graphify.watch import _write_build_state
 
-    graph = built / "graphify-out" / "graph.json"
-    stamp = built / "graphify-out" / STAMP_NAME
+    graph = built / ".graphify" / "graph.json"
+    stamp = built / ".graphify" / STAMP_NAME
     graph.write_bytes(graph.read_bytes()[:40])
     stamp.unlink()
 
-    _write_build_state(built / "graphify-out", {}, full_clean=True)
+    _write_build_state(built / ".graphify", {}, full_clean=True)
 
     assert not stamp.exists()
 
@@ -352,12 +352,12 @@ def test_write_build_state_refuses_while_a_html_rerender_is_pending(
     from graphify.exporters.html import _HTML_STALE_MARKER
     from graphify.watch import _write_build_state
 
-    stamp = built / "graphify-out" / STAMP_NAME
+    stamp = built / ".graphify" / STAMP_NAME
     stamp.unlink()
     # The marker means graph.html does not describe the graph yet, so there is no
     # consistent state to promise the next run.
-    (built / "graphify-out" / _HTML_STALE_MARKER).touch()
+    (built / ".graphify" / _HTML_STALE_MARKER).touch()
 
-    _write_build_state(built / "graphify-out", {}, full_clean=True)
+    _write_build_state(built / ".graphify", {}, full_clean=True)
 
     assert not stamp.exists()

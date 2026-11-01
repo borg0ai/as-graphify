@@ -150,4 +150,4 @@ def test_the_manifest_is_not_stamped_when_the_guard_refuses(monkeypatch, tmp_pat
     out_dir = _arm(monkeypatch, tmp_path, uncovered=("GUIDE.md",))
     code = _run()
     assert code not in (None, 0)
-    assert not (out_dir / "graphify-out" / "manifest.json").exists()
+    assert not (out_dir / ".graphify" / "manifest.json").exists()

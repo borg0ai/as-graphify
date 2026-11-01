@@ -636,7 +636,7 @@ def test_kotlin_object_member_call_survives_incremental_rebuild(tmp_path):
                 "fun Start() {\n    Config.load()\n" + extra + "}\n")
 
     app.write_text(_app(), encoding="utf-8")
-    graph_path = corpus / "graphify-out" / "graph.json"
+    graph_path = corpus / ".graphify" / "graph.json"
 
     def _resolves() -> bool:
         data = json.loads(graph_path.read_text(encoding="utf-8"))

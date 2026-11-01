@@ -1,7 +1,7 @@
 """A cache entry whose path exceeds Windows MAX_PATH must still save and load.
 
 Under a deep root (a nested temp dir, OneDrive, a long user name) the AST cache
-path — <root>/graphify-out/cache/ast/v<ver>-s<schema>-g<grammars>/<64 hex>.json,
+path — <root>/.graphify/cache/ast/v<ver>-s<schema>-g<grammars>/<64 hex>.json,
 plus mkstemp's longer ``<hash>.<random>.tmp`` temp name — overruns 260 chars.
 The write raised FileNotFoundError and ``graphify extract`` failed outright.
 """

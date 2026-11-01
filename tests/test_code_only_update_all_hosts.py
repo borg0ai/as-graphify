@@ -47,8 +47,8 @@ _AST = "graphify_ast.json').write_text(json.dumps(result"
 _FAST = "graphify_semantic.json').write_text(json.dumps({'nodes':[]"
 _PART_C = "graphify_extract.json').write_text(json.dumps(merged"
 
-SHARED = Anchors("graphify-out/", _AST, _FAST, _PART_C, "build_merge(")
-DEVIN = Anchors("graphify-out/", _AST, _FAST, _PART_C, "G_existing.update(")
+SHARED = Anchors(".graphify/", _AST, _FAST, _PART_C, "build_merge(")
+DEVIN = Anchors(".graphify/", _AST, _FAST, _PART_C, "G_existing.update(")
 AIDER = Anchors("", _AST, _FAST, _PART_C, "G_existing.update(")  # cwd-relative files
 
 SHARED_HOSTS = ["agents", "amp", "claude", "claw", "codex", "copilot", "droid", "kilo",
@@ -188,14 +188,14 @@ def _project(tmp_path: Path) -> tuple[Path, int]:
     assert Path(where).is_relative_to(REPO_ROOT), f"graphify imported from {where}, not this checkout"
     subprocess.run([sys.executable, "-m", "graphify", "update", str(proj)], cwd=proj, env=_env(),
                    check=True, capture_output=True, text=True)
-    (proj / "graphify-out" / ".graphify_python").write_text(sys.executable, encoding="utf-8")
-    baseline = len(json.loads((proj / "graphify-out" / "graph.json").read_text(encoding="utf-8"))["nodes"])
+    (proj / ".graphify" / ".graphify_python").write_text(sys.executable, encoding="utf-8")
+    baseline = len(json.loads((proj / ".graphify" / "graph.json").read_text(encoding="utf-8"))["nodes"])
     (proj / "a.py").write_text("def f():\n    return 1\n\ndef f_new():\n    return 3\n", encoding="utf-8")
     return proj, baseline
 
 
 def _semantic_cache(proj: Path) -> dict[str, bytes]:
-    root = proj / "graphify-out" / "cache"
+    root = proj / ".graphify" / "cache"
     return {p.relative_to(root).as_posix(): p.read_bytes()
             for d in root.glob("semantic*") for p in d.rglob("*") if p.is_file()}
 
@@ -214,7 +214,7 @@ def test_code_only_update_follows_its_paragraph_and_merges_the_new_function(host
     # cache entry that must not move (the stale semantic file is seeded below, after detection:
     # aider keeps its .graphify_*.json in the project root, where detection would scan it).
     assert not (out / ".graphify_extract.json").exists()
-    entry = proj / "graphify-out" / "cache" / "semantic" / ("ab" * 32 + ".json")
+    entry = proj / ".graphify" / "cache" / "semantic" / ("ab" * 32 + ".json")
     entry.parent.mkdir(parents=True, exist_ok=True)
     entry.write_text(json.dumps({"nodes": [{"id": "cached_notes", "label": "cached"}],
                                  "edges": [], "hyperedges": []}), encoding="utf-8")

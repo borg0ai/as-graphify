@@ -63,7 +63,7 @@ Apoi, în asistentul vostru AI:
 Asta e tot. Obțineți **trei fișiere**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Asta scrie un mic fișier de configurare care îi spune asistentului vostru să 
 
 Exact ce fișiere scrie fiecare platformă (`CODEBUDDY.md` + hook-uri `PreToolUse` pentru CodeBuddy, `AGENTS.md` pentru Codex, pluginul nativ `.kilo` pentru Kilo, regula `alwaysApply` pentru Cursor și așa mai departe) este acoperit în **[Configurare mereu activă](https://docs.graphify.com/guides/always-on)**.
 
-Pentru a elimina graphify de pe toate platformele deodată: `graphify uninstall` (adăugați `--purge` pentru a șterge și `graphify-out/`). Sau folosiți comanda per platformă (de ex. `graphify claude uninstall`).
+Pentru a elimina graphify de pe toate platformele deodată: `graphify uninstall` (adăugați `--purge` pentru a șterge și `.graphify/`). Sau folosiți comanda per platformă (de ex. `graphify claude uninstall`).
 
 ### Skill-uri CLI sau instrucțiuni MCP?
 
@@ -316,7 +316,7 @@ Instrucțiunile instalate de `graphify install` și cele furnizate cu o conexiun
 
 | Configurare | Îndrumare de folosit | Acces la interogare |
 |---|---|---|
-| CLI local și skill de asistent instalat | Instrucțiunile de platformă scrise de `graphify install` | Rulați `graphify query`, `graphify path` și `graphify explain` pe graful local (`graphify-out/` în mod implicit). |
+| CLI local și skill de asistent instalat | Instrucțiunile de platformă scrise de `graphify install` | Rulați `graphify query`, `graphify path` și `graphify explain` pe graful local (`.graphify/` în mod implicit). |
 | Server Graphify MCP conectat | Instrucțiunile conexiunii și uneltele listate de acel server | Apelați uneltele MCP listate pe graful servit de acea conexiune. Numele și descrierile uneltelor provin de la server. |
 
 Ambele încurajează interogări delimitate ale grafului înaintea căutărilor ample în sursă. Alegeți instrucțiunile care se potrivesc cu uneltele la care asistentul vostru are efectiv acces; niciunul dintre blocuri nu stabilește o regulă universală de precedență pentru fișierele de instrucțiuni ale asistentului vostru. Dacă folosiți ambele integrări, identificați ce graf interoghează fiecare și alegeți o cale principală de interogare în loc să copiați două blocuri de instrucțiuni necondiționate în `AGENTS.md`.

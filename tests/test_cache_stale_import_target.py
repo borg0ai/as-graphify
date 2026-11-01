@@ -87,7 +87,7 @@ def test_warm_update_after_removing_an_imported_module_matches_a_cold_build(tmp_
             (root / "pkg" / "slice.py").unlink()
 
     def graph(root: Path) -> tuple[set[str], set[tuple[str, str, str]]]:
-        data = json.loads((root / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+        data = json.loads((root / ".graphify" / "graph.json").read_text(encoding="utf-8"))
         return (
             {n["id"] for n in data["nodes"]},
             {(e["source"], e["target"], e["relation"]) for e in data["links"]},

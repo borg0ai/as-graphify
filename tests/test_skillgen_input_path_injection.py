@@ -117,15 +117,15 @@ def test_monolith_watch_does_not_contain_raw_input_path_placeholder(skill_file: 
 def test_monolith_watch_uses_trusted_graphify_root(skill_file: str):
     """The monolith --watch block must read from trusted .graphify_root and .graphify_python."""
     block = _extract_watch_bash_block(skill_file)
-    assert "graphify-out/.graphify_root" in block, (
-        f"{skill_file} --watch command does not reference graphify-out/.graphify_root"
+    assert ".graphify/.graphify_root" in block, (
+        f"{skill_file} --watch command does not reference .graphify/.graphify_root"
     )
-    assert "graphify-out/.graphify_python" in block, (
-        f"{skill_file} --watch command does not reference graphify-out/.graphify_python"
+    assert ".graphify/.graphify_python" in block, (
+        f"{skill_file} --watch command does not reference .graphify/.graphify_python"
     )
     assert block == (
-        '$(cat graphify-out/.graphify_python) -m graphify.watch '
-        '"$(cat graphify-out/.graphify_root)" --debounce 3'
+        '$(cat .graphify/.graphify_python) -m graphify.watch '
+        '"$(cat .graphify/.graphify_root)" --debounce 3'
     )
 
 
@@ -204,7 +204,7 @@ def test_step1_still_resolves_a_legitimate_path(tmp_path: Path, skill_file: str)
 
     result = _run_step1(script, str(project), cwd=tmp_path)
 
-    marker = tmp_path / "graphify-out" / ".graphify_root"
+    marker = tmp_path / ".graphify" / ".graphify_root"
     assert marker.exists(), (
         f"a legitimate path must still be resolved and written for {skill_file}; "
         f"stdout={result.stdout!r} stderr={result.stderr!r}"
@@ -232,6 +232,6 @@ def test_step1_still_fails_loudly_on_a_nonexistent_path(tmp_path: Path, skill_fi
 
     result = _run_step1(script, "does/not/exist", cwd=tmp_path)
 
-    marker = tmp_path / "graphify-out" / ".graphify_root"
+    marker = tmp_path / ".graphify" / ".graphify_root"
     assert result.returncode != 0
     assert not marker.exists() or marker.read_text(encoding="utf-8") == ""

@@ -526,7 +526,7 @@ def test_codex_skill_uses_graphify_with_existing_graph():
 def test_codex_agents_install_mentions_dirty_graph_output(tmp_path):
     _agents_install(tmp_path, "codex")
     content = (tmp_path / "AGENTS.md").read_text()
-    assert "Dirty graphify-out/ files are expected" in content
+    assert "Dirty .graphify/ files are expected" in content
     assert "not a reason to skip graphify" in content
 
 
@@ -637,7 +637,7 @@ def test_codebuddy_install_writes_codebuddy_md(tmp_path):
     codebuddy_install(tmp_path)
     md = tmp_path / "CODEBUDDY.md"
     assert md.exists()
-    assert "graphify-out/GRAPH_REPORT.md" in md.read_text()
+    assert ".graphify/GRAPH_REPORT.md" in md.read_text()
 
 
 def test_codebuddy_install_writes_hook(tmp_path):
@@ -673,7 +673,7 @@ def test_claude_hook_install_idempotent_and_replaces_old_bash_hook(tmp_path):
     # Pre-seed a legacy bash-style graphify hook (the thing #522 shipped before).
     settings_path.write_text(_json.dumps({"hooks": {"PreToolUse": [
         {"matcher": "Bash", "hooks": [{"type": "command",
-         "command": "[ -f graphify-out/graph.json ] && echo '{...}' || true"}]},
+         "command": "[ -f .graphify/graph.json ] && echo '{...}' || true"}]},
     ]}}), encoding="utf-8")
     _install_claude_hook(tmp_path)
     _install_claude_hook(tmp_path)  # second install must not duplicate
@@ -681,7 +681,7 @@ def test_claude_hook_install_idempotent_and_replaces_old_bash_hook(tmp_path):
     graphify_hooks = [h for h in hooks if "graphify" in str(h)]
     assert len(graphify_hooks) == 2, "exactly the Bash + Read|Glob guards, no dupes"
     # the legacy bash payload must be gone
-    assert not any("[ -f graphify-out" in h["hooks"][0]["command"] for h in graphify_hooks)
+    assert not any("[ -f .graphify" in h["hooks"][0]["command"] for h in graphify_hooks)
 
 
 def test_codebuddy_install_idempotent(tmp_path):
@@ -698,7 +698,7 @@ def test_codebuddy_install_merges_existing_codebuddy_md(tmp_path):
     codebuddy_install(tmp_path)
     content = (tmp_path / "CODEBUDDY.md").read_text()
     assert "# My project rules" in content
-    assert "graphify-out/GRAPH_REPORT.md" in content
+    assert ".graphify/GRAPH_REPORT.md" in content
 
 
 def test_codebuddy_uninstall_removes_section(tmp_path):
@@ -1094,8 +1094,8 @@ def _run_opencode_plugin_harness(tmp_path, body):
         pytest.skip("node not available")
 
     _agents_install(tmp_path, "opencode")
-    (tmp_path / "graphify-out").mkdir()
-    (tmp_path / "graphify-out" / "graph.json").write_text("{}")
+    (tmp_path / ".graphify").mkdir()
+    (tmp_path / ".graphify" / "graph.json").write_text("{}")
     (tmp_path / "empty").mkdir()
     installed = (tmp_path / ".opencode" / "plugins" / "graphify.js").read_text()
     # .mjs so node treats the copies as ES modules whatever its version.
@@ -1437,7 +1437,7 @@ def test_cursor_install_writes_rule(tmp_path):
     assert rule.exists()
     content = rule.read_text()
     assert "alwaysApply: true" in content
-    assert "graphify-out/GRAPH_REPORT.md" in content
+    assert ".graphify/GRAPH_REPORT.md" in content
 
 
 def test_cursor_install_idempotent(tmp_path):
@@ -1477,7 +1477,7 @@ def test_gemini_install_writes_gemini_md(tmp_path):
     gemini_install(tmp_path)
     md = tmp_path / "GEMINI.md"
     assert md.exists()
-    assert "graphify-out/GRAPH_REPORT.md" in md.read_text()
+    assert ".graphify/GRAPH_REPORT.md" in md.read_text()
 
 
 def test_gemini_install_writes_hook(tmp_path):
@@ -1506,7 +1506,7 @@ def test_gemini_install_merges_existing_gemini_md(tmp_path):
     gemini_install(tmp_path)
     content = (tmp_path / "GEMINI.md").read_text()
     assert "# My project rules" in content
-    assert "graphify-out/GRAPH_REPORT.md" in content
+    assert ".graphify/GRAPH_REPORT.md" in content
 
 
 def test_gemini_install_writes_gemini_md_without_newline_translation(tmp_path, monkeypatch):

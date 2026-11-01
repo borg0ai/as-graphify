@@ -36,7 +36,7 @@ def _calls(tmp_path: Path) -> set[tuple[str, str]]:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8")
         paths.append(path)
-    result = extract(paths, cache_root=tmp_path / "graphify-out")
+    result = extract(paths, cache_root=tmp_path / ".graphify")
     label = {n["id"]: n["label"] for n in result["nodes"]}
     return {
         (label[e["source"]], label[e["target"]])

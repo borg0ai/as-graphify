@@ -31,7 +31,7 @@ def _extract(tmp_path, files: dict[str, str]):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8")
     return extract([base / name for name in files], root=base,
-                   cache_root=base / "graphify-out", parallel=False)
+                   cache_root=base / ".graphify", parallel=False)
 
 
 def _id(r, label: str, source_suffix: str = "") -> str:

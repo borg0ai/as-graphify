@@ -131,7 +131,7 @@ def _extract_graph(tmp_path: Path, files: dict[str, str]) -> nx.Graph:
         p = tmp_path / name
         p.write_text(body, encoding="utf-8")
         paths.append(p)
-    result = extract(paths, cache_root=tmp_path / "graphify-out")
+    result = extract(paths, cache_root=tmp_path / ".graphify")
     # loaded the way `graphify affected` loads graph.json (parallel edges kept)
     graph_json = tmp_path / "graph.json"
     graph_json.write_text(json.dumps({"nodes": result["nodes"], "links": result["edges"]}), encoding="utf-8")

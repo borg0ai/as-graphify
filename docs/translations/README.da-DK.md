@@ -63,7 +63,7 @@ Derefter, i din AI-assistent:
 Det er det. Du får **tre filer**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Dette skriver en lille konfigurationsfil, der fortæller din assistent, at den s
 
 Præcis hvilke filer hver platform skriver (CodeBuddys `CODEBUDDY.md` + `PreToolUse`-hooks, Codex' `AGENTS.md`, Kilos indbyggede `.kilo`-plugin, Cursors `alwaysApply`-regel osv.) er dækket i **[Altid aktiv-opsætning](https://docs.graphify.com/guides/always-on)**.
 
-For at fjerne graphify fra alle platforme på én gang: `graphify uninstall` (tilføj `--purge` for også at slette `graphify-out/`). Eller brug kommandoen pr. platform (f.eks. `graphify claude uninstall`).
+For at fjerne graphify fra alle platforme på én gang: `graphify uninstall` (tilføj `--purge` for også at slette `.graphify/`). Eller brug kommandoen pr. platform (f.eks. `graphify claude uninstall`).
 
 ### CLI-skills eller MCP-instruktioner?
 
@@ -316,7 +316,7 @@ Instruktionerne, der installeres af `graphify install`, og dem, der følger med 
 
 | Opsætning | Vejledning, der skal bruges | Forespørgselsadgang |
 |---|---|---|
-| Lokal CLI og installeret assistent-skill | Platformsinstruktionerne skrevet af `graphify install` | Kør `graphify query`, `graphify path` og `graphify explain` mod den lokale graf (`graphify-out/` som standard). |
+| Lokal CLI og installeret assistent-skill | Platformsinstruktionerne skrevet af `graphify install` | Kør `graphify query`, `graphify path` og `graphify explain` mod den lokale graf (`.graphify/` som standard). |
 | Forbundet Graphify MCP-server | Forbindelsens instruktioner og de værktøjer, som den server angiver | Kald de angivne MCP-værktøjer mod den graf, som den forbindelse serverer. Værktøjsnavne og -beskrivelser kommer fra serveren. |
 
 Begge opfordrer til afgrænsede grafforespørgsler før brede kildesøgninger. Vælg de instruktioner, der matcher de værktøjer, din assistent faktisk kan tilgå; ingen af blokkene etablerer en universel forrangsregel for din assistents instruktionsfiler. Hvis du bruger begge integrationer, så identificér hvilken graf hver forespørger, og vælg en primær forespørgselssti i stedet for at kopiere to ubetingede instruktionsblokke ind i `AGENTS.md`.

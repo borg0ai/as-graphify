@@ -63,11 +63,13 @@ Then, in your AI assistant:
 That's it. You get **three files**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
 ```
+
+The output directory is `.graphify/` by default. Set `GRAPHIFY_OUT` to use another name or location.
 
 The persisted graph includes `graph.schema_version` so integrations can detect
 incompatible format changes, plus `graph.graphify_version` identifying the
@@ -310,7 +312,7 @@ This writes a small config file that tells your assistant to consult the knowled
 
 Exactly which files each platform writes (CodeBuddy's `CODEBUDDY.md` + `PreToolUse` hooks, Codex's `AGENTS.md`, Kilo's native `.kilo` plugin, Cursor's `alwaysApply` rule, and so on) is covered in **[Always-on setup](https://docs.graphify.com/guides/always-on)**.
 
-To remove graphify from all platforms at once: `graphify uninstall` (add `--purge` to also delete `graphify-out/`). Or use the per-platform command (e.g. `graphify claude uninstall`).
+To remove graphify from all platforms at once: `graphify uninstall` (add `--purge` to also delete `.graphify/`). Or use the per-platform command (e.g. `graphify claude uninstall`).
 
 ### CLI skills or MCP instructions?
 
@@ -318,7 +320,7 @@ The instructions installed by `graphify install` and those supplied with a Graph
 
 | Setup | Guidance to use | Query access |
 |---|---|---|
-| Local CLI and installed assistant skill | The platform instructions written by `graphify install` | Run `graphify query`, `graphify path`, and `graphify explain` against the local graph (`graphify-out/` by default). |
+| Local CLI and installed assistant skill | The platform instructions written by `graphify install` | Run `graphify query`, `graphify path`, and `graphify explain` against the local graph (`.graphify/` by default). |
 | Connected Graphify MCP server | The connection's instructions and the tools listed by that server | Call the listed MCP tools against the graph served by that connection. Tool names and descriptions come from the server. |
 
 Both encourage scoped graph queries before broad source searches. Choose the instructions that match the tools your assistant can actually access; neither block establishes a universal precedence rule for your assistant's instruction files. If you use both integrations, identify which graph each queries and choose a primary query path instead of copying two unconditional instruction blocks into `AGENTS.md`.

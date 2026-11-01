@@ -6,7 +6,7 @@ Graphify is a graph-building system whose correctness depends on preserving prov
 - Read [ARCHITECTURE.md](ARCHITECTURE.md)
 - Read [SECURITY.md](SECURITY.md) when relevant
 - Understand `v8` is the active development branch
-- Use `graphify-out/GRAPH_REPORT.md` for repository orientation
+- Use `GRAPH_REPORT.md` in the graph output directory for repository orientation (`.graphify/` by default, or the directory set by `GRAPHIFY_OUT`)
 
 ## What We Value
 

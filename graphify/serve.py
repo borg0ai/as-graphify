@@ -1166,7 +1166,7 @@ def _subgraph_to_text(G: nx.Graph, nodes: set[str], edges: list[tuple], token_bu
         d = G.nodes[nid]
         # Every LLM-derived field passes through sanitize_label before being
         # concatenated into MCP tool output (F-010): an attacker who controls a
-        # corpus document can otherwise inject ANSI escapes, fake graphify-out
+        # corpus document can otherwise inject ANSI escapes, fake .graphify
         # log lines, or prompt-injection markup into the model's context via
         # source_file / source_location / community.
         # The learning= suffix is appended INSIDE the bracket and BEFORE the
@@ -1344,7 +1344,7 @@ def _cut_lines_to_budget(lines: list[str], token_budget: int, narrow_hint: str) 
 def _display_graph_path(graph_path: str) -> str:
     """Render a graph path for the query header.
 
-    Relative to the CWD when it sits underneath it — `graphify-out/graph.json`,
+    Relative to the CWD when it sits underneath it — `.graphify/graph.json`,
     which is the ordinary case and stays short. Absolute otherwise, because a
     graph outside the directory you are standing in is precisely the situation
     the header exists to make visible (#2789). Always POSIX separators so the
@@ -1515,7 +1515,7 @@ def _render_query(
     ]
     if unresolved:
         header_parts.append(f"Unresolved seeds (skipped): {unresolved}")
-    # Name the graph this answer came from. `graphify-out/` resolves against the
+    # Name the graph this answer came from. `.graphify/` resolves against the
     # CWD, so running a query from a parent project while thinking about a
     # vendored subproject silently answers from the wrong corpus — the output is
     # well-formed and confidently wrong, and nothing in it said which graph was
@@ -2769,7 +2769,7 @@ def _build_server(graph_path: str):
                 "type": "string",
                 "description": (
                     "Absolute path to a project directory containing "
-                    "graphify-out/graph.json. Optional — defaults to the graph "
+                    ".graphify/graph.json. Optional — defaults to the graph "
                     "this server was started with."
                 ),
             }
@@ -3391,7 +3391,7 @@ def _main(argv: list[str] | None = None) -> None:
         "graph_path",
         nargs="?",
         default=None,
-        help="Path to graph.json (default: graphify-out/graph.json)",
+        help="Path to graph.json (default: .graphify/graph.json)",
     )
     parser.add_argument(
         "--graph",

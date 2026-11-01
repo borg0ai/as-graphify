@@ -63,7 +63,7 @@ graphify install               # detects your assistant and registers the skill
 هذا كل شيء. تحصل على **ثلاثة ملفات**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ graphify install --project --platform codex
 
 الملفات التي تكتبها كل منصة بالضبط (ملف CodeBuddy `CODEBUDDY.md` + خطافات `PreToolUse`، وملف Codex `AGENTS.md`، وإضافة Kilo الأصلية `.kilo`، وقاعدة Cursor `alwaysApply`، وهكذا) مشروحة في **[Always-on setup](https://docs.graphify.com/guides/always-on)**.
 
-لإزالة graphify من كل المنصات دفعة واحدة: `graphify uninstall` (أضف `--purge` لحذف `graphify-out/` أيضًا). أو استخدم الأمر الخاص بكل منصة (مثل `graphify claude uninstall`).
+لإزالة graphify من كل المنصات دفعة واحدة: `graphify uninstall` (أضف `--purge` لحذف `.graphify/` أيضًا). أو استخدم الأمر الخاص بكل منصة (مثل `graphify claude uninstall`).
 
 ### CLI skills or MCP instructions?
 
@@ -316,7 +316,7 @@ graphify install --project --platform codex
 
 | Setup | Guidance to use | Query access |
 |---|---|---|
-| CLI محلي ومهارة مساعد مثبّتة | تعليمات المنصة التي يكتبها `graphify install` | شغّل `graphify query` و`graphify path` و`graphify explain` مقابل الرسم البياني المحلي (`graphify-out/` افتراضيًا). |
+| CLI محلي ومهارة مساعد مثبّتة | تعليمات المنصة التي يكتبها `graphify install` | شغّل `graphify query` و`graphify path` و`graphify explain` مقابل الرسم البياني المحلي (`.graphify/` افتراضيًا). |
 | خادم Graphify MCP متصل | تعليمات الاتصال والأدوات التي يسردها ذلك الخادم | استدعِ أدوات MCP المسرودة مقابل الرسم البياني الذي يخدمه ذلك الاتصال. أسماء الأدوات وأوصافها تأتي من الخادم. |
 
 كلاهما يشجّع الاستعلامات محددة النطاق على الرسم البياني قبل عمليات البحث الواسعة في المصدر. اختر التعليمات التي تطابق الأدوات التي يستطيع مساعدك الوصول إليها فعلًا؛ ولا تؤسس أي من الكتلتين قاعدة أسبقية شاملة لملفات تعليمات مساعدك. إذا استخدمت كلا التكاملين، فحدّد أي رسم بياني يستعلم عنه كل منهما واختر مسار استعلام أساسيًا بدلًا من نسخ كتلتَي تعليمات غير مشروطتين إلى `AGENTS.md`.

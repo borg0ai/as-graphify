@@ -484,7 +484,7 @@ def to_json(G: nx.Graph, communities: dict[int, list[str]], output_path: str, *,
     if graphify_version is not None:
         graph_metadata["graphify_version"] = graphify_version
     # Fallback provenance comes from the repo the graph is being written INTO
-    # (output_path lives in <target>/graphify-out/), never the shell's cwd —
+    # (output_path lives in <target>/.graphify/), never the shell's cwd —
     # the same cwd-anchoring mistake #2316 fixed for `update`.
     commit = built_at_commit if built_at_commit is not None else _git_head(Path(output_path).resolve().parent)
     if commit:
@@ -1117,7 +1117,7 @@ def to_obsidian(
         print(
             f"[graphify] WARNING: skipped {len(_skipped)} pre-existing file(s) graphify "
             f"did not create, to avoid overwriting your notes: {shown}. "
-            f"Export into an empty directory (or the default graphify-out/obsidian) "
+            f"Export into an empty directory (or the default .graphify/obsidian) "
             f"to get the full vault.",
             file=sys.stderr,
         )

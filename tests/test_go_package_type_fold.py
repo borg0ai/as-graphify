@@ -28,7 +28,7 @@ def _extract(tmp_path, files: dict[str, str]):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8")
     return extract([tmp_path / n for n in files],
-                   cache_root=tmp_path / "graphify-out", parallel=False)
+                   cache_root=tmp_path / ".graphify", parallel=False)
 
 
 def _nodes(result, label: str) -> list[dict]:

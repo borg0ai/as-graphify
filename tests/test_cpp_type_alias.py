@@ -62,7 +62,7 @@ def _extract(tmp_path: Path, files: dict[str, str]) -> dict:
         (tmp_path / name).parent.mkdir(parents=True, exist_ok=True)
         (tmp_path / name).write_text(body, encoding="utf-8")
     return extract([tmp_path / n for n in files], root=tmp_path,
-                   cache_root=tmp_path / "graphify-out", parallel=False)
+                   cache_root=tmp_path / ".graphify", parallel=False)
 
 
 def _labels(result: dict) -> dict[str, str]:

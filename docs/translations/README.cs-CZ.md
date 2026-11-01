@@ -63,7 +63,7 @@ Poté ve svém AI asistentovi:
 A je to. Získáte **tři soubory**:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Toto zapíše malý konfigurační soubor, který řekne vašemu asistentovi, ab
 
 Přesně které soubory každá platforma zapisuje (CodeBuddy `CODEBUDDY.md` + hooky `PreToolUse`, Codex `AGENTS.md`, nativní plugin `.kilo` u Kilo, pravidlo `alwaysApply` u Cursoru a tak dále) je pokryto v **[Nastavení vždy zapnuto](https://docs.graphify.com/guides/always-on)**.
 
-Chcete-li odebrat graphify ze všech platforem najednou: `graphify uninstall` (přidejte `--purge`, chcete-li také smazat `graphify-out/`). Nebo použijte příkaz pro jednotlivou platformu (např. `graphify claude uninstall`).
+Chcete-li odebrat graphify ze všech platforem najednou: `graphify uninstall` (přidejte `--purge`, chcete-li také smazat `.graphify/`). Nebo použijte příkaz pro jednotlivou platformu (např. `graphify claude uninstall`).
 
 ### CLI skills nebo MCP instrukce?
 
@@ -316,7 +316,7 @@ Instrukce instalované pomocí `graphify install` a ty dodávané s připojením
 
 | Nastavení | Pokyny k použití | Přístup k dotazům |
 |---|---|---|
-| Lokální CLI a nainstalovaný asistentský skill | Instrukce platformy zapsané pomocí `graphify install` | Spusťte `graphify query`, `graphify path` a `graphify explain` proti lokálnímu grafu (ve výchozím nastavení `graphify-out/`). |
+| Lokální CLI a nainstalovaný asistentský skill | Instrukce platformy zapsané pomocí `graphify install` | Spusťte `graphify query`, `graphify path` a `graphify explain` proti lokálnímu grafu (ve výchozím nastavení `.graphify/`). |
 | Připojený Graphify MCP server | Instrukce připojení a nástroje uvedené tímto serverem | Volejte uvedené MCP nástroje proti grafu obsluhovanému tímto připojením. Názvy a popisy nástrojů pocházejí ze serveru. |
 
 Obojí podporuje omezené dotazy do grafu před širokým vyhledáváním ve zdroji. Vyberte instrukce, které odpovídají nástrojům, k nimž má váš asistent skutečně přístup; žádný z bloků nestanovuje univerzální pravidlo přednosti pro instrukční soubory vašeho asistenta. Pokud používáte obě integrace, zjistěte, který graf každá z nich dotazuje, a vyberte primární cestu dotazů namísto kopírování dvou nepodmíněných instrukčních bloků do `AGENTS.md`.

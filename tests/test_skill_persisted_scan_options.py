@@ -28,7 +28,7 @@ def _scan_blocks():
 @pytest.mark.parametrize('art,source', _scan_blocks(), ids=lambda value: value.split('\n', 1)[0])
 def test_skill_scan_honors_persisted_options(tmp_path, monkeypatch, art, source):
     monkeypatch.delenv('GRAPHIFY_OUT', raising=False)
-    monkeypatch.setattr(paths, 'GRAPHIFY_OUT', 'graphify-out')
+    monkeypatch.setattr(paths, 'GRAPHIFY_OUT', '.graphify')
     corpus = tmp_path / 'corpus'
     corpus.mkdir()
     subprocess.run(['git', 'init', '-q', str(corpus)], check=True)
@@ -37,7 +37,7 @@ def test_skill_scan_honors_persisted_options(tmp_path, monkeypatch, art, source)
     (corpus / 'docs').mkdir()
     for name in ('notes/a.md', 'docs/b.md', 'docs/skip.md'):
         (corpus / name).write_text('# sample\n', encoding='utf-8')
-    out = tmp_path / 'graphify-out'
+    out = tmp_path / '.graphify'
     _write_build_config(out, excludes=['docs/skip.md'], gitignore=False)
     # Match the skill's documented CWD-relative output/manifest layout, with
     # INPUT_PATH pointing to a distinct corpus rather than the output parent.
@@ -70,7 +70,7 @@ def test_detection_api_explicit_options_are_not_overridden(tmp_path):
     (tmp_path / 'notes').mkdir()
     for name in ('notes/a.md', 'keep.md'):
         (tmp_path / name).write_text('# sample\n', encoding='utf-8')
-    _write_build_config(tmp_path / 'graphify-out', excludes=['keep.md'], gitignore=False)
+    _write_build_config(tmp_path / '.graphify', excludes=['keep.md'], gitignore=False)
     data = detect(tmp_path, gitignore=True, extra_excludes=[])
     actual = {Path(f).name for files in data['files'].values() for f in files}
     assert actual == {'keep.md'}

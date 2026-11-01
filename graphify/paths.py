@@ -1,13 +1,13 @@
 """Single source of truth for the graphify output-directory name.
 
-The output directory is ``graphify-out`` by default and overridable with the
+The output directory is ``.graphify`` by default and overridable with the
 ``GRAPHIFY_OUT`` env var (worktrees or shared-output setups, #686). It accepts a
-relative name (``"graphify-out-feature"``) or an absolute path
-(``"/shared/graphify-out"``).
+relative name (``".graphify-feature"``) or an absolute path
+(``"/shared/.graphify"``).
 
 This used to be duplicated as an identical ``_GRAPHIFY_OUT`` constant in
 ``__main__``, ``cache``, and ``watch``, while ``security`` and ``callflow_html``
-hardcoded the literal ``"graphify-out"`` and silently ignored the override
+hardcoded the literal ``".graphify"`` and silently ignored the override
 (#1423). Centralising it here keeps the name in one place. The value is read
 once at import time, matching the previous per-module constants — set
 ``GRAPHIFY_OUT`` before the process starts (the normal worktree/shared-output
@@ -28,7 +28,7 @@ from pathlib import Path, PurePosixPath, PureWindowsPath
 
 
 def _out_from_env() -> str:
-    """``GRAPHIFY_OUT``, or ``"graphify-out"`` when it is unset, empty, or names
+    """``GRAPHIFY_OUT``, or ``".graphify"`` when it is unset, empty, or names
     the project itself / a parent of it.
 
     ``os.environ.get(key, default)`` only applies the default when the variable
@@ -38,15 +38,15 @@ def _out_from_env() -> str:
     """
     value = (os.environ.get("GRAPHIFY_OUT") or "").strip()
     if not value:
-        return "graphify-out"
+        return ".graphify"
     norm = os.path.normpath(value)
     if norm == "." or all(part == ".." for part in Path(norm).parts):
         print(
             f"warning: GRAPHIFY_OUT={value!r} points at the project or a parent "
-            "of it; using 'graphify-out' instead",
+            "of it; using '.graphify' instead",
             file=sys.stderr,
         )
-        return "graphify-out"
+        return ".graphify"
     return value
 
 
@@ -460,7 +460,7 @@ def out_path(*parts: str) -> Path:
     """A path inside the configured output dir, e.g. ``out_path("cache")``.
 
     ``Path(GRAPHIFY_OUT) / ...`` resolves correctly for both a relative name
-    ("graphify-out") and an absolute override ("/shared/graphify-out").
+    (".graphify") and an absolute override ("/shared/.graphify").
     """
     return Path(GRAPHIFY_OUT, *parts)
 
@@ -532,7 +532,7 @@ def stem_filename_budget(output_dir: "str | Path", *, reserve: int = 0, limit: i
     default). That is the right question on POSIX and the wrong one on Windows,
     where the constraint is on the WHOLE path, not the component: a 200-char
     stem under a perfectly ordinary vault directory such as
-    ``C:\\Users\\me\\projects\\svc\\graphify-out\\obsidian`` exceeds MAX_PATH and
+    ``C:\\Users\\me\\projects\\svc\\.graphify\\obsidian`` exceeds MAX_PATH and
     the write dies with ``FileNotFoundError``, aborting the export mid-vault.
 
     Returns ``limit`` unchanged on POSIX, so existing output is byte-for-byte

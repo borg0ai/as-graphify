@@ -63,7 +63,7 @@ Majd az AI-asszisztensében:
 Ennyi az egész. **Három fájlt** kap:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ A `GRAPH_REPORT.md` továbbra is elérhető a széles körű architektúra-átte
 
 Hogy pontosan mely fájlokat írja ki az egyes platformok (a CodeBuddy `CODEBUDDY.md` + `PreToolUse` hookjai, a Codex `AGENTS.md`-je, a Kilo natív `.kilo` beépülője, a Cursor `alwaysApply` szabálya és így tovább), azt a **[Always-on setup](https://docs.graphify.com/guides/always-on)** ismerteti.
 
-A graphify egyszerre minden platformról való eltávolításához: `graphify uninstall` (adja hozzá a `--purge` kapcsolót a `graphify-out/` törléséhez is). Vagy használja a platformspecifikus parancsot (pl. `graphify claude uninstall`).
+A graphify egyszerre minden platformról való eltávolításához: `graphify uninstall` (adja hozzá a `--purge` kapcsolót a `.graphify/` törléséhez is). Vagy használja a platformspecifikus parancsot (pl. `graphify claude uninstall`).
 
 ### CLI skills or MCP instructions?
 
@@ -316,7 +316,7 @@ A `graphify install` által telepített utasítások és a Graphify MCP-kapcsola
 
 | Beállítás | Használandó útmutatás | Lekérdezési hozzáférés |
 |---|---|---|
-| Helyi CLI és telepített asszisztens-skill | A `graphify install` által kiírt platformutasítások | Futtassa a `graphify query`, `graphify path` és `graphify explain` parancsokat a helyi gráf ellenében (alapértelmezés szerint `graphify-out/`). |
+| Helyi CLI és telepített asszisztens-skill | A `graphify install` által kiírt platformutasítások | Futtassa a `graphify query`, `graphify path` és `graphify explain` parancsokat a helyi gráf ellenében (alapértelmezés szerint `.graphify/`). |
 | Csatlakoztatott Graphify MCP-kiszolgáló | A kapcsolat utasításai és az adott kiszolgáló által felsorolt eszközök | Hívja meg a felsorolt MCP-eszközöket az adott kapcsolat által kiszolgált gráf ellenében. Az eszköznevek és -leírások a kiszolgálóból származnak. |
 
 Mindkettő a szűkített gráflekérdezéseket ösztönzi a széles körű forráskeresések előtt. Válassza azokat az utasításokat, amelyek megfelelnek az asszisztense által ténylegesen elérhető eszközöknek; egyik blokk sem állapít meg univerzális elsőbbségi szabályt az asszisztense utasításfájljaira. Ha mindkét integrációt használja, állapítsa meg, melyik melyik gráfot kérdezi le, és válasszon egy elsődleges lekérdezési útvonalat ahelyett, hogy két feltétel nélküli utasításblokkot másolna az `AGENTS.md` fájlba.

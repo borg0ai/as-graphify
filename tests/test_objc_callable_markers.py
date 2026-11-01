@@ -39,7 +39,7 @@ def _extract(tmp_path: Path, files: dict[str, str]) -> dict:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8")
         paths.append(path)
-    return extract(paths, cache_root=tmp_path / "graphify-out")
+    return extract(paths, cache_root=tmp_path / ".graphify")
 
 
 def _node(result: dict, label: str) -> dict:

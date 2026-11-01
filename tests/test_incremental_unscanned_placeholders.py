@@ -17,7 +17,7 @@ from graphify.watch import _rebuild_code
 
 
 def _graph(corpus: Path) -> dict:
-    return json.loads((corpus / "graphify-out" / "graph.json").read_text(encoding="utf-8"))
+    return json.loads((corpus / ".graphify" / "graph.json").read_text(encoding="utf-8"))
 
 
 def _shape(graph: dict) -> tuple[set, set]:
@@ -82,7 +82,7 @@ def test_a_scanned_file_that_was_deleted_is_still_evicted(tmp_path):
 def test_without_a_manifest_the_old_eviction_is_kept(tmp_path):
     corpus = _corpus(tmp_path)
     _rebuild(corpus)
-    (corpus / "graphify-out" / "manifest.json").unlink()
+    (corpus / ".graphify" / "manifest.json").unlink()
 
     (corpus / "other.ts").write_text("export function other() {\n  return 2;\n}\n", encoding="utf-8")
     _rebuild(corpus, ["other.ts"])
@@ -93,7 +93,7 @@ def test_without_a_manifest_the_old_eviction_is_kept(tmp_path):
 def test_a_manifest_anchored_elsewhere_is_no_evidence(tmp_path):
     corpus = _corpus(tmp_path)
     _rebuild(corpus)
-    manifest = corpus / "graphify-out" / "manifest.json"
+    manifest = corpus / ".graphify" / "manifest.json"
     manifest.write_text(json.dumps({"some/other/root/x.ts": 1}), encoding="utf-8")
 
     (corpus / "other.ts").write_text("export function other() {\n  return 2;\n}\n", encoding="utf-8")
@@ -113,7 +113,7 @@ def test_a_deleted_real_file_is_evicted_even_if_the_manifest_lost_it(tmp_path):
     _rebuild(corpus)
     assert any(n.get("source_file", "").endswith("lib.ts") for n in _graph(corpus)["nodes"])
 
-    manifest = corpus / "graphify-out" / "manifest.json"
+    manifest = corpus / ".graphify" / "manifest.json"
     scanned = json.loads(manifest.read_text(encoding="utf-8"))
     stale = {k: v for k, v in scanned.items() if not k.endswith("lib.ts")}
     assert len(stale) < len(scanned)

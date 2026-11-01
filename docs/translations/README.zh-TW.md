@@ -63,7 +63,7 @@ graphify install               # detects your assistant and registers the skill
 就這樣。你會得到**三個檔案**：
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -300,7 +300,7 @@ Pi 沒有 `PreToolUse` 掛鉤，因此 `graphify pi guard install` 會註冊一�
 
 每個平台具體寫入哪些檔案（CodeBuddy 的 `CODEBUDDY.md` + `PreToolUse` 掛鉤、Codex 的 `AGENTS.md`、Kilo 的原生 `.kilo` 外掛、Cursor 的 `alwaysApply` 規則等等）在 **[Always-on setup](https://docs.graphify.com/guides/always-on)** 中有介紹。
 
-要一次性從所有平台移除 graphify：`graphify uninstall`（加 `--purge` 還會刪除 `graphify-out/`）。或者使用各平台的命令（例如 `graphify claude uninstall`）。
+要一次性從所有平台移除 graphify：`graphify uninstall`（加 `--purge` 還會刪除 `.graphify/`）。或者使用各平台的命令（例如 `graphify claude uninstall`）。
 
 ### 用 CLI 技能還是 MCP 指示？
 
@@ -308,7 +308,7 @@ Pi 沒有 `PreToolUse` 掛鉤，因此 `graphify pi guard install` 會註冊一�
 
 | 設定 | 使用哪套指引 | 查詢存取 |
 |---|---|---|
-| 本地 CLI 和已安裝的助理技能 | 由 `graphify install` 寫入的平台指令 | 針對本地圖譜（預設 `graphify-out/`）執行 `graphify query`、`graphify path` 和 `graphify explain`。 |
+| 本地 CLI 和已安裝的助理技能 | 由 `graphify install` 寫入的平台指令 | 針對本地圖譜（預設 `.graphify/`）執行 `graphify query`、`graphify path` 和 `graphify explain`。 |
 | 已連接的 Graphify MCP 伺服器 | 該連接的指令以及該伺服器列出的工具 | 針對該連接所服務的圖譜呼叫所列的 MCP 工具。工具名稱和描述來自伺服器。 |
 
 兩者都鼓勵在廣泛的原始碼搜尋之前先進行有範圍的圖譜查詢。選擇與你助理實際能存取的工具相符的那套指令；兩個程式碼區塊都沒有為你助理的指令檔確立一條普遍的優先規則。如果你同時使用兩種整合，弄清每種查詢的是哪張圖，並選擇一條主要的查詢路徑，而不是把兩個無條件的指令區塊都複製進 `AGENTS.md`。

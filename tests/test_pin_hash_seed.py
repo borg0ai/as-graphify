@@ -136,7 +136,7 @@ def test_update_still_runs_end_to_end_with_hashseed_unset(tmp_path):
     )
 
     assert result.returncode == 0, result.stderr
-    assert (tmp_path / "graphify-out" / "graph.json").exists()
+    assert (tmp_path / ".graphify" / "graph.json").exists()
 
 
 def test_reexec_uses_execvpe_on_posix(monkeypatch):

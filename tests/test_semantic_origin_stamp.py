@@ -83,7 +83,7 @@ def test_part_c_stamps_the_semantic_side(fragment, tmp_path):
     out_path = re.search(r"Path\('([^']*\.graphify_extract\.json)'\)", code).group(1)
     for rel in (ast_path, sem_path, out_path):
         (tmp_path / rel).parent.mkdir(parents=True, exist_ok=True)
-    (tmp_path / "graphify-out").mkdir(exist_ok=True)
+    (tmp_path / ".graphify").mkdir(exist_ok=True)
     ast = {"nodes": [{"id": "src_app_main", "label": "main", "file_type": "code",
                       "source_file": "src/app.py", "source_location": "L1", "_origin": "ast"}],
            "edges": []}

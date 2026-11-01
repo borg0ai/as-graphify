@@ -63,7 +63,7 @@ Ardından, yapay zeka asistanınızda:
 Hepsi bu kadar. **Üç dosya** elde edersiniz:
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -308,7 +308,7 @@ Bu, asistanınıza kod tabanı soruları için bilgi grafiğine başvurmasını 
 
 Her platformun tam olarak hangi dosyaları yazdığı (CodeBuddy'nin `CODEBUDDY.md` + `PreToolUse` hook'ları, Codex'in `AGENTS.md`'si, Kilo'nun yerel `.kilo` eklentisi, Cursor'un `alwaysApply` kuralı vb.) şurada ele alınır: **[Daima açık kurulum](https://docs.graphify.com/guides/always-on)**.
 
-graphify'ı tüm platformlardan aynı anda kaldırmak için: `graphify uninstall` (`graphify-out/` dizinini de silmek için `--purge` ekleyin). Veya platform bazlı komutu kullanın (ör. `graphify claude uninstall`).
+graphify'ı tüm platformlardan aynı anda kaldırmak için: `graphify uninstall` (`.graphify/` dizinini de silmek için `--purge` ekleyin). Veya platform bazlı komutu kullanın (ör. `graphify claude uninstall`).
 
 ### CLI becerileri mi yoksa MCP talimatları mı?
 
@@ -316,7 +316,7 @@ graphify'ı tüm platformlardan aynı anda kaldırmak için: `graphify uninstall
 
 | Kurulum | Kullanılacak rehberlik | Sorgu erişimi |
 |---|---|---|
-| Yerel CLI ve kurulu asistan becerisi | `graphify install` tarafından yazılan platform talimatları | Yerel grafiğe (varsayılan olarak `graphify-out/`) karşı `graphify query`, `graphify path` ve `graphify explain` çalıştırın. |
+| Yerel CLI ve kurulu asistan becerisi | `graphify install` tarafından yazılan platform talimatları | Yerel grafiğe (varsayılan olarak `.graphify/`) karşı `graphify query`, `graphify path` ve `graphify explain` çalıştırın. |
 | Bağlı Graphify MCP sunucusu | Bağlantının talimatları ve o sunucunun listelediği araçlar | O bağlantının sunduğu grafiğe karşı listelenen MCP araçlarını çağırın. Araç adları ve açıklamaları sunucudan gelir. |
 
 Her ikisi de geniş kaynak aramalarından önce kapsamlı grafik sorgularını teşvik eder. Asistanınızın gerçekten erişebildiği araçlara uyan talimatları seçin; hiçbir blok, asistanınızın talimat dosyaları için evrensel bir öncelik kuralı belirlemez. Her iki entegrasyonu da kullanıyorsanız, her birinin hangi grafiği sorguladığını belirleyin ve `AGENTS.md` içine iki koşulsuz talimat bloğu kopyalamak yerine bir birincil sorgu yolu seçin.

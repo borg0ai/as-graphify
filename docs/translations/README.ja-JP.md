@@ -63,7 +63,7 @@ graphify install               # detects your assistant and registers the skill
 これで完了です。**3 つのファイル**が得られます。
 
 ```
-graphify-out/
+.graphify/
 ├── graph.html       open in any browser: click nodes, filter, search
 ├── GRAPH_REPORT.md  the highlights: key concepts, surprising connections, suggested questions
 └── graph.json       the full graph: query it anytime without re-reading your files
@@ -300,7 +300,7 @@ Pi には `PreToolUse` hook がないため、`graphify pi guard install` は（
 
 各プラットフォームが具体的にどのファイルを書き込むか（CodeBuddy の `CODEBUDDY.md` + `PreToolUse` hooks、Codex の `AGENTS.md`、Kilo のネイティブ `.kilo` プラグイン、Cursor の `alwaysApply` ルールなど）は、**[Always-on setup](https://docs.graphify.com/guides/always-on)** で扱っています。
 
-すべてのプラットフォームから graphify を一度に削除するには: `graphify uninstall`（`--purge` を追加すると `graphify-out/` も削除します）。または、プラットフォーム別コマンド（例: `graphify claude uninstall`）を使います。
+すべてのプラットフォームから graphify を一度に削除するには: `graphify uninstall`（`--purge` を追加すると `.graphify/` も削除します）。または、プラットフォーム別コマンド（例: `graphify claude uninstall`）を使います。
 
 ### CLI スキルか MCP 指示か？
 
@@ -308,7 +308,7 @@ Pi には `PreToolUse` hook がないため、`graphify pi guard install` は（
 
 | Setup | Guidance to use | Query access |
 |---|---|---|
-| ローカル CLI とインストール済みのアシスタントスキル | `graphify install` が書き込んだプラットフォームの指示 | ローカルグラフ（デフォルトは `graphify-out/`）に対して `graphify query`、`graphify path`、`graphify explain` を実行します。 |
+| ローカル CLI とインストール済みのアシスタントスキル | `graphify install` が書き込んだプラットフォームの指示 | ローカルグラフ（デフォルトは `.graphify/`）に対して `graphify query`、`graphify path`、`graphify explain` を実行します。 |
 | 接続された Graphify MCP サーバー | その接続の指示と、そのサーバーがリストするツール | その接続が提供するグラフに対して、リストされた MCP ツールを呼び出します。ツール名と説明はサーバーから来ます。 |
 
 どちらも、幅広いソース検索の前にスコープ付きのグラフクエリを行うことを推奨します。アシスタントが実際にアクセスできるツールに合った指示を選んでください。どちらのブロックも、アシスタントの指示ファイルに対する普遍的な優先順位ルールを確立するものではありません。両方の統合を使う場合は、それぞれがどのグラフをクエリするかを特定し、2 つの無条件な指示ブロックを `AGENTS.md` にコピーするのではなく、主要なクエリパスを 1 つ選んでください。

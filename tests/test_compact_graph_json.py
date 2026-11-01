@@ -77,7 +77,7 @@ def test_update_writes_one_compact_line(tmp_path, no_cluster):
     corpus = _corpus(tmp_path)
     assert _rebuild_code(corpus, no_cluster=no_cluster, acquire_lock=False) is True
 
-    data = _assert_one_line(corpus / "graphify-out" / "graph.json")
+    data = _assert_one_line(corpus / ".graphify" / "graph.json")
     labels = {n["label"] for n in data["nodes"]}
     assert {"alpha()", "beta()"} <= labels
 
@@ -87,7 +87,7 @@ def test_update_rewrites_existing_indented_graph_compact(tmp_path, no_cluster):
     """An unchanged graph still checked in with indent=2 must not stay that way
     forever: the topology/graph-equality skips compare parsed data, not bytes."""
     corpus = _corpus(tmp_path)
-    graph = corpus / "graphify-out" / "graph.json"
+    graph = corpus / ".graphify" / "graph.json"
     assert _rebuild_code(corpus, no_cluster=no_cluster, acquire_lock=False) is True
     before = _assert_one_line(graph)
 
@@ -105,7 +105,7 @@ def test_update_rewrites_existing_indented_graph_compact(tmp_path, no_cluster):
 def test_update_leaves_compact_graph_untouched(tmp_path, no_cluster):
     """The legacy rewrite must not make every update rewrite a compact graph."""
     corpus = _corpus(tmp_path)
-    graph = corpus / "graphify-out" / "graph.json"
+    graph = corpus / ".graphify" / "graph.json"
     assert _rebuild_code(corpus, no_cluster=no_cluster, acquire_lock=False) is True
     before = graph.stat()
 
@@ -134,8 +134,8 @@ def test_merge_driver_output_is_one_line_union(tmp_path):
 
 
 def test_merge_graphs_output_is_one_line(tmp_path):
-    a = tmp_path / "r1" / "graphify-out" / "graph.json"
-    b = tmp_path / "r2" / "graphify-out" / "graph.json"
+    a = tmp_path / "r1" / ".graphify" / "graph.json"
+    b = tmp_path / "r2" / ".graphify" / "graph.json"
     _graph_file(a, ["x"])
     _graph_file(b, ["y"])
     out = tmp_path / "merged.json"
@@ -169,7 +169,7 @@ def test_extract_no_cluster_output_is_one_line(tmp_path):
     r = _run(["extract", str(corpus), "--out", str(out), "--no-cluster", "--code-only"], tmp_path)
 
     assert r.returncode == 0, r.stderr
-    data = _assert_one_line(out / "graphify-out" / "graph.json")
+    data = _assert_one_line(out / ".graphify" / "graph.json")
     assert {"alpha()", "beta()"} <= {n["label"] for n in data["nodes"]}
 
 

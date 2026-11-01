@@ -6331,7 +6331,7 @@ def test_python_external_calls_survive_real_incremental_context(tmp_path):
             cwd=tmp_path, env=env, capture_output=True, text=True,
         )
         assert result.returncode == 0, result.stdout + result.stderr
-        graph = json.loads((tmp_path / "graphify-out" / "graph.json").read_text())
+        graph = json.loads((tmp_path / ".graphify" / "graph.json").read_text())
         calls = [e for e in graph["links"] if e.get("relation") == "calls"]
         assert not any(e["source"] == "local_caller_fetch_local" for e in calls)
         stub = next(n for n in graph["nodes"] if n["id"] == "requests")

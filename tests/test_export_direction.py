@@ -35,7 +35,7 @@ def _graph_json(tmp_path: Path) -> Path:
     which an undirected load flips the edge. ``helper`` -> ``util`` is listed
     source-first, so it survives either way and guards against over-correction.
     """
-    out = tmp_path / "graphify-out"
+    out = tmp_path / ".graphify"
     out.mkdir()
     data = {
         "directed": False,
@@ -90,14 +90,14 @@ def test_export_html_draws_arrows_in_stored_direction(tmp_path):
     _graph_json(tmp_path)
     r = _run(["export", "html"], tmp_path)
     assert r.returncode == 0, r.stderr
-    assert _html_arcs(tmp_path / "graphify-out" / "graph.html") == TRUE_ARCS
+    assert _html_arcs(tmp_path / ".graphify" / "graph.html") == TRUE_ARCS
 
 
 def test_export_cypher_merges_edges_in_stored_direction(tmp_path):
     _graph_json(tmp_path)
     r = _run(["export", "neo4j"], tmp_path)
     assert r.returncode == 0, r.stderr
-    cypher = (tmp_path / "graphify-out" / "cypher.txt").read_text(encoding="utf-8")
+    cypher = (tmp_path / ".graphify" / "cypher.txt").read_text(encoding="utf-8")
     arcs = set(re.findall(r"MATCH \(a \{id: '([^']+)'\}\), \(b \{id: '([^']+)'\}\)", cypher))
     assert arcs == TRUE_ARCS
 
@@ -163,7 +163,7 @@ def test_export_obsidian_canvas_edges_in_stored_direction(tmp_path):
     _graph_json(tmp_path)
     r = _run(["export", "obsidian"], tmp_path)
     assert r.returncode == 0, r.stderr
-    canvas = json.loads((tmp_path / "graphify-out" / "obsidian" / "graph.canvas").read_text())
+    canvas = json.loads((tmp_path / ".graphify" / "obsidian" / "graph.canvas").read_text())
     arcs = {(e["fromNode"][2:], e["toNode"][2:]) for e in canvas["edges"]}
     assert arcs == TRUE_ARCS
 
